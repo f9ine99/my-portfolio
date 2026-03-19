@@ -4,8 +4,9 @@
   const history = [
     { name: 'HamerAI', icon: DollarSign, current: true },
     { name: 'INSA', image: '/insa-icon.png', current: false },
-    { name: 'Alx Ethiopia', image: '/alx-pic.webp', current: false }
+    { name: 'Alx Ethiopia', image: '/alx-pic.webp', current: false, invert: true }
   ];
+
 </script>
 
 <div class="work-history" id="work">
@@ -17,8 +18,9 @@
         </span>
       {:else if item.image}
         <span class="logo-container">
-          <img src={item.image} alt={item.name} class="logo" />
+          <img src={item.image} alt={item.name} class="logo" class:dark-invert={item.invert} />
         </span>
+
       {/if}
       <span class="name {item.current ? 'current' : 'past'}">
         {item.name}
@@ -74,6 +76,21 @@
     height: 100%;
     object-fit: contain;
   }
+
+  @media (prefers-color-scheme: dark) {
+    .logo.dark-invert {
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+  }
+
+  /* Support for explicit theme classes */
+  :global(.dark-mode) .logo.dark-invert {
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+  }
+
+
 
   .name {
     font-weight: 500;

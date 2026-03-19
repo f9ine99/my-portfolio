@@ -8,17 +8,18 @@
     MousePointerClick,
     Clock,
     GitBranch,
-    TrendingUp,
     ExternalLink,
     Loader2
   } from 'lucide-svelte';
   import { fade } from 'svelte/transition';
+  import Map from '$lib/components/Map.svelte';
 
-  let localClicks = $state(0);
-  let globalClicks = $state(790180);
+
   let time = $state('');
   let currentTheme = $state('Macchiato');
+
   let bgEffect = $state(true);
+
 
   interface ThemePalette {
     [key: string]: string;
@@ -124,10 +125,6 @@
     time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
   }
 
-  function handlePulse() {
-    localClicks++;
-    globalClicks++;
-  }
 
   onMount(() => {
     updateTime();
@@ -195,13 +192,11 @@
         <h3>Currently Based In 📍</h3>
       </div>
       <div class="map-container">
-        <img src="/addis_ababa_dark_map.png" alt="Addis Ababa Map" class="map-img">
-        <div class="map-overlay">
-          <span>ADDIS ABABA</span>
-        </div>
+        <Map />
       </div>
+
       <div class="location-footer">
-        <span class="city">Addis Ababa, ET</span>
+        <span class="city">Bole Medhanialem, Addis Ababa</span>
         <div class="local-time">
           <Clock size={14} />
           <span>{time}</span>
@@ -209,21 +204,6 @@
       </div>
     </div>
 
-    <!-- Global Counter Card -->
-    <div class="bento-card counter-card" in:fade={{ duration: 400, delay: 400 }}>
-      <div class="card-header right">
-        <Info size={16} class="info-icon" />
-      </div>
-      <div class="counter-display">
-        <span class="count">{globalClicks.toLocaleString()}</span>
-        <button class="action-btn click-btn" onclick={handlePulse}>
-          CLICK ME
-        </button>
-        <p class="local-stats">
-          you've clicked {localClicks} times
-        </p>
-      </div>
-    </div>
 
     <!-- Recent Commits Card -->
     <div class="bento-card commits-card" in:fade={{ duration: 400, delay: 500 }}>
@@ -310,9 +290,19 @@
   }
 
 
+  .theme-card, .connect-card {
+    grid-column: span 2;
+  }
+
+  .location-card {
+    grid-column: span 2;
+  }
+
   .commits-card {
     grid-column: span 4;
   }
+
+
 
   .card-header {
     display: flex;
@@ -375,9 +365,10 @@
   .connect-btn { background: #dce0e8; color: #1e2030; text-decoration: none; margin-top: auto; }
   .connect-btn:hover { background: var(--accent-orange); }
 
-  .map-container { height: 140px; border-radius: 12px; overflow: hidden; position: relative; background: var(--bg-color); }
-  .map-img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; filter: grayscale(1); }
-  .map-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.4em; color: rgba(255, 255, 255, 0.2); pointer-events: none; }
+  .map-container { height: 200px; border-radius: 12px; overflow: hidden; position: relative; background: var(--bg-color); border: 1px solid rgba(255, 255, 255, 0.05); }
+
+
+
 
   .location-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; margin-top: -0.5rem; color: var(--text-muted); }
   .local-time { display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary); }

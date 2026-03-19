@@ -279,7 +279,7 @@
   .bento-stats {
     width: 95%;
     max-width: 1210px;
-    margin: 6rem auto 2rem;
+    margin: 6rem auto 1rem;
     display: flex;
     justify-content: center;
   }
@@ -304,10 +304,11 @@
   }
 
   .bento-card:hover {
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-orange);
     transform: translateY(-2px);
-    background: rgba(36, 39, 58, 0.6);
+    background: var(--card-hover);
   }
+
 
   .commits-card {
     grid-column: span 4;

@@ -14,7 +14,15 @@
     --accent-green: #a6da95;
     --font-mono: 'Fira Code', monospace;
     --scrollbar-thumb: #5b6078;
+    --card-hover: rgba(255, 255, 255, 0.04);
 }
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --card-hover: rgba(0, 0, 0, 0.04);
+    }
+}
+
 
 * {
     box-sizing: border-box;

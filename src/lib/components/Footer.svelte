@@ -77,7 +77,7 @@
 <style>
   .app-footer {
     width: 100%;
-    margin-top: 6rem;
+    margin-top: 2rem;
     padding: 2rem 0;
     display: flex;
     justify-content: center;

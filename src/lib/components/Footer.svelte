@@ -3,7 +3,8 @@
   import { Github, Linkedin, Instagram, Monitor } from 'lucide-svelte';
 
   let time = $state('');
-  let commitHash = 'b5f95e5'; // Mocked commit hash
+  // @ts-ignore
+  let commitHash = typeof __COMMIT_HASH__ !== 'undefined' ? __COMMIT_HASH__ : 'dev';
 
   function updateTime() {
     const now = new Date();
@@ -37,12 +38,18 @@
         <span class="separator">-</span>
         <span class="views">infinite views</span>
         <span class="separator">-</span>
-        <span class="commit">
+        <a 
+          href="https://github.com/f9ine99/my-portfolio/commit/{commitHash}" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="commit"
+          title="View commit on GitHub"
+        >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/>
           </svg>
           {commitHash}
-        </span>
+        </a>
       </div>
       
       <span class="separator">-</span>

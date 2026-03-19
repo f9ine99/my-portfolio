@@ -10,7 +10,16 @@
     "Writing clean, scalable code is the first step to a secure system.",
     "sudo apt-get update && sudo apt-get upgrade -y # stay patched",
     "SELECT * FROM users WHERE access_level = 'admin' -- SQLi attempt",
-    "nmap -sV -p- 192.168.1.1 # discovery in progress"
+    "nmap -sV -p- 192.168.1.1 # discovery in progress",
+    "The best way to predict the future is to implement it.",
+    "Zero trust is not a product, it's a mindset for modern security.",
+    "Decrypting the payload, bypassing the firewall, and gaining root access.",
+    "docker-compose up -d --build # building the infrastructure",
+    "A bug is not a bug, it's an undocumented feature in wait.",
+    "Python, JavaScript, SvelteKit, and Rust are my tools of choice.",
+    "Always assume your system is already breached and hunt for threats.",
+    "ls -la /root # checking for sensitive files",
+    "ssh -i id_rsa user@remote-host # secure shell access"
   ];
 
   let targetText = $state(sentences[0]);

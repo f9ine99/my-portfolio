@@ -1,10 +1,13 @@
-<script>
+<script lang="ts">
   import Hero from '$lib/components/Hero.svelte';
   import Socials from '$lib/components/Socials.svelte';
   import WorkHistory from '$lib/components/WorkHistory.svelte';
   import FeaturedProjects from '$lib/components/FeaturedProjects.svelte';
   import TypingTest from '$lib/components/TypingTest.svelte';
   import BentoStats from '$lib/components/BentoStats.svelte';
+
+  let { data } = $props();
+  // console.log('Loaded Data:', data);
 </script>
 
 <main>
@@ -13,7 +16,7 @@
   <WorkHistory />
   <TypingTest />
   <FeaturedProjects />
-  <BentoStats />
+  <BentoStats commits={data.commits} />
 </main>
 
 <style>

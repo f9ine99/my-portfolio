@@ -91,6 +91,16 @@
     if (index >= userInput.length) return 'char-pending';
     return userInput[index] === char ? 'char-correct' : 'char-incorrect';
   }
+
+  const eyeTransform = $derived.by(() => {
+    if (targetText.length === 0) return 'translate(0, 0)';
+    const progress = userInput.length / targetText.length;
+    // Map progress (0-1) to eye movement
+    // x: -3px to +3px, y: stays looking down slightly
+    const x = (progress * 6) - 3;
+    const y = 2; 
+    return `translate(${x}px, ${y}px)`;
+  });
 </script>
 <svelte:window onkeydown={handleGlobalKeydown} />
 
@@ -120,15 +130,17 @@
         <path d="M78 25 L 88 8 L 68 18" fill="white" stroke="#1a1b26" stroke-width="2.5" stroke-linejoin="round"/>
         
         <!-- Expressive eyes -->
-        {#if isFinished && accuracy > 95}
-          <path d="M35 32l6 6M41 32l-6 6M59 32l6 6M65 32l-6 6" stroke="#1a1b26" stroke-width="2" />
-        {:else if mistakes > 3}
-          <path d="M34 38 Q 38 34, 42 38" fill="none" stroke="#1a1b26" stroke-width="2" />
-          <path d="M58 38 Q 62 34, 66 38" fill="none" stroke="#1a1b26" stroke-width="2" />
-        {:else}
-          <circle cx="38" cy="35" r="2.5" fill="#1a1b26"/>
-          <circle cx="62" cy="35" r="2.5" fill="#1a1b26"/>
-        {/if}
+        <g style="transform: {eyeTransform}; transition: transform 0.1s ease-out;">
+          {#if isFinished && accuracy > 95}
+            <path d="M35 32l6 6M41 32l-6 6M59 32l6 6M65 32l-6 6" stroke="#1a1b26" stroke-width="2" />
+          {:else if mistakes > 3}
+            <path d="M34 38 Q 38 34, 42 38" fill="none" stroke="#1a1b26" stroke-width="2" />
+            <path d="M58 38 Q 62 34, 66 38" fill="none" stroke="#1a1b26" stroke-width="2" />
+          {:else}
+            <circle cx="38" cy="35" r="2.5" fill="#1a1b26"/>
+            <circle cx="62" cy="35" r="2.5" fill="#1a1b26"/>
+          {/if}
+        </g>
         
         <path d="M46 42 Q 50 45, 54 42" fill="none" stroke="#1a1b26" stroke-width="2" stroke-linecap="round"/>
         <g class="paw-left {activePaw === 'left' ? 'tapping' : ''}">

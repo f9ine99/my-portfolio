@@ -1,24 +1,21 @@
-<script>
+<script lang="ts">
   let name = "Firaol Gemeda";
   let isHovered = $state(false);
   let showSunglasses = $state(false);
+  let interactionTimeout: any;
 
-  function handleInteraction() {
-    if (showSunglasses) {
-      isHovered = false;
-      // Wait for circle to retract before hiding glasses
-      setTimeout(() => {
-        showSunglasses = false;
-      }, 1000);
-      return;
-    }
-    
-    if (!isHovered) {
-      isHovered = true;
-      setTimeout(() => {
-        if (isHovered) showSunglasses = true;
-      }, 1000);
-    }
+  function handleEnter() {
+    isHovered = true;
+    clearTimeout(interactionTimeout);
+    interactionTimeout = setTimeout(() => {
+      if (isHovered) showSunglasses = true;
+    }, 1000);
+  }
+
+  function handleLeave() {
+    isHovered = false;
+    showSunglasses = false;
+    clearTimeout(interactionTimeout);
   }
 </script>
 
@@ -26,8 +23,10 @@
   <div class="profile-row">
     <div 
       class="avatar-container" 
-      onclick={handleInteraction}
-      onkeydown={(e) => e.key === 'Enter' && handleInteraction()}
+      onmouseenter={handleEnter}
+      onmouseleave={handleLeave}
+      ontouchstart={(e) => { e.preventDefault(); handleEnter(); }}
+      ontouchend={handleLeave}
       role="button"
       tabindex="0"
     >

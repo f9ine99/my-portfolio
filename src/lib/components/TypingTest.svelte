@@ -1,6 +1,7 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import { RefreshCw, Zap, Target } from 'lucide-svelte';
+  import { fade } from 'svelte/transition';
 
   const sentences = [
     "Secure the perimeter, patch the vulnerabilities, and deploy to production.",
@@ -30,13 +31,25 @@
     accuracy = 100;
     isFinished = false;
     mistakes = 0;
+    // Focus the input after reset if it exists
+    setTimeout(() => {
+      const input = document.querySelector('.typing-input') as HTMLInputElement;
+      if (input) input.focus();
+    }, 0);
+  }
+
+  function handleGlobalKeydown(e: KeyboardEvent) {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      reset();
+    }
   }
 
   onMount(() => {
     reset();
   });
 
-  function handleInput(e) {
+  function handleInput(e: any) {
     if (isFinished) return;
     
     if (startTime === 0) startTime = Date.now();
@@ -74,11 +87,12 @@
     }, 150);
   }
 
-  function getCharClass(char, index) {
+  function getCharClass(char: string, index: number) {
     if (index >= userInput.length) return 'char-pending';
     return userInput[index] === char ? 'char-correct' : 'char-incorrect';
   }
 </script>
+<svelte:window onkeydown={handleGlobalKeydown} />
 
 <div class="typing-test" id="typing">
   <div class="stats-header">
@@ -90,8 +104,9 @@
       <Target size={14} class="icon-acc" />
       <span>{accuracy}% ACC</span>
     </div>
-    <button class="reset-btn" onclick={reset} title="Reset Test">
+    <button class="reset-btn" onclick={reset} title="Reset Test (Tab)">
       <RefreshCw size={14} />
+      <span class="reset-hint">tab to restart</span>
     </button>
   </div>
 
@@ -148,6 +163,10 @@
         oninput={handleInput}
         placeholder="Start typing to begin..." 
         class="typing-input"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
         autofocus
       />
     {/if}
@@ -197,6 +216,13 @@
   .reset-btn:hover {
     color: var(--accent-orange);
     background: rgba(255, 158, 100, 0.1);
+  }
+
+  .reset-hint {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    margin-left: 0.5rem;
+    text-transform: lowercase;
   }
 
   .cat-container {

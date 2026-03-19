@@ -27,7 +27,8 @@
       '--accent-blue': '#89b4fa',
       '--accent-purple': '#cba6f7',
       '--selection-bg': '#313244',
-      '--scrollbar-thumb': '#585b70'
+      '--scrollbar-thumb': '#585b70',
+      '--nav-bg': 'rgba(17, 17, 27, 0.08)'
     },
     Macchiato: {
       '--bg-color': '#1e2030',
@@ -39,7 +40,8 @@
       '--accent-blue': '#8aadf4',
       '--accent-purple': '#c6a0f6',
       '--selection-bg': '#363a4f',
-      '--scrollbar-thumb': '#5b6078'
+      '--scrollbar-thumb': '#5b6078',
+      '--nav-bg': 'rgba(30, 32, 48, 0.08)'
     },
     Frappe: {
       '--bg-color': '#232634',
@@ -51,7 +53,8 @@
       '--accent-blue': '#8caaee',
       '--accent-purple': '#ca9ee6',
       '--selection-bg': '#414559',
-      '--scrollbar-thumb': '#626880'
+      '--scrollbar-thumb': '#626880',
+      '--nav-bg': 'rgba(35, 38, 52, 0.08)'
     },
     Latte: {
       '--bg-color': '#eff1f5',
@@ -63,7 +66,8 @@
       '--accent-blue': '#1e66f5',
       '--accent-purple': '#8839ef',
       '--selection-bg': '#ccd0da',
-      '--scrollbar-thumb': '#bcc0cc'
+      '--scrollbar-thumb': '#bcc0cc',
+      '--nav-bg': 'rgba(239, 241, 245, 0.08)'
     }
   };
 

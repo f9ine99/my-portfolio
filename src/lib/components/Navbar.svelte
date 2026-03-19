@@ -1,14 +1,31 @@
 <script>
   import { onMount } from 'svelte';
+  import { page } from '$app/state';
   
-  let currentPath = $state('home');
+  let scrollPath = $state('home');
+  let isScrolled = $state(false);
+  
+  // Derive the display path based on the current route and scroll position
+  let currentPath = $derived.by(() => {
+    const routeId = page.route.id;
+    if (routeId === '/') {
+      return scrollPath === 'home' ? '' : scrollPath;
+    }
+    // Remove leading slash and return route name
+    return routeId ? routeId.replace(/^\//, '') : '';
+  });
 
   onMount(() => {
+    const handleScroll = () => {
+      isScrolled = window.scrollY > 20;
+    };
+    window.addEventListener('scroll', handleScroll);
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            currentPath = entry.target.id || 'home';
+            scrollPath = entry.target.id || 'home';
           }
         });
       },
@@ -19,33 +36,53 @@
       observer.observe(section);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
   });
 </script>
 
-<nav class="navbar">
-  <div class="brand">
-    <span class="prompt">~/{currentPath === 'home' ? '' : currentPath}</span>
-    <span class="cursor"></span>
-  </div>
-  <ul class="nav-links">
-    <li><a href="/about">About</a></li>
-    <li><a href="/posts">Posts</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="/pics">Pics</a></li>
-    <li><a href="/more">More...</a></li>
-  </ul>
-</nav>
+<div class="navbar-wrapper" class:scrolled={isScrolled}>
+  <nav class="navbar">
+    <div class="brand">
+      <span class="prompt">~/{currentPath}</span>
+      <span class="cursor"></span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="/about" class:active={page.route.id === '/about'}>About</a></li>
+      <li><a href="/posts" class:active={page.route.id === '/posts'}>Posts</a></li>
+      <li><a href="/#projects" class:active={scrollPath === 'projects'}>Projects</a></li>
+      <li><a href="/pics" class:active={page.route.id === '/pics'}>Pics</a></li>
+      <li><a href="/more" class:active={page.route.id === '/more'}>More...</a></li>
+    </ul>
+  </nav>
+</div>
 
 <style>
+  .navbar-wrapper {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+    background: transparent;
+    margin-bottom: 5rem;
+  }
+
+  .navbar-wrapper.scrolled {
+    background: var(--nav-bg, rgba(30, 32, 48, 0.08));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
   .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    max-width: 1000px;
+    padding: 1rem 0;
+    max-width: 1300px;
     margin: 0 auto;
-    margin-bottom: 2rem;
   }
 
   .brand {
@@ -72,18 +109,35 @@
 
   .nav-links {
     display: flex;
-    gap: 2rem;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 0.4rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(5px);
   }
 
   .nav-links a {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-primary);
-    opacity: 0.8;
+    opacity: 0.7;
+    padding: 0.5rem 1.2rem;
+    border-radius: 100px;
+    transition: all 0.2s ease;
   }
 
   .nav-links a:hover {
     opacity: 1;
     color: var(--accent-orange);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-links a.active {
+    opacity: 1;
+    background: var(--selection-bg);
+    color: var(--accent-orange);
+    font-weight: 500;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   }
 
   @media (max-width: 600px) {

@@ -28,11 +28,15 @@
   let wpm = $state(0);
   let accuracy = $state(100);
   let isFinished = $state(false);
+  let isFocused = $state(false);
   let activePaw = $state('none');
+  let charElements = $state<HTMLElement[]>([]);
+
+
   let lastTapTime = 0;
   let mistakes = $state(0);
 
-  function reset() {
+  function reset(shouldFocus = false) {
     targetText = sentences[Math.floor(Math.random() * sentences.length)];
     userInput = '';
     startTime = 0;
@@ -40,23 +44,42 @@
     accuracy = 100;
     isFinished = false;
     mistakes = 0;
-    // Focus the input after reset if it exists
-    setTimeout(() => {
-      const input = document.querySelector('.typing-input') as HTMLInputElement;
-      if (input) input.focus();
-    }, 0);
+    
+    if (shouldFocus) {
+      setTimeout(() => {
+        const input = document.querySelector('.typing-input') as HTMLInputElement;
+        if (input) input.focus();
+      }, 0);
+    }
   }
 
   function handleGlobalKeydown(e: KeyboardEvent) {
     if (e.key === 'Tab') {
       e.preventDefault();
-      reset();
+      reset(true);
     }
   }
 
   onMount(() => {
-    reset();
+    reset(false); // Do not focus on initial load to prevent scroll
   });
+
+  const caretStyle = $derived.by(() => {
+    if (userInput.length === 0) return 'left: 0; top: 0.35rem;';
+    
+    // Position at the NEXT character to type
+    if (userInput.length < targetText.length) {
+      const el = charElements[userInput.length];
+      if (el) return `left: ${el.offsetLeft}px; top: ${el.offsetTop + 6}px;`;
+    }
+    
+    // If at the very end
+    const lastEl = charElements[targetText.length - 1];
+    if (lastEl) return `left: ${lastEl.offsetLeft + lastEl.offsetWidth}px; top: ${lastEl.offsetTop + 6}px;`;
+    
+    return 'left: 0; top: 0.35rem;';
+  });
+
 
   function handleInput(e: any) {
     if (isFinished) return;
@@ -113,7 +136,10 @@
 </script>
 <svelte:window onkeydown={handleGlobalKeydown} />
 
-<div class="typing-test" id="typing">
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="typing-test" id="typing" onclick={() => { const el = document.querySelector('.typing-input') as HTMLInputElement; if (el) el.focus(); }}>
+
   <div class="stats-header">
     <div class="stat">
       <Zap size={14} class="icon-wpm" />
@@ -123,7 +149,7 @@
       <Target size={14} class="icon-acc" />
       <span>{accuracy}% ACC</span>
     </div>
-    <button class="reset-btn" onclick={reset} title="Reset Test (Tab)">
+    <button class="reset-btn" onclick={() => reset(true)} title="Reset Test (Tab)">
       <RefreshCw size={14} />
       <span class="reset-hint">tab to restart</span>
     </button>
@@ -170,26 +196,40 @@
           <div class="f-stat"><span>WPM</span><strong>{wpm}</strong></div>
           <div class="f-stat"><span>Accuracy</span><strong>{accuracy}%</strong></div>
         </div>
-        <button class="retry-btn" onclick={reset}>Try Another Challenge</button>
+        <button class="retry-btn" onclick={() => reset(true)}>Try Another Challenge</button>
       </div>
     {:else}
       <div class="target-text">
+        {#if !isFinished}
+          <div 
+            class="caret" 
+            class:blinking={userInput.length === 0}
+            style={caretStyle}
+          ></div>
+        {/if}
         {#each targetText.split('') as char, i}
-          <span class={getCharClass(char, i)}>{char}</span>
+          <span 
+            bind:this={charElements[i]}
+            class={getCharClass(char, i)}
+          >{char}</span>
         {/each}
       </div>
+
+
       <input 
         type="text" 
         bind:value={userInput} 
         oninput={handleInput}
-        placeholder="Start typing to begin..." 
         class="typing-input"
         autocomplete="off"
         autocorrect="off"
         autocapitalize="off"
         spellcheck="false"
-        autofocus
+        onfocus={() => isFocused = true}
+        onblur={() => isFocused = false}
       />
+
+
     {/if}
   </div>
 </div>
@@ -277,46 +317,59 @@
     gap: 1.5rem;
   }
 
+  .typing-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Monkeytype inspired styles */
   .target-text {
+    position: relative;
     font-size: 1.5rem;
     font-family: var(--font-mono);
-    opacity: 0.5;
     line-height: 1.5;
     user-select: none;
+    letter-spacing: 0.05em;
+  }
+
+  .caret {
+    position: absolute;
+    width: 2px;
+    height: 1.5rem;
+    background: var(--accent-orange);
+    transition: all 0.1s cubic-bezier(0.19, 1, 0.22, 1);
+    top: 0.35rem;
+  }
+
+
+  .caret.blinking {
+    animation: blink 1s infinite alternate;
+  }
+
+  @keyframes blink {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  .char-pending {
+    color: var(--text-muted);
+    opacity: 0.3;
   }
 
   .char-correct {
-    color: var(--accent-blue);
+    color: var(--text-primary);
     opacity: 1;
   }
 
   .char-incorrect {
     color: #f7768e;
     opacity: 1;
-    background: rgba(247, 118, 142, 0.2);
+    background: rgba(247, 118, 142, 0.15);
     border-radius: 2px;
   }
 
-  .char-pending {
-    color: var(--text-primary);
-  }
-
-  .typing-input {
-    background: rgba(0, 0, 0, 0.3);
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    padding: 1rem 1.5rem;
-    color: #fff;
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.2s;
-  }
-
-  .typing-input:focus {
-    border-color: var(--accent-orange);
-  }
   .victory-screen {
     text-align: center;
     padding: 2rem;

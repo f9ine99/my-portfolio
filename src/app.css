@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #1e2030;
+    --card-bg: #24273a;
+    --card-bg-elevated: #1e2030;
+    --text-primary: #cad3f5;
+    --text-muted: #8087a2;
+    --selection-bg: #363a4f;
+    --accent-orange: #f5a97f;
+    --accent-blue: #8aadf4;
+    --accent-purple: #c6a0f6;
+    --accent-red: #ed8796;
+    --accent-green: #a6da95;
+    --font-mono: 'Fira Code', monospace;
+    --scrollbar-thumb: #5b6078;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    overflow-x: hidden;
+    width: 100%;
+    scrollbar-color: var(--scrollbar-thumb) var(--bg-color);
+    scrollbar-width: thin;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #fff;
+    font-weight: 600;
+}
+
+a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--accent-orange);
+}
+
+ul {
+    list-style: none;
+}
+
+button {
+    font-family: inherit;
+}
+
+::selection {
+    background-color: var(--selection-bg);
+    color: #fff;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-orange);
+    border-radius: 10px;
+    border: 3px solid var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-orange);
+}
+
+main>* {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 95%;
+}
+
+main>.bento-stats {
+    max-width: 1210px;
+    /* Slightly wider as requested */
+    width: 95%;
+}

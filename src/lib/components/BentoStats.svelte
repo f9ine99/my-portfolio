@@ -17,6 +17,7 @@
 
   let time = $state('');
   let currentTheme = $state('Macchiato');
+  let currentAccentColor = $state('#f5a97f'); // Default Macchiato accent
 
   let bgEffect = $state(true);
 
@@ -110,6 +111,7 @@
     currentTheme = themeName;
     const palette = themePalettes[themeName];
     if (palette) {
+      currentAccentColor = palette['--accent-orange'];
       Object.entries(palette).forEach(([key, value]) => {
         document.documentElement.style.setProperty(key, value);
       });
@@ -117,6 +119,7 @@
   }
 
   function setAccentColor(color: string) {
+    currentAccentColor = color;
     document.documentElement.style.setProperty('--accent-orange', color);
   }
 
@@ -154,7 +157,7 @@
       <div class="color-grid">
         {#each colors as color}
           <button 
-            class="color-circle" 
+            class="color-circle {currentAccentColor === color ? 'active' : ''}" 
             style="background: {color}"
             onclick={() => setAccentColor(color)}
             aria-label="Set accent color to {color}"
@@ -351,6 +354,14 @@
   }
 
   .color-circle:hover { transform: scale(1.1); opacity: 1; }
+  
+  .color-circle.active {
+    outline: 2px solid var(--text-primary);
+    outline-offset: 2px;
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 10px var(--accent-orange);
+  }
 
   .toggle { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.85rem; color: var(--text-primary); }
   .toggle input { display: none; }

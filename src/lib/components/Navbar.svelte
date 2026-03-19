@@ -9,11 +9,10 @@
   let currentPath = $derived.by(() => {
     const routeId = page.route.id;
     if (routeId === '/') {
-      // Capitalize 'home' or return the specific scrolled section id
-      return scrollPath === 'home' ? 'Home' : scrollPath;
+      return 'Home/Firaol';
     }
     // Remove leading slash and return route name (capitalized)
-    const name = routeId ? routeId.replace(/^\//, '') : 'Home';
+    const name = routeId ? routeId.replace(/^\//, '') : 'Home/Firaol';
     return name.charAt(0).toUpperCase() + name.slice(1);
   });
 

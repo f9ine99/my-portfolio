@@ -9,10 +9,12 @@
   let currentPath = $derived.by(() => {
     const routeId = page.route.id;
     if (routeId === '/') {
-      return scrollPath === 'home' ? '' : scrollPath;
+      // Capitalize 'home' or return the specific scrolled section id
+      return scrollPath === 'home' ? 'Home' : scrollPath;
     }
-    // Remove leading slash and return route name
-    return routeId ? routeId.replace(/^\//, '') : '';
+    // Remove leading slash and return route name (capitalized)
+    const name = routeId ? routeId.replace(/^\//, '') : 'Home';
+    return name.charAt(0).toUpperCase() + name.slice(1);
   });
 
   onMount(() => {
@@ -68,6 +70,9 @@
     transition: background 0.4s ease, backdrop-filter 0.4s ease;
     background: transparent;
     margin-bottom: 5rem;
+    /* This mask creates a subtle fade at the very bottom to hide the 'line' */
+    mask-image: linear-gradient(to bottom, black calc(100% - 8px), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 8px), transparent 100%);
   }
 
   .navbar-wrapper.scrolled {
@@ -113,7 +118,6 @@
     background: rgba(255, 255, 255, 0.02);
     padding: 0.4rem;
     border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.03);
     backdrop-filter: blur(5px);
   }
 

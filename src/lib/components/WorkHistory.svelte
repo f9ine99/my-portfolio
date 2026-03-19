@@ -81,7 +81,7 @@
   }
 
   .current {
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .past {

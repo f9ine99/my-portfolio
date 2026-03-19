@@ -40,7 +40,7 @@
 
   .title h2 {
     font-size: 1.5rem;
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 500;
   }
 

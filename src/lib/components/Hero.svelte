@@ -171,7 +171,7 @@
     font-size: 2.5rem;
     margin: 0;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .wave {

@@ -2,10 +2,8 @@
   import { onMount } from 'svelte';
   import { 
     Palette, 
-    Calendar, 
     MapPin, 
     Info, 
-    MousePointerClick,
     Clock,
     GitBranch,
     ExternalLink,
@@ -15,78 +13,16 @@
   import Map from '$lib/components/Map.svelte';
 
 
+  import { 
+    themeState, 
+    themePalettes, 
+    themes, 
+    colors, 
+    applyTheme, 
+    setAccentColor 
+  } from '$lib/theme.svelte.ts';
+
   let time = $state('');
-  let currentTheme = $state('Macchiato');
-  let currentAccentColor = $state('#f5a97f'); // Default Macchiato accent
-
-  let bgEffect = $state(true);
-
-
-  interface ThemePalette {
-    [key: string]: string;
-  }
-
-  const themePalettes: Record<string, ThemePalette> = {
-    Mocha: {
-      '--bg-color': '#11111b',
-      '--card-bg': '#1e1e2e',
-      '--card-bg-elevated': '#181825',
-      '--text-primary': '#cdd6f4',
-      '--text-muted': '#7f849c',
-      '--accent-orange': '#fab387',
-      '--accent-blue': '#89b4fa',
-      '--accent-purple': '#cba6f7',
-      '--selection-bg': '#313244',
-      '--scrollbar-thumb': '#585b70',
-      '--nav-bg': 'rgba(17, 17, 27, 0.08)'
-    },
-    Macchiato: {
-      '--bg-color': '#1e2030',
-      '--card-bg': '#24273a',
-      '--card-bg-elevated': '#1e2030',
-      '--text-primary': '#cad3f5',
-      '--text-muted': '#8087a2',
-      '--accent-orange': '#f5a97f',
-      '--accent-blue': '#8aadf4',
-      '--accent-purple': '#c6a0f6',
-      '--selection-bg': '#363a4f',
-      '--scrollbar-thumb': '#5b6078',
-      '--nav-bg': 'rgba(30, 32, 48, 0.08)'
-    },
-    Frappe: {
-      '--bg-color': '#232634',
-      '--card-bg': '#303446',
-      '--card-bg-elevated': '#292c3c',
-      '--text-primary': '#c6d0f5',
-      '--text-muted': '#838ba7',
-      '--accent-orange': '#ef9f76',
-      '--accent-blue': '#8caaee',
-      '--accent-purple': '#ca9ee6',
-      '--selection-bg': '#414559',
-      '--scrollbar-thumb': '#626880',
-      '--nav-bg': 'rgba(35, 38, 52, 0.08)'
-    },
-    Latte: {
-      '--bg-color': '#eff1f5',
-      '--card-bg': '#e6e9ef',
-      '--card-bg-elevated': '#dce0e8',
-      '--text-primary': '#4c4f69',
-      '--text-muted': '#8c8fa1',
-      '--accent-orange': '#fe640b',
-      '--accent-blue': '#1e66f5',
-      '--accent-purple': '#8839ef',
-      '--selection-bg': '#ccd0da',
-      '--scrollbar-thumb': '#bcc0cc',
-      '--nav-bg': 'rgba(239, 241, 245, 0.08)'
-    }
-  };
-
-  const themes = ['Latte', 'Frappe', 'Macchiato', 'Mocha'];
-  
-  const colors = [
-    '#f5e0dc', '#f2cdcd', '#f5c2e7', '#cba6f7', '#f38ba8', '#eba0ac', '#fab387',
-    '#f9e2af', '#a6e3a1', '#94e2d5', '#89dceb', '#74c7ec', '#89b4fa', '#b4befe'
-  ];
 
   interface Commit {
     repo: string;
@@ -106,22 +42,6 @@
   ]);
   
   let isLoadingCommits = $derived(commits.length === 0 && false); // No longer "loading" if we have a fallback ready
-
-  function applyTheme(themeName: string) {
-    currentTheme = themeName;
-    const palette = themePalettes[themeName];
-    if (palette) {
-      currentAccentColor = palette['--accent-orange'];
-      Object.entries(palette).forEach(([key, value]) => {
-        document.documentElement.style.setProperty(key, value);
-      });
-    }
-  }
-
-  function setAccentColor(color: string) {
-    currentAccentColor = color;
-    document.documentElement.style.setProperty('--accent-orange', color);
-  }
 
   function updateTime() {
     const now = new Date();
@@ -147,7 +67,7 @@
       <div class="theme-options">
         {#each themes as theme}
           <button 
-            class="theme-btn {currentTheme === theme ? 'active' : ''}" 
+            class="theme-btn {themeState.currentTheme === theme ? 'active' : ''}" 
             onclick={() => applyTheme(theme)}
           >
             {theme}
@@ -157,7 +77,7 @@
       <div class="color-grid">
         {#each colors as color}
           <button 
-            class="color-circle {currentAccentColor === color ? 'active' : ''}" 
+            class="color-circle {themeState.currentAccentColor === color ? 'active' : ''}" 
             style="background: {color}"
             onclick={() => setAccentColor(color)}
             aria-label="Set accent color to {color}"
@@ -166,27 +86,14 @@
       </div>
       <div class="effect-toggle">
         <label class="toggle">
-          <input type="checkbox" bind:checked={bgEffect}>
+          <input type="checkbox" bind:checked={themeState.bgEffect}>
           <span class="checkmark"></span>
-          <span class="label-text">Background effect: {bgEffect ? 'on' : 'off'}</span>
+          <span class="label-text">Background effect: {themeState.bgEffect ? 'on' : 'off'}</span>
         </label>
       </div>
     </div>
 
-    <!-- Connect Card -->
-    <div class="bento-card connect-card" in:fade={{ duration: 400, delay: 200 }}>
-      <div class="card-header">
-        <Calendar size={18} class="header-icon" />
-        <h3>Let's Connect</h3>
-      </div>
-      <p class="card-text">
-        Always open to interesting projects and conversations.
-      </p>
-      <a href="mailto:firaol@example.com" class="action-btn connect-btn">
-        <Calendar size={16} />
-        Book a Chat
-      </a>
-    </div>
+
 
     <!-- Location Card -->
     <div class="bento-card location-card" in:fade={{ duration: 400, delay: 300 }}>
@@ -293,7 +200,7 @@
   }
 
 
-  .theme-card, .connect-card {
+  .theme-card {
     grid-column: span 2;
   }
 
@@ -370,12 +277,7 @@
   .toggle input:checked + .checkmark::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000; font-size: 10px; }
 
   .card-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
-
-  .action-btn { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.65rem; border-radius: 10px; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: all 0.2s; border: none; }
   
-  .connect-btn { background: #dce0e8; color: #1e2030; text-decoration: none; margin-top: auto; }
-  .connect-btn:hover { background: var(--accent-orange); }
-
   .map-container { height: 200px; border-radius: 12px; overflow: hidden; position: relative; background: var(--bg-color); border: 1px solid rgba(255, 255, 255, 0.05); }
 
 

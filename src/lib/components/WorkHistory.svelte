@@ -2,7 +2,7 @@
   import { DollarSign } from 'lucide-svelte';
   
   const history = [
-    { name: 'HamerAI', icon: DollarSign, current: true },
+    { name: 'HamerAI', image: '/hamerAI.jpg', current: true },
     { name: 'INSA', image: '/insa-icon.png', current: false },
     { name: 'Alx Ethiopia', image: '/alx-pic.webp', current: false, invert: true }
   ];
@@ -69,12 +69,14 @@
     width: 40px;
     height: 40px;
     overflow: hidden;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .logo {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
   }
 
   @media (prefers-color-scheme: dark) {

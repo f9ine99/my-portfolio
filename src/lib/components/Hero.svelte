@@ -3,6 +3,9 @@
   let isHovered = $state(false);
   let showSunglasses = $state(false);
   let interactionTimeout: any;
+  let waveCount = $state(0);
+  let floatingPlusOnes = $state<{ id: number; x: number; emoji: string }[]>([]);
+  let nextId = 0;
 
   function handleEnter() {
     isHovered = true;
@@ -16,6 +19,19 @@
     isHovered = false;
     showSunglasses = false;
     clearTimeout(interactionTimeout);
+  }
+
+  const emojis = ['✨', '🎉', '🔥', '👏', '💯', '+1'];
+
+  function handleWaveClick() {
+    waveCount++;
+    const id = nextId++;
+    const x = Math.random() * 60 - 30;
+    const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+    floatingPlusOnes = [...floatingPlusOnes, { id, x, emoji }];
+    setTimeout(() => {
+      floatingPlusOnes = floatingPlusOnes.filter(p => p.id !== id);
+    }, 1200);
   }
 </script>
 
@@ -58,7 +74,15 @@
     </div>
     <div class="intro">
       <h1 class="greeting">
-        Hey! I'm <span class="name">{name}</span> <span class="wave">👋🏻</span>
+        Hey! I'm <span class="name">{name}</span>
+        <span class="wave-wrapper">
+          <button class="wave-btn" onclick={handleWaveClick} aria-label="Wave">
+            👋🏻
+          </button>
+          {#each floatingPlusOnes as plusOne (plusOne.id)}
+            <span class="floating-plus" style="--x: {plusOne.x}px">{plusOne.emoji}</span>
+          {/each}
+        </span>
       </h1>
     </div>
   </div>
@@ -173,10 +197,58 @@
     color: var(--text-primary);
   }
 
-  .wave {
+  .wave-wrapper {
+    position: relative;
     display: inline-block;
+  }
+
+  .wave-btn {
+    display: inline-block;
+    background: none;
+    border: none;
+    font-size: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    line-height: 1;
     animation: wave 2s infinite;
     transform-origin: 70% 70%;
+    transition: transform 0.15s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .wave-btn:active {
+    transform: scale(1.4);
+    animation: none;
+  }
+
+  .floating-plus {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    font-size: 1.3rem;
+    font-weight: 800;
+    pointer-events: none;
+    animation: floatUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    transform: translateX(calc(-50% + var(--x)));
+    text-shadow: 0 0 12px var(--accent-orange), 0 0 4px var(--accent-orange);
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+  }
+
+  @keyframes floatUp {
+    0% {
+      opacity: 1;
+      transform: translateX(calc(-50% + var(--x))) translateY(0) scale(0.5) rotate(0deg);
+    }
+    20% {
+      opacity: 1;
+      transform: translateX(calc(-50% + var(--x))) translateY(-15px) scale(1.3) rotate(-5deg);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(calc(-50% + var(--x))) translateY(-80px) scale(0.4) rotate(10deg);
+    }
   }
 
   @keyframes wave {

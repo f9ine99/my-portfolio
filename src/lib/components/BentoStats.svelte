@@ -127,26 +127,28 @@
           <span class="header-tag">[live]</span>
         {/if}
       </div>
-      <div class="commits-list">
-        {#each finalCommits as commit}
-          <div class="commit-item">
-            <span class="commit-msg">
-              <span class="repo-name">{commit.repo}:</span> {commit.msg}
-            </span>
-            {#if !isLoadingCommits && commit.repo !== 'error'}
-              <span class="commit-stats">
-                <span class="add">+{commit.add}</span> / <span class="del">-{commit.del}</span>
-                <span class="commit-date">{commit.date}</span>
+      <div class="commits-container">
+        <div class="commits-list">
+          {#each finalCommits as commit}
+            <div class="commit-item">
+              <span class="commit-msg">
+                <span class="repo-name">{commit.repo}:</span> {commit.msg}
               </span>
-            {/if}
-          </div>
-        {:else}
-          {#if !isLoadingCommits}
-            <div class="commit-item empty-state">
-              <span class="commit-msg">No recent public push events found.</span>
+              {#if !isLoadingCommits && commit.repo !== 'error'}
+                <span class="commit-stats">
+                  <span class="add">+{commit.add}</span> / <span class="del">-{commit.del}</span>
+                  <span class="commit-date">{commit.date}</span>
+                </span>
+              {/if}
             </div>
-          {/if}
-        {/each}
+          {:else}
+            {#if !isLoadingCommits}
+              <div class="commit-item empty-state">
+                <span class="commit-msg">No recent public push events found.</span>
+              </div>
+            {/if}
+          {/each}
+        </div>
       </div>
       <div class="commits-footer">
         <a href="https://github.com/f9ine99" target="_blank" class="github-link">
@@ -294,10 +296,14 @@
 
   .card-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
   
-  .map-container { height: 200px; border-radius: 12px; overflow: hidden; position: relative; background: var(--bg-color); border: 1px solid rgba(255, 255, 255, 0.05); }
-
-
-
+  .map-container { 
+    height: 200px; 
+    border-radius: 12px; 
+    overflow: hidden; 
+    position: relative; 
+    background: var(--bg-color); 
+    border: 1px solid rgba(255, 255, 255, 0.05); 
+  }
 
   .location-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; margin-top: -0.5rem; color: var(--text-muted); }
   .local-time { display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary); }
@@ -308,8 +314,17 @@
   .click-btn:hover { background: var(--accent-orange); }
   .local-stats { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); }
 
+  .commits-container {
+    background: var(--bg-color);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+
   /* New Cards Styling */
-  .commits-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .commits-list { display: flex; flex-direction: column; gap: 0.85rem; }
   
   .commit-item { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.4; color: var(--text-primary); }
   .repo-name { color: var(--text-muted); }

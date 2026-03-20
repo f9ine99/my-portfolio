@@ -8,12 +8,16 @@
       <Star size={24} />
       <h2>Featured Projects</h2>
     </div>
-    <a href="/projects" class="view-all">View all &rarr;</a>
+    <a href="/projects" class="view-all desktop-only">View all &rarr;</a>
   </div>
   
   <!-- Project list would go here -->
   <div class="projects-placeholder">
     <p>Project cards coming soon...</p>
+  </div>
+
+  <div class="mobile-footer">
+    <a href="/projects" class="view-all mobile-only">View all &rarr;</a>
   </div>
 </section>
 
@@ -66,5 +70,32 @@
     justify-content: center;
     align-items: center;
     color: var(--text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .mobile-footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Responsive visibility */
+  @media (min-width: 769px) {
+    .mobile-only {
+      display: none;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .desktop-only {
+      display: none;
+    }
+
+    .featured-projects {
+      margin: 2rem auto;
+    }
+
+    .projects-placeholder {
+      padding: 3rem 1.5rem;
+    }
   }
 </style>

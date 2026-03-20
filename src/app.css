@@ -28,14 +28,37 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, outline-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Custom Scrollbar */
 html,
 body {
     width: 100%;
     overflow-x: clip;
-    scrollbar-color: var(--scrollbar-thumb) var(--bg-color);
+    scrollbar-color: var(--accent-orange) var(--bg-color);
     scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-orange);
+    border-radius: 10px;
+    border: 2px solid var(--bg-color);
+    opacity: 0.8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-orange);
+    opacity: 1;
 }
 
 body {
@@ -80,24 +103,7 @@ button {
     color: #fff;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-    width: 10px;
-}
 
-::-webkit-scrollbar-track {
-    background: var(--bg-color);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--accent-orange);
-    border-radius: 10px;
-    border: 3px solid var(--bg-color);
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-orange);
-}
 
 main>* {
     max-width: 1000px;
@@ -110,4 +116,37 @@ main>.bento-stats {
     max-width: 1210px;
     /* Slightly wider as requested */
     width: 95%;
+}
+
+/* Animated Grid Background Effect */
+body.bg-effect-on::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(var(--selection-bg) 1px, transparent 1px),
+        linear-gradient(90deg, var(--selection-bg) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+    opacity: 0.15;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 50px 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    body.bg-effect-on::before {
+        background-size: 30px 30px;
+    }
 }

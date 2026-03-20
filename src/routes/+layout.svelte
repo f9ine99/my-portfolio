@@ -1,8 +1,18 @@
 <script>
+  import { themeState } from '$lib/theme.svelte.ts';
   import '../app.css';
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
   let { children } = $props();
+
+  // Apply background effect class to body
+  $effect(() => {
+    if (themeState.bgEffect) {
+      document.body.classList.add('bg-effect-on');
+    } else {
+      document.body.classList.remove('bg-effect-on');
+    }
+  });
 </script>
 
 <Navbar />

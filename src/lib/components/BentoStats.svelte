@@ -129,6 +129,7 @@
             {#if !isLoadingCommits && commit.repo !== 'error'}
               <span class="commit-stats">
                 <span class="add">+{commit.add}</span> / <span class="del">-{commit.del}</span>
+                <span class="commit-date">{commit.date}</span>
               </span>
             {/if}
           </div>
@@ -294,6 +295,7 @@
   .commit-stats { white-space: nowrap; margin-left: 1rem; }
   .add { color: var(--accent-green); }
   .del { color: var(--accent-red); }
+  .commit-date { color: var(--text-muted); margin-left: 0.5rem; font-size: 0.7rem; opacity: 0.7; }
 
   .commits-footer { display: flex; flex-direction: column; gap: 1rem; margin-top: auto; }
   .github-link { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; width: fit-content; transition: color 0.2s; }

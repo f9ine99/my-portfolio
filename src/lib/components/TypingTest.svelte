@@ -419,4 +419,45 @@
   .retry-btn:hover {
     transform: scale(1.05);
   }
+
+  @media (max-width: 768px) {
+    .typing-test {
+      padding: 1.5rem;
+      margin: 1.5rem auto;
+    }
+
+    .stats-header {
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cat-container {
+      width: 70px;
+      top: -30px;
+      right: 15px;
+    }
+
+    .target-text {
+      font-size: 1.1rem;
+      line-height: 1.4;
+    }
+
+    .caret {
+      height: 1.1rem;
+      top: 0.2rem;
+    }
+
+    .victory-screen h3 {
+      font-size: 1.4rem;
+    }
+
+    .final-stats {
+      gap: 1.5rem;
+    }
+
+    .f-stat strong {
+      font-size: 1.5rem;
+    }
+  }
 </style>

@@ -34,14 +34,8 @@
 
   let { commits = [] } = $props<{ commits?: Commit[] }>();
   
-  // High-safety fallback for ultimate reliability
-  const finalCommits = $derived(commits.length > 0 ? commits : [
-    { repo: 'my-portfolio', msg: 'feat: refine bento grid and polishing', add: 120, del: 12, date: 'Today' },
-    { repo: 'nyx', msg: 'fix: address rate limiting in github fetch', add: 45, del: 5, date: 'Yesterday' },
-    { repo: 'impactis-client', msg: 'docs: update implementation details', add: 89, del: 2, date: '2 days ago' }
-  ]);
-  
-  let isLoadingCommits = $derived(commits.length === 0 && false); // No longer "loading" if we have a fallback ready
+  const finalCommits = $derived(commits);
+  let isLoadingCommits = $derived(commits.length === 0);
 
   function updateTime() {
     const now = new Date();

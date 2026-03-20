@@ -334,5 +334,26 @@
     .commits-card { grid-column: span 1; }
     .theme-options { grid-template-columns: repeat(2, 1fr); }
     .count { font-size: 2rem; }
+
+    .commit-item {
+      flex-direction: column;
+      gap: 0.25rem;
+      align-items: flex-start;
+    }
+
+    .commit-msg {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      font-size: 0.75rem;
+    }
+
+    .commit-stats {
+      margin-left: 0;
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
   }
 </style>

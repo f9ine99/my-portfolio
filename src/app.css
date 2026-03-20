@@ -41,8 +41,8 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 3px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -52,7 +52,7 @@ body {
 ::-webkit-scrollbar-thumb {
     background: var(--accent-orange);
     border-radius: 10px;
-    border: 2px solid var(--bg-color);
+    border: 1px solid var(--bg-color);
     opacity: 0.8;
 }
 

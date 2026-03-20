@@ -58,7 +58,7 @@
     </div>
     <div class="intro">
       <h1 class="greeting">
-        Hey! I'm <span class="name">{name}</span> <span class="wave">👋</span>
+        Hey! I'm <span class="name">{name}</span> <span class="wave">👋🏻</span>
       </h1>
     </div>
   </div>

@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    margin: 2rem auto 5rem auto;
+    margin: 1rem auto 2.5rem auto;
     flex-wrap: wrap;
     max-width: 1000px;
   }

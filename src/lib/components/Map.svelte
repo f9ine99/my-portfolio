@@ -20,7 +20,7 @@
 
     map = L.map(mapContainer, {
       center: [lat, lng],
-      zoom: 13,
+      zoom: 11,
       zoomControl: true,
       attributionControl: false,
       dragging: true,
@@ -97,7 +97,7 @@
   }
 
   .plane-icon {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--accent-orange);
     transform: rotate(45deg);
     display: flex;
     align-items: center;

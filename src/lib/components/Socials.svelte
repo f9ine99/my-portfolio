@@ -34,7 +34,7 @@
     display: flex;
     align-items: center;
     gap: 1.5rem;
-    margin-bottom: 4rem;
+    margin-bottom: 1.5rem;
   }
 
   .links {

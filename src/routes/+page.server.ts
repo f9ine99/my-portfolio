@@ -82,9 +82,63 @@ export const load: PageServerLoad = async ({ fetch }) => {
         });
 
         const results = (await Promise.all(commitPromises)).filter(Boolean);
-        return { commits: results };
+
+        // Step 4: Fetch language stats across top repos
+        const langColors: Record<string, string> = {
+            'TypeScript': '#3178c6',
+            'JavaScript': '#f1e05a',
+            'Svelte': '#ff3e00',
+            'CSS': '#563d7c',
+            'HTML': '#e34c26',
+            'Python': '#3572A5',
+            'Go': '#00ADD8',
+            'Rust': '#dea584',
+            'Java': '#b07219',
+            'C++': '#f34b7d',
+            'Shell': '#89e051',
+            'Dart': '#00B4AB',
+            'Kotlin': '#A97BFF',
+            'Ruby': '#701516',
+            'PHP': '#4F5D95'
+        };
+
+        let languages: { name: string; percent: number; color: string }[] = [];
+        try {
+            const allRepos = repos.filter((r: any) => !r.fork).slice(0, 8);
+            const langTotals: Record<string, number> = {};
+
+            await Promise.all(
+                allRepos.map(async (repo: any) => {
+                    try {
+                        const langRes = await fetch(
+                            `https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/languages`,
+                            { headers: { 'User-Agent': 'SvelteKit-Portfolio', 'Accept': 'application/vnd.github.v3+json' } }
+                        );
+                        if (!langRes.ok) return;
+                        const data = await langRes.json();
+                        for (const [lang, bytes] of Object.entries(data)) {
+                            langTotals[lang] = (langTotals[lang] || 0) + (bytes as number);
+                        }
+                    } catch { /* skip */ }
+                })
+            );
+
+            const totalBytes = Object.values(langTotals).reduce((a, b) => a + b, 0);
+            if (totalBytes > 0) {
+                languages = Object.entries(langTotals)
+                    .sort(([, a], [, b]) => b - a)
+                    .map(([name, bytes]) => ({
+                        name,
+                        percent: Math.round((bytes / totalBytes) * 1000) / 10,
+                        color: langColors[name] || '#8b949e'
+                    }))
+                    .filter(l => l.percent >= 0.5); // Hide tiny languages
+            }
+        } catch { /* language stats are optional */ }
+
+        return { commits: results, languages };
     } catch (error) {
         console.error('GitHub fetch failed:', error);
-        return { commits: [] };
+        return { commits: [], languages: [] };
     }
 };

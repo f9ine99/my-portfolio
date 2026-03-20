@@ -32,10 +32,17 @@
     date?: string;
   }
 
-  let { commits = [] } = $props<{ commits?: Commit[] }>();
+  interface Language {
+    name: string;
+    percent: number;
+    color: string;
+  }
+
+  let { commits = [], languages = [] } = $props<{ commits?: Commit[]; languages?: Language[] }>();
   
   const finalCommits = $derived(commits);
   let isLoadingCommits = $derived(commits.length === 0);
+  let hoveredLang = $state<Language | null>(null);
 
   function updateTime() {
     const now = new Date();
@@ -145,15 +152,29 @@
         <a href="https://github.com/f9ine99" target="_blank" class="github-link">
           View on GitHub <ExternalLink size={14} />
         </a>
-        <div class="activity-bar" class:loading={isLoadingCommits}>
-          <div class="bar-segment" style="width: 25%; background: var(--accent-blue);"></div>
-          <div class="bar-segment" style="width: 15%; background: var(--accent-orange);"></div>
-          <div class="bar-segment" style="width: 20%; background: var(--accent-purple);"></div>
-          <div class="bar-segment" style="width: 10%; background: var(--accent-red);"></div>
-          <div class="bar-segment" style="width: 10%; background: var(--accent-green);"></div>
-          <div class="bar-segment" style="width: 5%; background: var(--text-muted);"></div>
-          <div class="bar-segment" style="width: 8%; background: #f9e2af;"></div>
-          <div class="bar-segment" style="width: 7%; background: #94e2d5;"></div>
+        <div class="lang-bar-wrapper">
+          {#if hoveredLang}
+            <div class="lang-tooltip">
+              <span class="lang-dot" style="background: {hoveredLang.color}"></span>
+              {hoveredLang.name} <span class="lang-pct">{hoveredLang.percent}%</span>
+            </div>
+          {/if}
+          <div class="activity-bar" class:loading={isLoadingCommits}>
+            {#if languages && languages.length > 0}
+              {#each languages as lang}
+                <div
+                  class="bar-segment"
+                  style="width: {lang.percent}%; background: {lang.color};"
+                  role="presentation"
+                  onmouseenter={() => hoveredLang = lang}
+                  onmouseleave={() => hoveredLang = null}
+                  ontouchstart={() => hoveredLang = lang}
+                ></div>
+              {/each}
+            {:else}
+              <div class="bar-segment" style="width: 100%; background: var(--selection-bg);"></div>
+            {/if}
+          </div>
         </div>
       </div>
     </div>
@@ -302,7 +323,32 @@
   .github-link:hover { color: var(--accent-blue); }
 
   .activity-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; width: 100%; background: var(--card-bg-elevated); }
-  .bar-segment { height: 100%; transition: width 0.3s; }
+  .bar-segment { height: 100%; transition: width 0.3s, opacity 0.2s; cursor: pointer; }
+  .bar-segment:hover { opacity: 0.8; }
+
+  .lang-bar-wrapper { position: relative; }
+  .lang-tooltip {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--card-bg-elevated);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    pointer-events: none;
+  }
+  .lang-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .lang-pct { color: var(--text-muted); }
   
   .activity-bar.loading .bar-segment {
     opacity: 0.3;

@@ -16,7 +16,7 @@
   <WorkHistory />
   <TypingTest />
   <FeaturedProjects />
-  <BentoStats commits={data.commits} />
+  <BentoStats commits={data.commits} languages={data.languages} />
 </main>
 
 <style>

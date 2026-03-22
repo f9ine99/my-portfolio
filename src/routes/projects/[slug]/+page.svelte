@@ -415,10 +415,7 @@
     margin-bottom: 1.25rem;
     letter-spacing: -0.03em;
     line-height: 1.1;
-    background: linear-gradient(135deg, var(--text-primary), var(--accent-orange));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
   }
 
   .meta-row {

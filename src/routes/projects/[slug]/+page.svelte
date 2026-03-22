@@ -26,7 +26,8 @@
     Flame,
     Zap,
     Shield,
-    Cpu
+    Cpu,
+    CheckCircle2
   } from 'lucide-svelte';
   import { fly, fade, scale } from 'svelte/transition';
   import { backOut, quintOut } from 'svelte/easing';
@@ -196,6 +197,34 @@
           <p class="long-description">
             {project.longDescription}
           </p>
+
+          {#if project.features && project.features.length > 0}
+            <div class="details-section">
+              <h3 class="subsection-heading">Key Features</h3>
+              <div class="feature-grid">
+                {#each project.features as feature}
+                  <div class="feature-item">
+                    <CheckCircle2 size={16} class="feature-icon" />
+                    <span>{feature}</span>
+                  </div>
+                {/each}
+              </div>
+            </div>
+          {/if}
+
+          {#if project.technicalHighlights && project.technicalHighlights.length > 0}
+            <div class="details-section">
+              <h3 class="subsection-heading">Technical Highlights</h3>
+              <div class="feature-grid">
+                {#each project.technicalHighlights as highlight}
+                  <div class="feature-item">
+                    <Cpu size={16} class="tech-icon" />
+                    <span>{highlight}</span>
+                  </div>
+                {/each}
+              </div>
+            </div>
+          {/if}
         </div>
       </div>
     </div>
@@ -538,6 +567,58 @@
     line-height: 1.9;
     color: var(--text-muted);
     max-width: 800px;
+    margin-bottom: 3rem;
+  }
+
+  .details-section {
+    margin-top: 3rem;
+  }
+
+  .subsection-heading {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .feature-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 1rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    transition: all 0.3s ease;
+  }
+
+  .feature-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+  }
+
+  .feature-icon {
+    color: var(--accent-orange);
+    margin-top: 0.15rem;
+    opacity: 0.8;
+  }
+
+  .tech-icon {
+    color: #5cb3fa;
+    margin-top: 0.15rem;
+    opacity: 0.8;
   }
 
   /* ===== 404 ===== */

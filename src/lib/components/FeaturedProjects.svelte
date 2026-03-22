@@ -1,5 +1,9 @@
-<script>
+<script lang="ts">
   import { Star } from 'lucide-svelte';
+  import ProjectCard from './ProjectCard.svelte';
+
+  import { projects } from '$lib/data/projects';
+  const featuredProjects = projects.filter(p => !['nyx-portfolio', 'detectify', 'xor-encryptor', 'furi-cadaster'].includes(p.slug));
 </script>
 
 <section class="featured-projects" id="projects">
@@ -11,9 +15,10 @@
     <a href="/projects" class="view-all desktop-only">View all &rarr;</a>
   </div>
   
-  <!-- Project list would go here -->
-  <div class="projects-placeholder">
-    <p>Project cards coming soon...</p>
+  <div class="projects-grid">
+    {#each featuredProjects as project}
+      <ProjectCard {...project} />
+    {/each}
   </div>
 
   <div class="mobile-footer">
@@ -24,15 +29,15 @@
 <style>
   .featured-projects {
     width: 95%;
-    max-width: 1000px;
-    margin: 4rem auto;
+    max-width: 1200px;
+    margin: 6rem auto;
   }
 
   .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
   }
 
   .title {
@@ -46,6 +51,13 @@
     font-size: 1.5rem;
     color: var(--text-primary);
     font-weight: 500;
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
   }
 
   .view-all {
@@ -62,23 +74,11 @@
     border-bottom-color: var(--accent-orange);
   }
 
-  .projects-placeholder {
-    padding: 4rem;
-    border: 1px dashed var(--text-muted);
-    border-radius: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-  }
-
   .mobile-footer {
     display: flex;
     justify-content: center;
   }
 
-  /* Responsive visibility */
   @media (min-width: 769px) {
     .mobile-only {
       display: none;
@@ -94,8 +94,8 @@
       margin: 2rem auto;
     }
 
-    .projects-placeholder {
-      padding: 3rem 1.5rem;
+    .projects-grid {
+      grid-template-columns: 1fr;
     }
   }
 </style>

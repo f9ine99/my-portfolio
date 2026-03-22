@@ -91,7 +91,7 @@
       <span>Co-Founder of <a href="https://ethiohamerai.com" target="_blank" rel="noopener noreferrer">HamerAI</a> | Software Engineer & Cybersecurity Analyst</span>
     </span>. Delivering secure, scalable software solutions 
     <span class="highlight-group {showSunglasses ? 'active' : ''}">
-      trusted by government and private organizations
+      trusted by government and private business organizations
     </span>.
   </p>
 </header>

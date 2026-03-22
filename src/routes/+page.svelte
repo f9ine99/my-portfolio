@@ -7,7 +7,6 @@
   import BentoStats from '$lib/components/BentoStats.svelte';
 
   let { data } = $props();
-  // console.log('Loaded Data:', data);
 </script>
 
 <main>

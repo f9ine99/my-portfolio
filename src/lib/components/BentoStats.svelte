@@ -38,10 +38,11 @@
     color: string;
   }
 
-  let { commits = [], languages = [] } = $props<{ commits?: Commit[]; languages?: Language[] }>();
+  let { commits = [], languages = [], error = '' } = $props<{ commits?: Commit[]; languages?: Language[]; error?: string }>();
   
   const finalCommits = $derived(commits);
-  let isLoadingCommits = $derived(commits.length === 0);
+  let isInitialLoad = $state(true);
+  let isLoadingCommits = $derived(isInitialLoad && commits.length === 0 && !error);
   let hoveredLang = $state<Language | null>(null);
 
   function updateTime() {
@@ -53,6 +54,10 @@
   onMount(() => {
     updateTime();
     const interval = setInterval(updateTime, 1000);
+    
+    // Simple way to handle the "initial load" state since it's SSR data
+    isInitialLoad = false;
+    
     return () => clearInterval(interval);
   });
 </script>
@@ -124,30 +129,40 @@
         {#if isLoadingCommits}
           <Loader2 size={14} class="animate-spin header-tag" />
         {:else}
-          <span class="header-tag">[live]</span>
+          <span class="header-tag">[{error ? 'error' : 'live'}]</span>
         {/if}
       </div>
       <div class="commits-container">
         <div class="commits-list">
-          {#each finalCommits as commit}
-            <div class="commit-item">
+          {#if error === 'rate_limit'}
+            <div class="commit-item error-state">
               <span class="commit-msg">
-                <span class="repo-name">{commit.repo}:</span> {commit.msg}
+                <span class="error-text">Rate limit exceeded.</span> Provide a GITHUB_TOKEN in .env to fix this.
               </span>
-              {#if !isLoadingCommits && commit.repo !== 'error'}
-                <span class="commit-stats">
-                  <span class="add">+{commit.add}</span> / <span class="del">-{commit.del}</span>
-                  <span class="commit-date">{commit.date}</span>
-                </span>
-              {/if}
+            </div>
+          {:else if error}
+            <div class="commit-item error-state">
+              <span class="commit-msg">Failed to fetch recent activity from GitHub.</span>
             </div>
           {:else}
-            {#if !isLoadingCommits}
+            {#each finalCommits as commit}
+              <div class="commit-item">
+                <span class="commit-msg">
+                  <span class="repo-name">{commit.repo}:</span> {commit.msg}
+                </span>
+                {#if commit.repo !== 'error'}
+                  <span class="commit-stats">
+                    <span class="add">+{commit.add}</span> / <span class="del">-{commit.del}</span>
+                    <span class="commit-date">{commit.date}</span>
+                  </span>
+                {/if}
+              </div>
+            {:else}
               <div class="commit-item empty-state">
                 <span class="commit-msg">No recent public push events found.</span>
               </div>
-            {/if}
-          {/each}
+            {/each}
+          {/if}
         </div>
       </div>
       <div class="commits-footer">
@@ -332,6 +347,16 @@
   .add { color: var(--accent-green); }
   .del { color: var(--accent-red); }
   .commit-date { color: var(--text-muted); margin-left: 0.5rem; font-size: 0.7rem; opacity: 0.7; }
+
+  .error-state, .empty-state {
+    padding: 0.5rem 0;
+    opacity: 0.8;
+  }
+
+  .error-text {
+    color: var(--accent-red);
+    font-weight: 600;
+  }
 
   .commits-footer { display: flex; flex-direction: column; gap: 1rem; margin-top: auto; }
   .github-link { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; width: fit-content; transition: color 0.2s; }

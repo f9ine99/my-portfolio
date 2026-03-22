@@ -83,11 +83,11 @@ export const projects: Project[] = [
         githubUrl: "https://github.com/f9ine99/termus-melesu"
     },
     {
-        slug: "dawud-charity",
-        title: "Dawud Charity",
+        slug: "mufti-dawud-charity",
+        title: "Mufti Dawud Charity",
         date: "November 13, 2025",
         description: "A collaborative project with <a href=\"https://github.com/khadijahm12k-creator\" target=\"_blank\" rel=\"noopener noreferrer\">Khadija</a>—a robust charity platform where donors can securely contribute and admins can manage donations, track proofs, and coordinate organization activities.",
-        longDescription: "Dawud Charity is a comprehensive platform designed to bring transparency and accountability to charitable giving. In collaboration with Khadija, we built a system that allows donors to track their contributions in real-time, submit payment proofs, and see the tangible impact of their donations. For administrators, the platform provides a powerful dashboard to manage donor relations, verify proofs, and oversee all charitable activities, ensuring that every penny reaches its intended destination. The backend is powered by FastAPI and SQLAlchemy, providing a secure and scalable foundation.",
+        longDescription: "Mufti Dawud Charity is a comprehensive platform designed to bring transparency and accountability to charitable giving. In collaboration with Khadija, we built a system that allows donors to track their contributions in real-time, submit payment proofs, and see the tangible impact of their donations. For administrators, the platform provides a powerful dashboard to manage donor relations, verify proofs, and oversee all charitable activities, ensuring that every penny reaches its intended destination. The backend is powered by FastAPI and SQLAlchemy, providing a secure and scalable foundation.",
         features: [
             "Transparent donation tracking system for contributors",
             "Secure payment proof submission and verification",
@@ -109,7 +109,7 @@ export const projects: Project[] = [
             { name: "SQLAlchemy", color: "#d26d1a" }
         ],
         preview: {
-            repo: "dawud-charity",
+            repo: "mufti-dawud-charity",
             description: "A transparent and accountable donation system for charity",
             stars: 1,
             contributors: ["/firaol.jpg", "https://github.com/khadijahm12k-creator.png"]
@@ -271,6 +271,48 @@ export const projects: Project[] = [
             { name: "CSS", color: "#563d7c", percentage: 12.8 },
             { name: "JavaScript", color: "#f1e05a", percentage: 6.5 }
         ]
+    },
+    {
+        slug: "impact",
+        title: "Impact",
+        date: "March 22, 2026",
+        description: "A collaborative project with <a href=\"https://github.com/RasAbrish\" target=\"_blank\">Abrham</a>, <a href=\"https://github.com/amegi123\" target=\"_blank\">Amanuel</a>, and Yonas under HamerAI—a private hub for investors, startups, and advisors.",
+        longDescription: "Impact is a strategic platform developed under the HamerAI organization in collaboration with Abrham (@RasAbrish), Amanuel (@amegi123), and Yonas. The project focuses on creating a unified hub that connects investors, startups, and advisors, streamlining the ecosystem's communication and resource sharing. It is currently a private project aimed at professional networking and investment coordination.",
+        features: [
+            "One-stop hub for investors, startups, and advisors",
+            "Collaborative workspace under HamerAI organization",
+            "Next.js based frontend with Next.js App Router",
+            "Scalable NestJS backend architecture for API services",
+            "Secure session management with Better Auth integration",
+            "Postgres database for robust data persistence",
+            "Cloudflare R2 for scalable asset and object storage",
+            "Containerized deployment using Docker"
+        ],
+        technicalHighlights: [
+            "Backend developed with NestJS for a structured and scalable codebase",
+            "Frontend built using Next.js for high-performance user interfaces",
+            "Secure and modern authentication powered by Better Auth",
+            "Reliable and performant data management with PostgreSQL",
+            "Optimized asset storage and distribution via Cloudflare R2",
+            "Streamlined deployment and environment consistency with Docker"
+        ],
+        tags: [
+            { name: "NestJS", color: "#E0234E" },
+            { name: "Next.js", color: "#000000" },
+            { name: "Better Auth", color: "#5A0FC8" },
+            { name: "Postgres", color: "#336791" },
+            { name: "Cloudflare", color: "#F38020" },
+            { name: "Docker", color: "#2496ED" },
+            { name: "HamerAI", color: "#3178c6" }
+        ],
+        preview: {
+            repo: "impact",
+            description: "A unified hub for investors, startups, and advisors built with NestJS and Next.js",
+            stars: 0,
+            contributors: ["/firaol.jpg", "https://github.com/RasAbrish.png", "https://github.com/amegi123.png", "https://github.com/github.png"]
+        },
+        isPrivate: true,
+        githubUrl: "https://github.com/f9ine99/impact"
     }
 ];
 

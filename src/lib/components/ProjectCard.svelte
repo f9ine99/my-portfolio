@@ -19,9 +19,11 @@
     Terminal as TerminalIcon,
     FileCode,
     Paintbrush,
+    Package,
     Activity,
     CircuitBoard,
     Hash,
+    Sparkles,
     Cable,
     Flame
   } from 'lucide-svelte';
@@ -68,16 +70,18 @@
     if (lower.includes('assembly') || lower.includes('x86')) return CircuitBoard;
     if (lower.includes('html') || lower.includes('css')) return Layout;
     // Backend & Auth
-    if (lower.includes('flask') || lower.includes('fastapi')) return Server;
-    if (lower.includes('jwt')) return Key;
+    if (lower.includes('flask') || lower.includes('fastapi') || lower.includes('nest')) return Server;
+    if (lower.includes('jwt') || lower.includes('auth') || lower.includes('better')) return Key;
     if (lower.includes('websocket')) return Cable;
+    if (lower.includes('docker')) return Boxes;
     // Databases
-    if (lower.includes('supabase') || lower.includes('sql') || lower.includes('sqlite')) return Database;
+    if (lower.includes('supabase') || lower.includes('sql') || lower.includes('sqlite') || lower.includes('postgres')) return Database;
     // Categories
     if (lower.includes('pwa')) return Smartphone;
     if (lower.includes('security')) return Shield;
     if (lower.includes('ai') || lower.includes('groq')) return Cpu;
     if (lower.includes('monitoring')) return Activity;
+    if (lower.includes('docker')) return Package;
     if (lower.includes('low-level')) return CircuitBoard;
     if (lower.includes('web') || lower.includes('site')) return Globe;
     return Hash;
@@ -99,8 +103,18 @@
           <Lock size={11} />
           <span>Private</span>
         </div>
-      {/if}
-      {#if preview.stars}
+      {:else if slug === 'termus-melesu'}
+        <div class="public-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
+            <path d="m3.3 7 8.7 5 8.7-5"/>
+            <path d="M12 22V12"/>
+            <path d="m10 14-2 2 2 2"/>
+            <path d="m14 18 2-2-2-2"/>
+          </svg>
+          <span>Open Source</span>
+        </div>
+      {:else if preview.stars}
         <div class="stars">
           <span>{preview.stars}</span>
           <Star size={12} fill="currentColor" />
@@ -180,7 +194,7 @@
 <style>
   .project-card {
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
     border-radius: 16px;
     padding: 1.5rem;
     display: flex;
@@ -213,19 +227,19 @@
   }
 
   .preview-container {
-    background: #1e1e2e; /* Slate/Darker background for terminal */
+    background: var(--terminal-bg);
     border-radius: 10px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
   }
 
   .terminal-header {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--overlay-light);
     padding: 0.6rem 1rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .dots {
@@ -243,18 +257,27 @@
   .yellow { background: #ffbd2e; }
   .green { background: #27c93f; }
 
-  .private-badge {
+  .private-badge, .public-badge {
     display: flex;
     align-items: center;
     gap: 0.3rem;
     font-size: 0.65rem;
-    color: var(--text-muted);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: var(--font-mono);
     padding: 0.2rem 0.55rem;
     border-radius: 6px;
-    font-family: var(--font-mono);
     opacity: 0.8;
+  }
+  
+  .private-badge {
+    color: var(--text-muted);
+    background: var(--overlay-medium);
+    border: 1px solid var(--border-medium);
+  }
+
+  .public-badge {
+    color: var(--accent-orange);
+    background: rgba(var(--accent-orange-rgb, 255, 158, 100), 0.1);
+    border: 1px solid rgba(var(--accent-orange-rgb, 255, 158, 100), 0.2);
   }
 
   .stars {
@@ -264,6 +287,29 @@
     font-size: 0.75rem;
     color: var(--text-muted);
     font-family: var(--font-mono);
+  }
+
+  .ai-summary-btn {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.6;
+    z-index: 10;
+  }
+
+  .ai-summary-btn:hover {
+    color: var(--accent-orange);
+    background: rgba(255, 158, 100, 0.1);
+    opacity: 1;
+    transform: scale(1.1);
   }
 
   .terminal-body {
@@ -306,7 +352,7 @@
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 2px solid #1e1e2e;
+    border: 2px solid var(--terminal-bg);
     margin-right: -6px;
   }
 
@@ -320,7 +366,7 @@
   .language-bar {
     margin-top: 1rem;
     padding-top: 0.75rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .bar-track {
@@ -439,12 +485,12 @@
     align-items: center;
     gap: 0.4rem;
     padding: 0.3rem 0.7rem;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--tag-bg);
     border-radius: 6px;
     font-size: 0.75rem;
     font-family: var(--font-mono);
     color: var(--text-primary);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
     transition: all 0.2s;
   }
 

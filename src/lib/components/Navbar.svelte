@@ -229,15 +229,15 @@
   .nav-links {
     display: flex;
     gap: 0.15rem;
-    background: rgba(30, 32, 48, 0.75);
+    background: var(--nav-pill-bg);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     padding: 0.35rem;
     border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--nav-pill-border);
     box-shadow: 
-      0 10px 40px -10px rgba(0, 0, 0, 0.7),
-      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+      0 10px 40px -10px var(--shadow-color),
+      inset 0 1px 0 0 var(--inset-highlight);
     list-style: none;
     margin: 0;
   }
@@ -265,17 +265,17 @@
   .nav-links a:hover {
     opacity: 1;
     color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--nav-active-bg);
   }
 
   .nav-links a.active {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--nav-active-bg);
     color: var(--accent-orange);
     font-weight: 600;
     box-shadow: 
-      0 2px 8px -1px rgba(0, 0, 0, 0.2),
-      0 0 0 1px rgba(255, 255, 255, 0.03);
+      0 2px 8px -1px var(--shadow-medium),
+      0 0 0 1px var(--border-subtle);
   }
 
   .menu-toggle {

@@ -3,13 +3,15 @@
   import ProjectCard from './ProjectCard.svelte';
 
   import { projects } from '$lib/data/projects';
-  const featuredProjects = projects.filter(p => !['nyx-portfolio', 'detectify', 'xor-encryptor', 'furi-cadaster'].includes(p.slug));
+  const featuredProjects = projects
+    .filter(p => !['nyx-portfolio', 'detectify', 'xor-encryptor', 'furi-cadaster'].includes(p.slug))
+    .slice(0, 2);
 </script>
 
 <section class="featured-projects" id="projects">
   <div class="header">
     <div class="title">
-      <Star size={24} />
+      <Star size={32} />
       <h2>Featured Projects</h2>
     </div>
     <a href="/projects" class="view-all desktop-only">View all &rarr;</a>
@@ -48,9 +50,9 @@
   }
 
   .title h2 {
-    font-size: 1.5rem;
+    font-size: 2.25rem;
     color: var(--text-primary);
-    font-weight: 500;
+    font-weight: 700;
   }
 
   .projects-grid {
@@ -96,6 +98,15 @@
 
     .projects-grid {
       grid-template-columns: 1fr;
+    }
+
+    .title h2 {
+      font-size: 1.75rem;
+    }
+
+    .title :global(svg) {
+      width: 28px !important;
+      height: 28px !important;
     }
   }
 </style>

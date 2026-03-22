@@ -15,10 +15,46 @@
     --font-mono: 'Fira Code', monospace;
     --scrollbar-thumb: #5b6078;
     --card-hover: rgba(255, 255, 255, 0.04);
+    --nav-pill-bg: rgba(30, 32, 48, 0.75);
+    --nav-pill-border: rgba(255, 255, 255, 0.06);
+    --nav-active-bg: rgba(255, 255, 255, 0.06);
+    --subtle-bg: rgba(255, 255, 255, 0.03);
+    --border-subtle: rgba(255, 255, 255, 0.05);
+    --border-medium: rgba(255, 255, 255, 0.08);
+    --overlay-light: rgba(255, 255, 255, 0.04);
+    --overlay-medium: rgba(255, 255, 255, 0.06);
+    --overlay-heavy: rgba(255, 255, 255, 0.12);
+    --terminal-bg: #1e1e2e;
+    --inset-highlight: rgba(255, 255, 255, 0.05);
+    --shadow-color: rgba(0, 0, 0, 0.7);
+    --shadow-medium: rgba(0, 0, 0, 0.2);
+    --tag-bg: rgba(0, 0, 0, 0.2);
+    --heading-color: #fff;
 }
 
 @media (prefers-color-scheme: light) {
     :root {
+        --bg-color: #eff1f5;
+        --card-bg: #e6e9ef;
+        --card-bg-elevated: #dce0e8;
+        --text-primary: #4c4f69;
+        --text-muted: #6c6f85;
+        --selection-bg: #acb0be;
+        --nav-pill-bg: rgba(255, 255, 255, 0.85);
+        --nav-pill-border: rgba(0, 0, 0, 0.1);
+        --nav-active-bg: rgba(0, 0, 0, 0.06);
+        --subtle-bg: rgba(0, 0, 0, 0.02);
+        --border-subtle: rgba(0, 0, 0, 0.06);
+        --border-medium: rgba(0, 0, 0, 0.1);
+        --overlay-light: rgba(0, 0, 0, 0.03);
+        --overlay-medium: rgba(0, 0, 0, 0.05);
+        --overlay-heavy: rgba(0, 0, 0, 0.08);
+        --terminal-bg: #dce0e8;
+        --inset-highlight: rgba(255, 255, 255, 0.7);
+        --shadow-color: rgba(0, 0, 0, 0.08);
+        --shadow-medium: rgba(0, 0, 0, 0.06);
+        --tag-bg: rgba(0, 0, 0, 0.05);
+        --heading-color: #4c4f69;
         --card-hover: rgba(0, 0, 0, 0.04);
     }
 }
@@ -76,7 +112,7 @@ h3,
 h4,
 h5,
 h6 {
-    color: #fff;
+    color: var(--heading-color);
     font-weight: 600;
 }
 

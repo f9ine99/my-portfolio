@@ -27,7 +27,8 @@
     Zap,
     Shield,
     Cpu,
-    CheckCircle2
+    CheckCircle2,
+    Sparkles
   } from 'lucide-svelte';
   import { fly, fade, scale } from 'svelte/transition';
   import { backOut, quintOut } from 'svelte/easing';
@@ -92,8 +93,7 @@
                   <Lock size={12} />
                   <span>Private</span>
                 </div>
-              {/if}
-              {#if project.preview.stars}
+              {:else if project.preview.stars}
                 <div class="stars-badge">
                   <span>{project.preview.stars}</span>
                   <Star size={12} fill="currentColor" />
@@ -145,7 +145,14 @@
 
       <!-- Project Info Section -->
       <div class="info-section" in:fly={{ y: 30, duration: 600, delay: 200, easing: backOut }}>
-        <h1 class="project-title">{project.title}</h1>
+        <div class="title-row">
+          <h1 class="project-title">{project.title}</h1>
+          <button class="ai-summary-pill" onclick={(e) => { e.preventDefault(); }}>
+            <Sparkles size={14} />
+            <span>AI Summary</span>
+            <div class="glow-effect"></div>
+          </button>
+        </div>
         
         <div class="meta-row">
           <div class="meta-item">
@@ -288,22 +295,45 @@
   /* ===== Terminal Card ===== */
   .terminal-card {
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
     border-radius: 20px;
     padding: 2rem;
     margin-bottom: 3rem;
-    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 16px 48px var(--shadow-medium);
+  }
+
+  .ai-summary-btn-terminal {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.35rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+    z-index: 10;
+  }
+
+  .ai-summary-btn-terminal:hover {
+    color: var(--accent-orange);
+    background: rgba(var(--accent-orange-rgb, 255, 158, 100), 0.1);
+    opacity: 1;
+    transform: scale(1.1) rotate(5deg);
   }
 
   .terminal-preview {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--terminal-bg);
+    border: 1px solid var(--border-medium);
     border-radius: 12px;
     overflow: hidden;
   }
 
   .terminal-header {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--overlay-light);
     padding: 0.75rem 1.25rem;
     display: flex;
     justify-content: space-between;
@@ -322,8 +352,8 @@
     gap: 0.35rem;
     font-size: 0.75rem;
     color: var(--text-muted);
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--overlay-medium);
+    border: 1px solid var(--border-medium);
     padding: 0.25rem 0.65rem;
     border-radius: 6px;
     font-family: var(--font-mono);
@@ -393,7 +423,7 @@
   .language-bar {
     margin-top: 1.5rem;
     padding-top: 1rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .bar-track {
@@ -450,10 +480,65 @@
   .project-title {
     font-size: 3rem;
     font-weight: 700;
-    margin-bottom: 1.25rem;
+    margin: 0;
     letter-spacing: -0.03em;
     line-height: 1.1;
     color: var(--text-primary);
+  }
+
+  .title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .ai-summary-pill {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.61rem 1.25rem;
+    background: rgba(var(--accent-orange-rgb, 255, 158, 100), 0.08);
+    border: 1px solid rgba(var(--accent-orange-rgb, 255, 158, 100), 0.2);
+    border-radius: 100px;
+    color: var(--accent-orange);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    font-family: var(--font-mono);
+  }
+
+  .ai-summary-pill:hover {
+    background: var(--accent-orange);
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(255, 158, 100, 0.4);
+    border-color: transparent;
+  }
+
+  .glow-effect {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent
+    );
+    transition: 0.5s;
+  }
+
+  .ai-summary-pill:hover .glow-effect {
+    left: 100%;
+    transition: 0.6s;
   }
 
   .meta-row {
@@ -484,8 +569,8 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--overlay-light);
+    border: 1px solid var(--border-medium);
     padding: 0.4rem 0.85rem;
     border-radius: 8px;
     font-size: 0.8rem;
@@ -496,7 +581,7 @@
 
   .tag:hover {
     border-color: var(--tag-color);
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--overlay-medium);
   }
 
   /* ===== Action Buttons ===== */
@@ -521,14 +606,14 @@
   }
 
   .action-btn.github {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--overlay-medium);
     color: var(--text-primary);
-    border-color: rgba(255, 255, 255, 0.1);
+    border-color: var(--border-medium);
   }
 
   .action-btn.github:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.2);
+    background: var(--overlay-heavy);
+    border-color: var(--border-medium);
     transform: translateY(-3px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   }
@@ -558,7 +643,7 @@
   /* ===== Divider ===== */
   .divider {
     height: 1px;
-    background: linear-gradient(to right, rgba(255, 158, 100, 0.2), rgba(255, 255, 255, 0.05), transparent);
+    background: linear-gradient(to right, rgba(255, 158, 100, 0.2), var(--border-subtle), transparent);
     margin-bottom: 3rem;
   }
 
@@ -603,8 +688,8 @@
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--subtle-bg);
+    border: 1px solid var(--border-subtle);
     padding: 1rem 1.25rem;
     border-radius: 12px;
     font-size: 0.95rem;
@@ -613,8 +698,8 @@
   }
 
   .feature-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: var(--overlay-medium);
+    border-color: var(--border-medium);
     transform: translateY(-2px);
   }
 

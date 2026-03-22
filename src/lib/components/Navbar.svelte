@@ -164,23 +164,18 @@
 
 <style>
   .navbar-wrapper {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
     width: 100%;
     z-index: 1000;
-    transition: background 0.4s ease, backdrop-filter 0.4s ease;
-    background: transparent;
-    margin-bottom: 4.5rem;
-    /* This mask creates a subtle fade at the very bottom to hide the 'line' */
-    mask-image: linear-gradient(to bottom, black calc(100% - 8px), transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, black calc(100% - 8px), transparent 100%);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 1.5rem 0;
+    pointer-events: none;
   }
 
   .navbar-wrapper.scrolled {
-    /* Pure floating look - remove full width background */
-    background: transparent;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    padding: 0.75rem 0;
   }
 
   .navbar {
@@ -189,12 +184,32 @@
     align-items: center;
     max-width: 1210px;
     margin: 0 auto;
-    padding: 1.25rem 2rem;
-    transition: padding 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    padding: 1rem 2rem;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    width: 95%;
+    pointer-events: auto;
   }
 
   .navbar-wrapper.scrolled .navbar {
-    padding: 0.75rem 2rem;
+    max-width: 800px;
+    background: rgba(17, 17, 27, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 100px;
+    padding: 0.6rem 1.75rem;
+    box-shadow: 
+      0 10px 30px -10px rgba(0, 0, 0, 0.5),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* Adjust theme specific background for the scrolled pill */
+  :global(.Frappe) .navbar-wrapper.scrolled .navbar { background: rgba(48, 52, 70, 0.3); }
+  :global(.Macchiato) .navbar-wrapper.scrolled .navbar { background: rgba(36, 39, 58, 0.3); }
+  :global(.Latte) .navbar-wrapper.scrolled .navbar { 
+    background: rgba(230, 233, 239, 0.4); 
+    border-color: rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
   }
 
   .brand {
@@ -202,7 +217,7 @@
     align-items: center;
     gap: 0.25rem;
     text-decoration: none;
-    transition: transform 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 0.3s ease;
   }
 
   .brand:hover {
@@ -210,9 +225,11 @@
   }
 
   .prompt {
-    font-weight: 700;
+    font-weight: 600;
+    font-size: 0.95rem;
     color: var(--accent-orange);
     white-space: nowrap;
+    letter-spacing: -0.01em;
   }
 
   .cursor {
@@ -228,54 +245,50 @@
 
   .nav-links {
     display: flex;
-    gap: 0.15rem;
-    background: var(--nav-pill-bg);
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    padding: 0.35rem;
-    border-radius: 100px;
-    border: 1px solid var(--nav-pill-border);
-    box-shadow: 
-      0 10px 40px -10px var(--shadow-color),
-      inset 0 1px 0 0 var(--inset-highlight);
+    gap: 1.5rem;
     list-style: none;
     margin: 0;
-  }
-
-  .nav-links li {
-    display: flex;
+    padding: 0;
   }
 
   .nav-links a {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-primary);
     opacity: 0.6;
-    padding: 0.45rem 1.1rem;
-    border-radius: 100px;
-    transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+    padding: 0.4rem 0.2rem;
+    transition: all 0.3s ease;
     text-decoration: none;
     white-space: nowrap;
     position: relative;
-    border: 1px solid transparent;
-    letter-spacing: 0.02em;
     font-family: var(--font-mono);
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .nav-links a:hover {
-    opacity: 1;
-    color: var(--text-primary);
-    background: var(--nav-active-bg);
+  .nav-links a:active {
+    transform: scale(0.96);
+    opacity: 0.8;
   }
 
-  .nav-links a.active {
+  .nav-links a:hover, .nav-links a.active {
     opacity: 1;
-    background: var(--nav-active-bg);
     color: var(--accent-orange);
-    font-weight: 600;
-    box-shadow: 
-      0 2px 8px -1px var(--shadow-medium),
-      0 0 0 1px var(--border-subtle);
+  }
+
+  /* Minimalist indicator for active link */
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background: var(--accent-orange);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a.active::after {
+    width: 100%;
   }
 
   .menu-toggle {
@@ -286,6 +299,12 @@
     cursor: pointer;
     padding: 0.5rem;
     z-index: 1001;
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.2s ease;
+  }
+
+  .menu-toggle:active {
+    transform: scale(0.9);
   }
 
   /* Drawer Styles */
@@ -334,7 +353,12 @@
     color: var(--text-primary);
     cursor: pointer;
     opacity: 0.7;
-    transition: opacity 0.2s;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .close-btn:active {
+    transform: scale(0.9);
   }
 
   .close-btn:hover { opacity: 1; }
@@ -383,6 +407,11 @@
     cursor: pointer;
     transition: all 0.2s;
     text-align: center;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .flavor-btn:active {
+    transform: scale(0.98);
   }
 
   .flavor-btn.active {
@@ -404,6 +433,11 @@
     border: 2px solid transparent;
     cursor: pointer;
     transition: transform 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .color-circle:active {
+    transform: scale(0.9);
   }
 
   .color-circle.active {
@@ -466,8 +500,34 @@
     color: var(--text-primary);
     text-decoration: none;
     padding: 0.5rem 0;
-    transition: color 0.2s;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: var(--font-mono, monospace);
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .drawer-section a::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 0;
+    background: var(--accent-orange);
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+
+  .drawer-section a:hover::before, .drawer-section a.active::before {
+    height: 70%;
+    left: 0;
+  }
+
+  .drawer-section a:hover, .drawer-section a.active {
+    padding-left: 1.5rem;
+    color: var(--accent-orange);
   }
 
   .drawer-section a.active {

@@ -43,6 +43,88 @@ export interface Project {
 
 export const projects: Project[] = [
     {
+        slug: "impact",
+        title: "Impact",
+        date: "March 22, 2026",
+        description: "A collaborative project with <a href=\"https://github.com/RasAbrish\" target=\"_blank\">Abrham</a>, <a href=\"https://github.com/amegi123\" target=\"_blank\">Amanuel</a>, and <strong>Yonas</strong> under HamerAI—a private hub for investors, startups, and advisors.",
+        longDescription: "Impact represents a strategic evolution in professional networking, developed under the internal HamerAI organization. In a high-stakes collaboration with <a href=\"https://github.com/RasAbrish\" target=\"_blank\">Abrham (@RasAbrish)</a>, <a href=\"https://github.com/amegi123\" target=\"_blank\">Amanuel (@amegi123)</a>, and <strong>Yonas</strong>, we engineered a unified ecosystem designed to bridge the gap between visionary startups, strategic investors, and specialized advisors. By streamlining resource sharing and direct communication, Impact serves as a secure, private catalyst for investment coordination and startup growth.",
+        features: [
+            "One-stop hub for investors, startups, and advisors",
+            "Collaborative workspace under HamerAI organization",
+            "Next.js based frontend with Next.js App Router",
+            "Scalable NestJS backend architecture for API services",
+            "Secure session management with Better Auth integration",
+            "Postgres database for robust data persistence",
+            "Cloudflare R2 for scalable asset and object storage",
+            "Containerized deployment using Docker"
+        ],
+        technicalHighlights: [
+            "Backend developed with NestJS for a structured and scalable codebase",
+            "Frontend built using Next.js for high-performance user interfaces",
+            "Secure and modern authentication powered by Better Auth",
+            "Reliable and performant data management with PostgreSQL",
+            "Optimized asset storage and distribution via Cloudflare R2",
+            "Streamlined deployment and environment consistency with Docker"
+        ],
+        tags: [
+            { name: "NestJS", color: "#E0234E" },
+            { name: "Next.js", color: "#000000" },
+            { name: "Better Auth", color: "#5A0FC8" },
+            { name: "Postgres", color: "#336791" },
+            { name: "Cloudflare", color: "#F38020" },
+            { name: "Docker", color: "#2496ED" },
+            { name: "HamerAI", color: "#3178c6" }
+        ],
+        preview: {
+            repo: "impact",
+            description: "A unified hub for investors, startups, and advisors built with NestJS and Next.js",
+            stars: 0,
+            contributors: ["/firaol.jpg", "https://github.com/RasAbrish.png", "https://github.com/amegi123.png", "https://github.com/github.png"]
+        },
+        isPrivate: true,
+        githubUrl: "https://github.com/f9ine99/impact"
+    },
+    {
+        slug: "furi-cadaster",
+        title: "Furi-Cadaster",
+        date: "2025",
+        description: "An office management and land identification (kart) system built to modernize legacy Excel-based workflows into a database-driven, user-friendly web application with real-time updates.",
+        longDescription: "Furi-Cadaster is a full-stack web application developed to digitize and streamline office management and land identification kart systems. Previously reliant on cumbersome Excel spreadsheets, the organization needed a modern, scalable solution. This system provides a clean, intuitive interface for managing land records, office operations, and user accounts. It features real-time updates via WebSockets, secure authentication with JWT, and a robust SQLite database managed through SQLAlchemy. The project represents a significant leap from manual, error-prone processes to a reliable, centralized digital platform.",
+        features: [
+            "Digitized land identification (kart) and record system",
+            "Real-time layout updates via WebSockets connectivity",
+            "Secure user authentication and session management",
+            "Intuitive administrative dashboard for record verification"
+        ],
+        technicalHighlights: [
+            "Python Flask backend with SQLAlchemy ORM integration",
+            "Multi-client synchronization using Flask-SocketIO",
+            "Robust SQLite database for centralized data management",
+            "JWT-based security layer for protected endpoints"
+        ],
+        tags: [
+            { name: "Flask", color: "#000000" },
+            { name: "SQLAlchemy", color: "#d26d1a" },
+            { name: "JWT", color: "#bb9af7" },
+            { name: "WebSocket", color: "#27c93f" },
+            { name: "SQLite", color: "#003B57" },
+            { name: "HTML/CSS", color: "#e34c26" }
+        ],
+        preview: {
+            repo: "Furi-Cadaster",
+            description: "Office management and land identification kart system",
+            stars: 0,
+            contributors: ["/firaol.jpg"]
+        },
+        isPrivate: true,
+        languages: [
+            { name: "Python", color: "#3572A5", percentage: 48.2 },
+            { name: "HTML", color: "#e34c26", percentage: 32.5 },
+            { name: "CSS", color: "#563d7c", percentage: 12.8 },
+            { name: "JavaScript", color: "#f1e05a", percentage: 6.5 }
+        ]
+    },
+    {
         slug: "termus-melesu",
         title: "Termus Melesu (Retra)",
         date: "January 04, 2026",
@@ -231,88 +313,6 @@ export const projects: Project[] = [
             { name: "Assembly", color: "#6E4C13", percentage: 100 }
         ],
         githubUrl: "https://github.com/f9ine99/xor-text-encryptor-asm"
-    },
-    {
-        slug: "furi-cadaster",
-        title: "Furi-Cadaster",
-        date: "2025",
-        description: "An office management and land identification (kart) system built to modernize legacy Excel-based workflows into a database-driven, user-friendly web application with real-time updates.",
-        longDescription: "Furi-Cadaster is a full-stack web application developed to digitize and streamline office management and land identification kart systems. Previously reliant on cumbersome Excel spreadsheets, the organization needed a modern, scalable solution. This system provides a clean, intuitive interface for managing land records, office operations, and user accounts. It features real-time updates via WebSockets, secure authentication with JWT, and a robust SQLite database managed through SQLAlchemy. The project represents a significant leap from manual, error-prone processes to a reliable, centralized digital platform.",
-        features: [
-            "Digitized land identification (kart) and record system",
-            "Real-time layout updates via WebSockets connectivity",
-            "Secure user authentication and session management",
-            "Intuitive administrative dashboard for record verification"
-        ],
-        technicalHighlights: [
-            "Python Flask backend with SQLAlchemy ORM integration",
-            "Multi-client synchronization using Flask-SocketIO",
-            "Robust SQLite database for centralized data management",
-            "JWT-based security layer for protected endpoints"
-        ],
-        tags: [
-            { name: "Flask", color: "#000000" },
-            { name: "SQLAlchemy", color: "#d26d1a" },
-            { name: "JWT", color: "#bb9af7" },
-            { name: "WebSocket", color: "#27c93f" },
-            { name: "SQLite", color: "#003B57" },
-            { name: "HTML/CSS", color: "#e34c26" }
-        ],
-        preview: {
-            repo: "Furi-Cadaster",
-            description: "Office management and land identification kart system",
-            stars: 0,
-            contributors: ["/firaol.jpg"]
-        },
-        isPrivate: true,
-        languages: [
-            { name: "Python", color: "#3572A5", percentage: 48.2 },
-            { name: "HTML", color: "#e34c26", percentage: 32.5 },
-            { name: "CSS", color: "#563d7c", percentage: 12.8 },
-            { name: "JavaScript", color: "#f1e05a", percentage: 6.5 }
-        ]
-    },
-    {
-        slug: "impact",
-        title: "Impact",
-        date: "March 22, 2026",
-        description: "A collaborative project with <a href=\"https://github.com/RasAbrish\" target=\"_blank\">Abrham</a>, <a href=\"https://github.com/amegi123\" target=\"_blank\">Amanuel</a>, and Yonas under HamerAI—a private hub for investors, startups, and advisors.",
-        longDescription: "Impact is a strategic platform developed under the HamerAI organization in collaboration with Abrham (@RasAbrish), Amanuel (@amegi123), and Yonas. The project focuses on creating a unified hub that connects investors, startups, and advisors, streamlining the ecosystem's communication and resource sharing. It is currently a private project aimed at professional networking and investment coordination.",
-        features: [
-            "One-stop hub for investors, startups, and advisors",
-            "Collaborative workspace under HamerAI organization",
-            "Next.js based frontend with Next.js App Router",
-            "Scalable NestJS backend architecture for API services",
-            "Secure session management with Better Auth integration",
-            "Postgres database for robust data persistence",
-            "Cloudflare R2 for scalable asset and object storage",
-            "Containerized deployment using Docker"
-        ],
-        technicalHighlights: [
-            "Backend developed with NestJS for a structured and scalable codebase",
-            "Frontend built using Next.js for high-performance user interfaces",
-            "Secure and modern authentication powered by Better Auth",
-            "Reliable and performant data management with PostgreSQL",
-            "Optimized asset storage and distribution via Cloudflare R2",
-            "Streamlined deployment and environment consistency with Docker"
-        ],
-        tags: [
-            { name: "NestJS", color: "#E0234E" },
-            { name: "Next.js", color: "#000000" },
-            { name: "Better Auth", color: "#5A0FC8" },
-            { name: "Postgres", color: "#336791" },
-            { name: "Cloudflare", color: "#F38020" },
-            { name: "Docker", color: "#2496ED" },
-            { name: "HamerAI", color: "#3178c6" }
-        ],
-        preview: {
-            repo: "impact",
-            description: "A unified hub for investors, startups, and advisors built with NestJS and Next.js",
-            stars: 0,
-            contributors: ["/firaol.jpg", "https://github.com/RasAbrish.png", "https://github.com/amegi123.png", "https://github.com/github.png"]
-        },
-        isPrivate: true,
-        githubUrl: "https://github.com/f9ine99/impact"
     }
 ];
 

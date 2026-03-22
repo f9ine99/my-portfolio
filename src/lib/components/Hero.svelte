@@ -102,6 +102,7 @@
     flex-direction: column;
     gap: 2rem;
     margin-bottom: 4rem;
+    padding-top: 10rem;
   }
 
   .profile-row {
@@ -294,6 +295,10 @@
   @media (max-width: 768px) {
     .greeting {
       font-size: 2.2rem;
+    }
+
+    .hero {
+      padding-top: 7rem;
     }
     
     .bio {

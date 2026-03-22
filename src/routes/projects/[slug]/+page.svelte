@@ -28,7 +28,10 @@
     Shield,
     Cpu,
     CheckCircle2,
-    Sparkles
+    Sparkles,
+    Cloud,
+    Triangle,
+    Hexagon
   } from 'lucide-svelte';
   import { fly, fade, scale } from 'svelte/transition';
   import { backOut, quintOut } from 'svelte/easing';
@@ -38,26 +41,40 @@
 
   const getIcon = (tagName: string) => {
     const lower = tagName.toLowerCase();
-    if (lower.includes('next')) return Globe;
+    
+    // Core Frameworks
+    if (lower.includes('next')) return Triangle;
     if (lower.includes('svelte')) return Flame;
     if (lower.includes('react')) return Zap;
     if (lower.includes('vite')) return Zap;
-    if (lower.includes('shadcn')) return Paintbrush;
-    if (lower.includes('typescript')) return FileCode;
-    if (lower.includes('javascript')) return FileCode;
+    
+    // Languages
+    if (lower.includes('typescript') || lower.includes('javascript')) return FileCode;
     if (lower.includes('python')) return TerminalIcon;
     if (lower.includes('assembly') || lower.includes('x86')) return CircuitBoard;
     if (lower.includes('html') || lower.includes('css')) return Layout;
+    
+    // Backend & Cloud
+    if (lower.includes('nest')) return Hexagon;
     if (lower.includes('flask') || lower.includes('fastapi')) return Server;
-    if (lower.includes('jwt')) return Key;
-    if (lower.includes('websocket')) return Cable;
-    if (lower.includes('supabase') || lower.includes('sql') || lower.includes('sqlite')) return Database;
+    if (lower.includes('cloudflare')) return Cloud;
+    if (lower.includes('docker')) return Boxes;
+    
+    // Auth & Security
+    if (lower.includes('better') || lower.includes('auth') || lower.includes('jwt')) return Key;
+    if (lower.includes('security') || lower.includes('shield')) return Shield;
+    
+    // Data & API
+    if (lower.includes('supabase') || lower.includes('sql') || lower.includes('postgre')) return Database;
+    if (lower.includes('websocket') || lower.includes('cable')) return Cable;
+    
+    // Labels & Categories
     if (lower.includes('pwa')) return Smartphone;
-    if (lower.includes('security')) return Shield;
     if (lower.includes('ai') || lower.includes('groq')) return Cpu;
     if (lower.includes('monitoring')) return Activity;
     if (lower.includes('low-level')) return CircuitBoard;
     if (lower.includes('web') || lower.includes('site')) return Globe;
+    
     return Hash;
   };
 </script>
@@ -106,7 +123,7 @@
                 <span class="separator">/</span>
                 <span class="repo-name">{project.preview.repo}</span>
               </div>
-              <p class="repo-desc">{project.preview.description}</p>
+              <p class="repo-desc">{@html project.preview.description}</p>
               
               {#if project.preview.contributors}
                 <div class="contributors">
@@ -179,7 +196,7 @@
 
         <!-- Action Buttons -->
         <div class="actions" in:fade={{ delay: 400, duration: 400 }}>
-          {#if project.githubUrl}
+          {#if project.githubUrl && !project.isPrivate}
             <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" class="action-btn github">
               <Github size={18} />
               <span>View Source</span>
@@ -202,45 +219,18 @@
         <div class="content" in:fly={{ y: 20, duration: 500, delay: 500 }}>
           <h2 class="section-heading">About this project</h2>
           <p class="long-description">
-            {project.longDescription}
+            {@html project.longDescription}
           </p>
 
           {#if project.story}
             <div class="details-section">
               <h3 class="subsection-heading">The Inspiration</h3>
               <p class="project-story">
-                {project.story}
+                {@html project.story}
               </p>
             </div>
           {/if}
 
-          {#if project.features && project.features.length > 0}
-            <div class="details-section">
-              <h3 class="subsection-heading">Key Features</h3>
-              <div class="feature-grid">
-                {#each project.features as feature}
-                  <div class="feature-item">
-                    <CheckCircle2 size={16} class="feature-icon" />
-                    <span>{feature}</span>
-                  </div>
-                {/each}
-              </div>
-            </div>
-          {/if}
-
-          {#if project.technicalHighlights && project.technicalHighlights.length > 0}
-            <div class="details-section">
-              <h3 class="subsection-heading">Technical Highlights</h3>
-              <div class="feature-grid">
-                {#each project.technicalHighlights as highlight}
-                  <div class="feature-item">
-                    <Cpu size={16} class="tech-icon" />
-                    <span>{highlight}</span>
-                  </div>
-                {/each}
-              </div>
-            </div>
-          {/if}
         </div>
       </div>
     </div>
@@ -260,13 +250,13 @@
 <style>
   /* ===== Layout ===== */
   .project-detail {
-    min-height: 100vh;
-    padding: 6rem 1.5rem 8rem;
-  }
-
-  .container {
-    max-width: 860px;
+    max-width: 1200px;
     margin: 0 auto;
+    padding: 10rem 2rem 5rem;
+    position: relative;
+    z-index: 10;
+  }
+  margin: 0 auto;
   }
 
   /* ===== Back Link ===== */
@@ -283,6 +273,12 @@
     border-radius: 8px;
     transition: all 0.25s ease;
     border: 1px solid transparent;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .back-link:active {
+    transform: scale(0.96);
+    opacity: 0.8;
   }
 
   .back-link:hover {
@@ -603,6 +599,12 @@
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid transparent;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .action-btn:active {
+    transform: scale(0.96);
+    filter: brightness(0.9);
   }
 
   .action-btn.github {
@@ -662,6 +664,19 @@
     color: var(--text-muted);
     max-width: 800px;
     margin-bottom: 3rem;
+  }
+
+  .long-description :global(a), .project-story :global(a) {
+    color: var(--accent-orange);
+    text-decoration: none;
+    border-bottom: 1px dotted rgba(255, 158, 100, 0.4);
+    transition: all 0.2s ease;
+  }
+
+  .long-description :global(a:hover), .project-story :global(a:hover) {
+    color: var(--text-primary);
+    border-bottom-color: var(--accent-orange);
+    background: rgba(255, 158, 100, 0.1);
   }
 
   .details-section {

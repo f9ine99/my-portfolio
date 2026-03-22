@@ -25,7 +25,10 @@
     Hash,
     Sparkles,
     Cable,
-    Flame
+    Flame,
+    Cloud,
+    Triangle,
+    Hexagon
   } from 'lucide-svelte';
   import { fade } from 'svelte/transition';
 
@@ -57,33 +60,40 @@
   // Map tag names to proper identity icons
   const getIcon = (tagName: string) => {
     const lower = tagName.toLowerCase();
-    // Frameworks & Libraries
-    if (lower.includes('next')) return Globe;
+    
+    // Core Frameworks
+    if (lower.includes('next')) return Triangle;
     if (lower.includes('svelte')) return Flame;
     if (lower.includes('react')) return Zap;
     if (lower.includes('vite')) return Zap;
-    if (lower.includes('shadcn')) return Paintbrush;
+    
     // Languages
-    if (lower.includes('typescript')) return FileCode;
-    if (lower.includes('javascript')) return FileCode;
+    if (lower.includes('typescript') || lower.includes('javascript')) return FileCode;
     if (lower.includes('python')) return TerminalIcon;
     if (lower.includes('assembly') || lower.includes('x86')) return CircuitBoard;
     if (lower.includes('html') || lower.includes('css')) return Layout;
-    // Backend & Auth
-    if (lower.includes('flask') || lower.includes('fastapi') || lower.includes('nest')) return Server;
-    if (lower.includes('jwt') || lower.includes('auth') || lower.includes('better')) return Key;
-    if (lower.includes('websocket')) return Cable;
+    
+    // Backend & Cloud
+    if (lower.includes('nest')) return Hexagon;
+    if (lower.includes('flask') || lower.includes('fastapi')) return Server;
+    if (lower.includes('cloudflare')) return Cloud;
     if (lower.includes('docker')) return Boxes;
-    // Databases
-    if (lower.includes('supabase') || lower.includes('sql') || lower.includes('sqlite') || lower.includes('postgres')) return Database;
-    // Categories
+    
+    // Auth & Security
+    if (lower.includes('better') || lower.includes('auth') || lower.includes('jwt')) return Key;
+    if (lower.includes('security') || lower.includes('shield')) return Shield;
+    
+    // Data & API
+    if (lower.includes('supabase') || lower.includes('sql') || lower.includes('postgre')) return Database;
+    if (lower.includes('websocket') || lower.includes('cable')) return Cable;
+    
+    // Labels & Categories
     if (lower.includes('pwa')) return Smartphone;
-    if (lower.includes('security')) return Shield;
     if (lower.includes('ai') || lower.includes('groq')) return Cpu;
     if (lower.includes('monitoring')) return Activity;
-    if (lower.includes('docker')) return Package;
     if (lower.includes('low-level')) return CircuitBoard;
     if (lower.includes('web') || lower.includes('site')) return Globe;
+    
     return Hash;
   };
 </script>
@@ -105,12 +115,12 @@
         </div>
       {:else if slug === 'termus-melesu'}
         <div class="public-badge">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="os-icon-enhanced">
             <path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/>
-            <path d="m3.3 7 8.7 5 8.7-5"/>
-            <path d="M12 22V12"/>
-            <path d="m10 14-2 2 2 2"/>
-            <path d="m14 18 2-2-2-2"/>
+            <path d="m3.3 7 8.7 5 8.7-5" class="inner-path"/>
+            <path d="M12 22V12" class="inner-path"/>
+            <path d="m10 14-2 2 2 2" class="code-symbol"/>
+            <path d="m14 18 2-2-2-2" class="code-symbol"/>
           </svg>
           <span>Open Source</span>
         </div>
@@ -203,6 +213,12 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: 100%;
     position: relative;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .project-card:active {
+    transform: scale(0.98);
+    opacity: 0.95;
   }
 
   .project-card:hover .card-link {
@@ -278,6 +294,37 @@
     color: var(--accent-orange);
     background: rgba(var(--accent-orange-rgb, 255, 158, 100), 0.1);
     border: 1px solid rgba(var(--accent-orange-rgb, 255, 158, 100), 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .public-badge:hover {
+    background: rgba(var(--accent-orange-rgb, 255, 158, 100), 0.15);
+    border-color: rgba(var(--accent-orange-rgb, 255, 158, 100), 0.4);
+    box-shadow: 0 0 8px rgba(var(--accent-orange-rgb, 255, 158, 100), 0.2);
+    transform: translateY(-1px);
+  }
+
+  .os-icon-enhanced {
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(0 0 2px rgba(var(--accent-orange-rgb, 255, 158, 100), 0.4));
+  }
+
+  .inner-path {
+    opacity: 0.4;
+  }
+
+  .code-symbol {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
   }
 
   .stars {
@@ -515,6 +562,12 @@
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     font-family: var(--font-mono);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .demo-link:active {
+    transform: scale(0.96);
+    filter: brightness(0.9);
   }
 
   .demo-icon-wrapper {

@@ -28,8 +28,8 @@
 <style>
   .projects-page {
     max-width: 1200px;
-    margin: 4rem auto;
-    padding: 0 2rem;
+    margin: 0 auto 4rem;
+    padding: 10rem 2rem 0;
   }
 
   .page-header {
@@ -71,7 +71,7 @@
 
   @media (max-width: 768px) {
     .projects-page {
-      margin: 2rem auto;
+      padding-top: 7rem;
     }
 
     .page-title {

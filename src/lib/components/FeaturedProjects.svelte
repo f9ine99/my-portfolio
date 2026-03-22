@@ -3,9 +3,9 @@
   import ProjectCard from './ProjectCard.svelte';
 
   import { projects } from '$lib/data/projects';
-  const featuredProjects = projects
-    .filter(p => !['nyx-portfolio', 'detectify', 'xor-encryptor', 'furi-cadaster'].includes(p.slug))
-    .slice(0, 2);
+  const featuredProjects = projects.filter(p => 
+    ['termus-melesu', 'mufti-dawud-charity'].includes(p.slug)
+  );
 </script>
 
 <section class="featured-projects" id="projects">

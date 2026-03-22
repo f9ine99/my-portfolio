@@ -8,7 +8,13 @@
 
 <style>
   .about-page {
-    /* Optional padding if needed, but About.svelte has its own margins */
+    padding-top: 10rem;
     padding-bottom: 4rem;
+  }
+
+  @media (max-width: 768px) {
+    .about-page {
+      padding-top: 7rem;
+    }
   }
 </style>

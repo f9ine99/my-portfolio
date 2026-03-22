@@ -157,6 +157,7 @@ export const projects: Project[] = [
             { name: "TypeScript", color: "#3178c6", percentage: 33.1 },
             { name: "CSS", color: "#563d7c", percentage: 14.5 }
         ],
+        demoUrl: "https://firaol.xyz",
         githubUrl: "https://github.com/f9ine99/my-portfolio"
     },
     {

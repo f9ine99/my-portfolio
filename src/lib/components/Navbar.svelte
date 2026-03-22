@@ -229,7 +229,7 @@
   .nav-links {
     display: flex;
     gap: 0.15rem;
-    background: rgba(15, 15, 20, 0.85);
+    background: rgba(30, 32, 48, 0.75);
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     padding: 0.35rem;

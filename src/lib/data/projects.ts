@@ -120,8 +120,8 @@ export const projects: Project[] = [
             { name: "CSS", color: "#563d7c", percentage: 10.1 },
             { name: "HTML", color: "#e34c26", percentage: 5.8 }
         ],
-        demoUrl: "https://mufti-dawud.vercel.app/",
-        githubUrl: "https://github.com/f9ine99/dawud-charity"
+        isPrivate: true,
+        demoUrl: "https://mufti-dawud.vercel.app/"
     },
     {
         slug: "nyx-portfolio",
@@ -163,30 +163,31 @@ export const projects: Project[] = [
         slug: "detectify",
         title: "Detectify",
         date: "April 19, 2024",
-        description: "Open-source web defacement detection with an integrated uptime checker for safeguarding online presence and monitoring website integrity.",
-        longDescription: "Detectify is a security-focused tool designed to monitor websites for unauthorized changes and downtime. It provides a robust defacement detection engine alongside a reliable uptime checker, alerting owners immediately if their site is compromised or inaccessible. This project was built to address the growing need for accessible, open-source security monitoring for individuals and small organizations.",
+        description: "A collaborative security project with <a href=\"#\" target=\"_blank\">Eyosiyas</a> at INSA—a robust website defacement monitoring system designed to safeguard online integrity.",
+        longDescription: "Detectify was developed at INSA in collaboration with Eyosiyas as a specialized website defacement monitoring system. It leverages advanced scanning engines to detect unauthorized changes to web content in real-time, providing an essential layer of security for critical digital assets. The project integrates an automated uptime checker and a comprehensive alerting system, ensuring that any compromise or downtime is identified and addressed immediately.",
         features: [
-            "Automated web defacement detection engine",
-            "Integrated website uptime and availability monitoring",
-            "Comprehensive log management for security audits",
-            "Customizable alert system for immediate response"
+            "Advanced website defacement detection engine",
+            "Real-time integrity monitoring for critical assets",
+            "Institutional-grade security audit logging (INSA)",
+            "Automated uptime and availability alerts"
         ],
         technicalHighlights: [
-            "Python-based scanning engine for periodic integrity checks",
-            "Integrated Uptime checker using asynchronous requests",
-            "Local logging system for historical data persistence",
-            "Lightweight and container-ready architecture"
+            "Python-based integrity scanning algorithms",
+            "Asynchronous monitoring for high-performance checks",
+            "Collaborative development with security experts at INSA",
+            "Containerized deployment for scalable monitoring"
         ],
         tags: [
             { name: "Security", color: "#f7768e" },
             { name: "Monitoring", color: "#7aa2f7" },
+            { name: "INSA", color: "#3178c6" },
             { name: "Python", color: "#3776ab" }
         ],
         preview: {
             repo: "Detectify",
-            description: "Web defacement detection with integrated Uptime checker",
+            description: "Website defacement monitoring system (INSA Colab)",
             stars: 0,
-            contributors: ["/firaol.jpg"]
+            contributors: ["/firaol.jpg", "https://github.com/github.png"]
         },
         languages: [
             { name: "Python", color: "#3572A5", percentage: 82.6 },

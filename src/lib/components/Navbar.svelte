@@ -177,19 +177,24 @@
   }
 
   .navbar-wrapper.scrolled {
-    background: var(--nav-bg, rgba(30, 32, 48, 0.08));
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /* Pure floating look - remove full width background */
+    background: transparent;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
   }
 
   .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 0;
-    max-width: 1300px;
+    max-width: 1210px;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 1.25rem 2rem;
+    transition: padding 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+  }
+
+  .navbar-wrapper.scrolled .navbar {
+    padding: 0.75rem 2rem;
   }
 
   .brand {
@@ -224,14 +229,14 @@
   .nav-links {
     display: flex;
     gap: 0.15rem;
-    background: rgba(18, 18, 22, 0.65);
-    backdrop-filter: blur(20px) saturate(180%);
-    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    background: rgba(15, 15, 20, 0.85);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
     padding: 0.35rem;
     border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     box-shadow: 
-      0 12px 30px -10px rgba(0, 0, 0, 0.6),
+      0 10px 40px -10px rgba(0, 0, 0, 0.7),
       inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
     list-style: none;
     margin: 0;

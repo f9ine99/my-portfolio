@@ -223,16 +223,16 @@
 
   .nav-links {
     display: flex;
-    gap: 0.4rem;
-    background: rgba(15, 15, 20, 0.4);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    padding: 0.45rem;
+    gap: 0.15rem;
+    background: rgba(18, 18, 22, 0.65);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 0.35rem;
     border-radius: 100px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.04);
     box-shadow: 
-      0 10px 40px -10px rgba(0, 0, 0, 0.5),
-      inset 0 1px 1px rgba(255, 255, 255, 0.05);
+      0 12px 30px -10px rgba(0, 0, 0, 0.6),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
     list-style: none;
     margin: 0;
   }
@@ -242,17 +242,19 @@
   }
 
   .nav-links a {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 500;
     color: var(--text-primary);
-    opacity: 0.7;
-    padding: 0.55rem 1.4rem;
+    opacity: 0.6;
+    padding: 0.45rem 1.1rem;
     border-radius: 100px;
-    transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
     text-decoration: none;
     white-space: nowrap;
     position: relative;
     border: 1px solid transparent;
+    letter-spacing: 0.02em;
+    font-family: var(--font-mono);
   }
 
   .nav-links a:hover {
@@ -263,24 +265,12 @@
 
   .nav-links a.active {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.07);
+    background: rgba(255, 255, 255, 0.06);
     color: var(--accent-orange);
     font-weight: 600;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  }
-
-  .nav-links a.active::after {
-    content: '';
-    position: absolute;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: var(--accent-orange);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-orange);
+    box-shadow: 
+      0 2px 8px -1px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.03);
   }
 
   .menu-toggle {

@@ -198,6 +198,15 @@
             {project.longDescription}
           </p>
 
+          {#if project.story}
+            <div class="details-section">
+              <h3 class="subsection-heading">The Inspiration</h3>
+              <p class="project-story">
+                {project.story}
+              </p>
+            </div>
+          {/if}
+
           {#if project.features && project.features.length > 0}
             <div class="details-section">
               <h3 class="subsection-heading">Key Features</h3>
@@ -607,6 +616,17 @@
     background: rgba(255, 255, 255, 0.05);
     border-color: rgba(255, 255, 255, 0.1);
     transform: translateY(-2px);
+  }
+
+  .project-story {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    font-style: italic;
+    border-left: 2px solid var(--accent-orange);
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    opacity: 0.9;
   }
 
   .feature-icon {

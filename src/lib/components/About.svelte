@@ -51,6 +51,7 @@
         <span class="divider">★</span>
         <a href="mailto:f9ine99@gmail.com" class="social-item" title="f9ine99@gmail.com">
           <Mail size={18} />
+          <span>Email</span>
         </a>
       </div>
     </div>

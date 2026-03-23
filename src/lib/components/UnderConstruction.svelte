@@ -111,7 +111,7 @@
     font-size: 0.95rem;
   }
 
-  .prompt-icon {
+  :global(.prompt-icon) {
     color: var(--accent-orange);
   }
 

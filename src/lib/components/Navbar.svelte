@@ -7,7 +7,7 @@
     AtSign, Palette, ExternalLink, Moon,
     Github, Linkedin, Instagram, ArrowRight
   } from 'lucide-svelte';
-  import { themeState, applyTheme, setAccentColor, themes, colors } from '$lib/theme.svelte.ts';
+  import { themeState, applyTheme, setAccentColor, themes, colors } from '$lib/theme.svelte';
   import { projects } from '$lib/data/projects';
 
   let isScrolled = $state(false);
@@ -122,7 +122,7 @@
           {#each colors as color}
             <button 
               class="color-circle" 
-              style="background: {color}"
+              style="background: {color}; --glow-color: {color}"
               class:active={themeState.currentAccentColor === color}
               onclick={() => setAccentColor(color)}
               aria-label="Set accent color to {color}"
@@ -152,17 +152,23 @@
         <a href="https://github.com/f9ine99" target="_blank" rel="noopener noreferrer">
           <Github size={18} />
           <span>GitHub</span>
-          <ExternalLink size={14} class="ext-icon" />
+          <span class="ext-icon">
+            <ExternalLink size={14} />
+          </span>
         </a>
         <a href="https://linkedin.com/in/k9ine95" target="_blank" rel="noopener noreferrer">
           <Linkedin size={18} />
           <span>LinkedIn</span>
-          <ExternalLink size={14} class="ext-icon" />
+          <span class="ext-icon">
+            <ExternalLink size={14} />
+          </span>
         </a>
         <a href="https://instagram.com/f9ine99" target="_blank" rel="noopener noreferrer">
           <Instagram size={18} />
           <span>Instagram</span>
-          <ExternalLink size={14} class="ext-icon" />
+          <span class="ext-icon">
+            <ExternalLink size={14} />
+          </span>
         </a>
       </div>
     </div>
@@ -439,10 +445,13 @@
   .color-circle {
     width: 100%;
     aspect-ratio: 1;
-    border-radius: 6px;
+    border-radius: 50%;
+    opacity: 0.7;
     border: 2px solid transparent;
+    outline: 2px solid transparent;
+    outline-offset: 3px;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: transform 0.25s ease, opacity 0.25s ease, outline-color 0.25s ease, box-shadow 0.25s ease;
     -webkit-tap-highlight-color: transparent;
   }
 
@@ -451,8 +460,16 @@
   }
 
   .color-circle.active {
-    border-color: var(--text-primary);
-    transform: scale(1.1);
+    opacity: 1;
+    outline: 2px solid var(--glow-color, currentColor);
+    outline-offset: 3px;
+    box-shadow: 0 0 4px 1px var(--glow-color, currentColor), 0 0 8px 2px var(--glow-color, currentColor);
+    animation: color-glow-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes color-glow-pulse {
+    0%, 100% { box-shadow: 0 0 4px 1px var(--glow-color, currentColor), 0 0 8px 2px var(--glow-color, currentColor); }
+    50% { box-shadow: 0 0 6px 2px var(--glow-color, currentColor), 0 0 12px 4px var(--glow-color, currentColor); }
   }
 
   .effect-toggle {

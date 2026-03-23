@@ -55,7 +55,7 @@
     slug: string;
   }
 
-  let { title, date, description, tags, preview, languages, isPrivate, demoUrl, slug } = $props<Props>();
+  let { title, date, description, tags, preview, languages, isPrivate, demoUrl, slug }: Props = $props();
 
   // Map tag names to proper identity icons
   const getIcon = (tagName: string) => {
@@ -181,8 +181,9 @@
     
     <div class="tags">
       {#each tags as tag}
+        {@const TagIcon = tag.icon || getIcon(tag.name)}
         <div class="tag" style="--tag-color: {tag.color || 'var(--accent-orange)'}">
-          <svelte:component this={tag.icon || getIcon(tag.name)} size={14} />
+          <TagIcon size={14} />
           <span>{tag.name}</span>
         </div>
       {/each}
@@ -196,7 +197,9 @@
           <Globe size={14} />
           <span>Live Demo</span>
         </div>
-        <ExternalLink size={14} class="external-icon" />
+        <span class="external-icon">
+          <ExternalLink size={14} />
+        </span>
       </a>
     {/if}
 </div>
@@ -478,6 +481,7 @@
     color: var(--text-muted);
     margin: 0;
     font-family: var(--font-mono);
+    line-clamp: 3;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;

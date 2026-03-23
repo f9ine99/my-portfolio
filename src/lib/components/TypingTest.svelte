@@ -19,7 +19,17 @@
     "Python, JavaScript, SvelteKit, and Rust are my tools of choice.",
     "Always assume your system is already breached and hunt for threats.",
     "ls -la /root # checking for sensitive files",
-    "ssh -i id_rsa user@remote-host # secure shell access"
+    "ssh -i id_rsa user@remote-host # secure shell access",
+    "kubectl get pods --all-namespaces # checking cluster health",
+    "Real developers ship code that works, great developers ship code that's secure.",
+    "curl -X POST https://api.hamerai.com/v1/analyze -d '{\"data\": \"sensitive\"}'",
+    "The only secure system is one that is powered off and buried in concrete.",
+    "Refactoring legacy code is like urban archaeology, but with more bugs.",
+    "npm install --save-dev @types/security-headers # adding type safety",
+    "Monitor the logs, detect the intrusion, and respond with precision.",
+    "A well-documented API is a love letter to your future self.",
+    "openssl s_client -connect google.com:443 # inspecting SSL certificates",
+    "Every line of code is a potential liability; write it with intent."
   ];
 
   let targetText = $state(sentences[0]);

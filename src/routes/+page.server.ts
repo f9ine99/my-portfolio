@@ -102,7 +102,9 @@ export const load: PageServerLoad = async ({ fetch }) => {
             }
         });
 
-        const results = (await Promise.all(commitPromises)).filter(Boolean);
+        const results = (await Promise.all(commitPromises)).filter(
+            (commit): commit is { repo: string; msg: string; add: number; del: number; date: string } => commit !== null
+        );
 
         // Language stats logic
         const langColors: Record<string, string> = {

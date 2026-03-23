@@ -1,5 +1,5 @@
 <script>
-  import { themeState } from '$lib/theme.svelte.ts';
+  import { themeState } from '$lib/theme.svelte';
   import '../app.css';
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';

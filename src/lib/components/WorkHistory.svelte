@@ -1,6 +1,4 @@
 <script>
-  import { DollarSign } from 'lucide-svelte';
-  
   const history = [
     { name: 'HamerAI', image: '/hamerAI.jpg', current: true },
     { name: 'INSA', image: '/insa-icon.png', current: false },
@@ -12,11 +10,7 @@
 <div class="work-history" id="work">
   {#each history as item, i}
     <div class="item">
-      {#if item.icon}
-        <span class="icon">
-          <svelte:component this={item.icon} size={16} />
-        </span>
-      {:else if item.image}
+      {#if item.image}
         <span class="logo-container">
           <img src={item.image} alt={item.name} class="logo" class:dark-invert={item.invert} />
         </span>
@@ -49,17 +43,6 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    background-color: var(--accent-purple);
-    border-radius: 50%;
-    color: var(--bg-color);
   }
 
   .logo-container {

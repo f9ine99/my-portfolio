@@ -30,6 +30,7 @@
     CheckCircle2,
     Sparkles,
     Cloud,
+    Boxes,
     Triangle,
     Hexagon
   } from 'lucide-svelte';
@@ -618,31 +619,6 @@
     gap: 0.75rem;
   }
 
-  .feature-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1rem;
-  }
-
-  .feature-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    background: var(--subtle-bg);
-    border: 1px solid var(--border-subtle);
-    padding: 1rem 1.25rem;
-    border-radius: 12px;
-    font-size: 0.95rem;
-    color: var(--text-muted);
-    transition: all 0.3s ease;
-  }
-
-  .feature-item:hover {
-    background: var(--overlay-medium);
-    border-color: var(--border-medium);
-    transform: translateY(-2px);
-  }
-
   .project-story {
     font-size: 1.05rem;
     line-height: 1.8;
@@ -652,18 +628,6 @@
     padding-left: 1.5rem;
     margin-top: 0.5rem;
     opacity: 0.9;
-  }
-
-  .feature-icon {
-    color: var(--accent-orange);
-    margin-top: 0.15rem;
-    opacity: 0.8;
-  }
-
-  .tech-icon {
-    color: #5cb3fa;
-    margin-top: 0.15rem;
-    opacity: 0.8;
   }
 
   /* ===== 404 ===== */

@@ -21,15 +21,27 @@
     <div class="content-column">
       <div class="bio-content">
         <p class="bio-text">
-          Hey! I'm {name} (<a href="https://github.com/f9ine99" target="_blank" rel="noopener noreferrer" class="handle">{handle}</a>) — a {role} at <a href="https://hamerai.com" target="_blank" rel="noopener noreferrer" class="link">{company}</a> based out of {location}. I like to make <span class="link accent">secure software</span> when I'm bored.
+          Hey! I’m <span class="link accent">{name}</span> — a {role} at <a href="https://hamerai.com" target="_blank" rel="noopener noreferrer" class="link">{company}</a> with a strong passion for exploring complex systems, solving meaningful problems, and understanding the deeper principles behind how things work.
         </p>
         
         <p class="bio-text">
-          Some of my more notable projects include <a href="https://hamerai.com" target="_blank" rel="noopener noreferrer" class="link">HamerAI</a>, where I lead the development of AI-driven tools for local businesses, and various <span class="link accent">security auditing tools</span> used by government and private entities. My work focuses on backend development, system architecture, and cybersecurity.
+          My interest in technology started early. As a kid, I loved spending time around laptops and tech gadgets, and I was especially inspired by hacking and tech-related movies. That early curiosity eventually grew into a real passion for software engineering and cybersecurity.
         </p>
         
         <p class="bio-text">
-          Outside of software, I enjoy <span class="link accent">cybersecurity research</span>, <span class="link accent">photography</span>, and <span class="link accent">participating in CTFs</span>. I also have a passion for mentoring aspiring developers and exploring new technologies. Feel free to <a href="mailto:f9ine99@gmail.com" class="link">shoot me an email</a> if you'd like to chat.
+          I’m currently a third-year Computer Science student at <span class="link accent">Hope University College</span>, where I’m continuously building my knowledge and sharpening my skills in both development and security.
+        </p>
+
+        <p class="bio-text">
+          Beyond the tech world, I enjoy watching and playing football, and I have a deep interest in religion, ideas, and questions that go beyond the surface.
+        </p>
+
+        <p class="bio-text">
+          A few of the projects I’m especially proud of include <span class="link accent">Impact</span>, <span class="link accent">Furi Cadaster</span>, <span class="link accent">Mufti Dawud Charity</span>, and <span class="link accent">Termus-Melesu (Retra)</span> — each of which reflects my passion for building useful and meaningful digital solutions.
+        </p>
+
+        <p class="bio-text">
+          Feel free to <a href="mailto:f9ine99@gmail.com" class="link">send me an email</a> if you’d like to connect or chat.
         </p>
       </div>
 
@@ -128,16 +140,6 @@
 
   .link.accent {
     border-bottom-style: dotted;
-  }
-
-  .handle {
-    color: var(--accent-blue);
-    text-decoration: none;
-    border-bottom: 1px dotted rgba(138, 173, 244, 0.5);
-  }
-
-  .handle:hover {
-    border-bottom-color: var(--accent-blue);
   }
 
   .social-footer {

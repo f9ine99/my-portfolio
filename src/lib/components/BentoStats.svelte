@@ -20,7 +20,7 @@
     colors, 
     applyTheme, 
     setAccentColor 
-  } from '$lib/theme.svelte.ts';
+  } from '$lib/theme.svelte';
 
   let time = $state('');
 
@@ -84,7 +84,7 @@
         {#each colors as color}
           <button 
             class="color-circle {themeState.currentAccentColor === color ? 'active' : ''}" 
-            style="background: {color}"
+            style="background: {color}; --glow-color: {color}"
             onclick={() => setAccentColor(color)}
             aria-label="Set accent color to {color}"
           ></button>
@@ -166,7 +166,7 @@
         </div>
       </div>
       <div class="commits-footer">
-        <a href="https://github.com/f9ine99" target="_blank" class="github-link">
+        <a href="https://github.com/f9ine99" target="_blank" rel="noopener noreferrer" class="github-link">
           View on GitHub <ExternalLink size={14} />
         </a>
         <div class="lang-bar-wrapper">
@@ -254,10 +254,7 @@
     width: 100%;
   }
 
-  .card-header.right { justify-content: flex-end; }
-
-  .header-icon { color: var(--accent-orange); }
-  .info-icon { color: var(--text-muted); opacity: 0.5; cursor: pointer; }
+  :global(.header-icon) { color: var(--accent-orange); }
   .header-tag { margin-left: auto; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); opacity: 0.7; }
 
   h3 { font-size: 1rem; margin: 0; color: var(--text-primary); font-weight: 500; }
@@ -286,21 +283,28 @@
   .color-circle {
     width: 100%;
     aspect-ratio: 1;
-    border-radius: 6px;
-    opacity: 0.8;
-    border: none;
+    border-radius: 50%;
+    opacity: 0.7;
+    border: 2px solid transparent;
+    outline: 2px solid transparent;
+    outline-offset: 3px;
     cursor: pointer;
-    transition: transform 0.2s, opacity 0.2s;
+    transition: transform 0.25s ease, opacity 0.25s ease, outline-color 0.25s ease, box-shadow 0.25s ease;
   }
 
-  .color-circle:hover { transform: scale(1.1); opacity: 1; }
+  .color-circle:hover { opacity: 1; }
   
   .color-circle.active {
-    outline: 2px solid var(--text-primary);
-    outline-offset: 2px;
     opacity: 1;
-    transform: scale(1.1);
-    box-shadow: 0 0 10px var(--accent-orange);
+    outline: 2px solid var(--glow-color, currentColor);
+    outline-offset: 3px;
+    box-shadow: 0 0 4px 1px var(--glow-color, currentColor), 0 0 8px 2px var(--glow-color, currentColor);
+    animation: color-glow-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes color-glow-pulse {
+    0%, 100% { box-shadow: 0 0 4px 1px var(--glow-color, currentColor), 0 0 8px 2px var(--glow-color, currentColor); }
+    50% { box-shadow: 0 0 6px 2px var(--glow-color, currentColor), 0 0 12px 4px var(--glow-color, currentColor); }
   }
 
   .toggle { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.85rem; color: var(--text-primary); }
@@ -308,8 +312,6 @@
   .checkmark { width: 18px; height: 18px; background: var(--card-bg-elevated); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; position: relative; }
   .toggle input:checked + .checkmark { background: var(--accent-orange); border-color: var(--accent-orange); }
   .toggle input:checked + .checkmark::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000; font-size: 10px; }
-
-  .card-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.6; }
   
   .map-container { 
     height: 200px; 
@@ -322,12 +324,6 @@
 
   .location-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; margin-top: -0.5rem; color: var(--text-muted); }
   .local-time { display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary); }
-
-  .counter-display { text-align: center; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; gap: 0.5rem; }
-  .count { font-size: 2.5rem; font-weight: 700; color: var(--text-primary); font-family: var(--font-mono); }
-  .click-btn { background: #dce0e8; color: #1e2030; width: 60%; margin: 0 auto; }
-  .click-btn:hover { background: var(--accent-orange); }
-  .local-stats { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); }
 
   .commits-container {
     background: var(--bg-color);
@@ -401,9 +397,7 @@
     100% { opacity: 0.3; }
   }
 
-  .action-btn:active { transform: scale(0.95); }
-
-  .animate-spin { animation: spin 1s linear infinite; }
+  :global(.animate-spin) { animation: spin 1s linear infinite; }
   @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
   @media (max-width: 1200px) {
@@ -415,7 +409,6 @@
     .bento-grid { grid-template-columns: 1fr; }
     .commits-card { grid-column: span 1; }
     .theme-options { grid-template-columns: repeat(2, 1fr); }
-    .count { font-size: 2rem; }
 
     .commit-item {
       flex-direction: column;
@@ -426,6 +419,7 @@
     .commit-msg {
       overflow: hidden;
       text-overflow: ellipsis;
+      line-clamp: 2;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;

@@ -6,15 +6,29 @@
   // @ts-ignore
   let commitHash = typeof __COMMIT_HASH__ !== 'undefined' ? __COMMIT_HASH__ : 'dev';
 
+  let isOnline = $state(true);
+
   function updateTime() {
     const now = new Date();
     time = now.toLocaleTimeString([], { hour12: false });
   }
 
+  function updateStatus() {
+    isOnline = navigator.onLine;
+  }
+
   onMount(() => {
     updateTime();
+    updateStatus();
     const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener('online', updateStatus);
+      window.removeEventListener('offline', updateStatus);
+    };
   });
 </script>
 
@@ -23,9 +37,9 @@
     <div class="left-section">
       <span class="copyright">© 2026 Firaol Gemeda</span>
       <span class="separator">-</span>
-      <div class="status">
+      <div class="status" class:offline={!isOnline}>
         <span class="status-dot"></span>
-        <span class="status-text">All Systems Nominal</span>
+        <span class="status-text">{isOnline ? 'All Systems Nominal' : 'Connection Interrupted'}</span>
       </div>
     </div>
 
@@ -35,9 +49,6 @@
           <Monitor size={12} />
           {time}
         </span>
-        <span class="separator">-</span>
-        <span class="views">infinite views</span>
-        <span class="separator">-</span>
         <a 
           href="https://github.com/f9ine99/my-portfolio/commit/{commitHash}" 
           target="_blank" 
@@ -116,6 +127,18 @@
     background: #4ade80;
     border-radius: 50%;
     box-shadow: 0 0 8px rgba(74, 222, 128, 0.4);
+    animation: pulse 2.5s ease-in-out infinite;
+  }
+
+  .status.offline .status-dot {
+    background: #ff5f56;
+    box-shadow: 0 0 8px rgba(255, 95, 86, 0.4);
+    animation: none;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
   }
 
   .stats {
@@ -155,14 +178,25 @@
   @media (max-width: 900px) {
     .footer-content {
       flex-direction: column;
-      gap: 1rem;
-      padding: 1.5rem;
+      gap: 1.25rem;
+      padding: 2.5rem 1.5rem;
       text-align: center;
+      min-height: auto;
     }
     
+    .separator {
+      display: none;
+    }
+
     .left-section, .right-section, .stats {
-      flex-wrap: wrap;
-      justify-content: center;
+      flex-direction: column;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .footer-socials {
+      margin-top: 0.5rem;
+      gap: 0.75rem;
     }
   }
 </style>

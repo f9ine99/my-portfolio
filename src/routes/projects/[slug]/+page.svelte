@@ -708,7 +708,7 @@
   /* ===== Responsive: Tablet ===== */
   @media (max-width: 768px) {
     .project-detail {
-      padding: 11rem 1.25rem 6rem;
+      padding: 9.5rem 1.25rem 6rem;
     }
 
     .terminal-card {
@@ -763,7 +763,7 @@
   /* ===== Responsive: Mobile ===== */
   @media (max-width: 480px) {
     .project-detail {
-      padding: 4.5rem 1rem 5rem;
+      padding: 9.5rem 1rem 5rem;
     }
 
     .back-link {

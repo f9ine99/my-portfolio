@@ -8,17 +8,24 @@
     Github, Linkedin, Instagram, ArrowRight
   } from 'lucide-svelte';
   import { themeState, applyTheme, setAccentColor, themes, colors } from '$lib/theme.svelte.ts';
+  import { projects } from '$lib/data/projects';
 
   let isScrolled = $state(false);
   let isDrawerOpen = $state(false);
 
   let currentPath = $derived.by(() => {
-    const routeId = page.route.id;
-    if (routeId === '/') {
-      return 'Home/Firaol';
-    }
-    const name = routeId ? routeId.replace(/^\//, '') : 'Home/Firaol';
-    return name.charAt(0).toUpperCase() + name.slice(1);
+    const path = page.url.pathname;
+    if (path === '/') return 'Home/Firaol';
+    
+    return path
+      .split('/')
+      .filter(Boolean)
+      .map(part => {
+        const project = projects.find(p => p.slug === part);
+        const name = project ? project.title : part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' ');
+        return name.length > 12 ? name.slice(0, 10) + '..' : name;
+      })
+      .join('/');
   });
 
   function toggleDrawer() {
@@ -230,6 +237,9 @@
     color: var(--accent-orange);
     white-space: nowrap;
     letter-spacing: -0.01em;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .cursor {

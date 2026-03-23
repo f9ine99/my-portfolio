@@ -43,7 +43,7 @@
     margin-bottom: 1rem;
   }
 
-  .header-icon {
+  :global(.header-icon) {
     color: var(--accent-orange);
   }
 

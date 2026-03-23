@@ -254,9 +254,6 @@
     margin: 0 auto;
     padding: 10rem 2rem 5rem;
     position: relative;
-    z-index: 10;
-  }
-  margin: 0 auto;
   }
 
   /* ===== Back Link ===== */

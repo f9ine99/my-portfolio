@@ -99,7 +99,7 @@
   .error-500 .orb-2 { background: var(--accent-orange); }
   .error-500 .orb-3 { background: var(--accent-red); opacity: 0.1; }
   .error-500 .glitch { text-shadow: 2px 0 var(--accent-orange), -2px 0 var(--accent-purple); }
-  .error-500 .error-icon { color: var(--accent-red); }
+  .error-500 :global(.error-icon) { color: var(--accent-red); }
 
   @keyframes float {
     0% { transform: translate(0, 0) scale(1); }

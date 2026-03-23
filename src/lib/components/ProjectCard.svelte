@@ -336,28 +336,6 @@
     font-family: var(--font-mono);
   }
 
-  .ai-summary-btn {
-    margin-left: auto;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0.25rem;
-    border-radius: 6px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.6;
-    z-index: 10;
-  }
-
-  .ai-summary-btn:hover {
-    color: var(--accent-orange);
-    background: rgba(255, 158, 100, 0.1);
-    opacity: 1;
-    transform: scale(1.1);
-  }
 
   .terminal-body {
     padding: 1.25rem;

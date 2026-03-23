@@ -51,7 +51,7 @@
 <div class="navbar-wrapper" class:scrolled={isScrolled}>
   <div class="navbar">
     <a href="/" class="brand" onclick={closeDrawer}>
-      <span class="prompt">~/Home/Firaol</span>
+      <span class="prompt">~/{currentPath}</span>
       <div class="cursor"></div>
     </a>
 

@@ -164,11 +164,6 @@
       <div class="info-section" in:fly={{ y: 30, duration: 600, delay: 200, easing: backOut }}>
         <div class="title-row">
           <h1 class="project-title">{project.title}</h1>
-          <button class="ai-summary-pill" onclick={(e) => { e.preventDefault(); }}>
-            <Sparkles size={14} />
-            <span>AI Summary</span>
-            <div class="glow-effect"></div>
-          </button>
         </div>
         
         <div class="meta-row">
@@ -295,28 +290,6 @@
     box-shadow: 0 16px 48px var(--shadow-medium);
   }
 
-  .ai-summary-btn-terminal {
-    margin-left: auto;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 0.35rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0.7;
-    z-index: 10;
-  }
-
-  .ai-summary-btn-terminal:hover {
-    color: var(--accent-orange);
-    background: rgba(var(--accent-orange-rgb, 255, 158, 100), 0.1);
-    opacity: 1;
-    transform: scale(1.1) rotate(5deg);
-  }
 
   .terminal-preview {
     background: var(--terminal-bg);
@@ -488,51 +461,6 @@
     flex-wrap: wrap;
   }
 
-  .ai-summary-pill {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.61rem 1.25rem;
-    background: rgba(var(--accent-orange-rgb, 255, 158, 100), 0.08);
-    border: 1px solid rgba(var(--accent-orange-rgb, 255, 158, 100), 0.2);
-    border-radius: 100px;
-    color: var(--accent-orange);
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow: hidden;
-    font-family: var(--font-mono);
-  }
-
-  .ai-summary-pill:hover {
-    background: var(--accent-orange);
-    color: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px -5px rgba(255, 158, 100, 0.4);
-    border-color: transparent;
-  }
-
-  .glow-effect {
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, 0.2),
-      transparent
-    );
-    transition: 0.5s;
-  }
-
-  .ai-summary-pill:hover .glow-effect {
-    left: 100%;
-    transition: 0.6s;
-  }
 
   .meta-row {
     display: flex;
@@ -780,7 +708,7 @@
   /* ===== Responsive: Tablet ===== */
   @media (max-width: 768px) {
     .project-detail {
-      padding: 5rem 1.25rem 6rem;
+      padding: 11rem 1.25rem 6rem;
     }
 
     .terminal-card {

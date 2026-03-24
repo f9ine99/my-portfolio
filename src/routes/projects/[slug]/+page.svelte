@@ -129,11 +129,14 @@
               {#if project.preview.contributors}
                 <div class="contributors">
                   <div class="avatar-stack">
-                    {#each project.preview.contributors as avatar}
-                      <img src={avatar} alt="Contributor" class="avatar" />
+                    {#each project.preview.contributors as contributor}
+                      <div class="avatar-wrapper">
+                        <img src={contributor.avatar} alt={contributor.name} class="avatar" />
+                        <div class="avatar-tooltip">{contributor.name}</div>
+                      </div>
                     {/each}
                   </div>
-                  <span class="ctb-text">{project.preview.contributors.length} Contributors</span>
+                  <span class="ctb-text">{project.preview.contributors.length} {project.preview.contributors.length === 1 ? 'Contributor' : 'Contributors'}</span>
                 </div>
               {/if}
 
@@ -183,8 +186,9 @@
         <!-- Tags -->
         <div class="tags" in:fade={{ delay: 350, duration: 400 }}>
           {#each project.tags as tag, i}
+            {@const Icon = getIcon(tag.name)}
             <div class="tag" style="--tag-color: {tag.color || 'var(--accent-orange)'}">
-              <svelte:component this={getIcon(tag.name)} size={12} />
+              <Icon size={12} />
               <span>{tag.name}</span>
             </div>
           {/each}
@@ -365,25 +369,85 @@
     gap: 0.75rem;
   }
 
-  .avatar-stack { display: flex; }
-
-  .avatar {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 2px solid rgba(0, 0, 0, 0.4);
-    margin-left: -8px;
-    transition: transform 0.2s ease;
+  .avatar-stack { 
+    display: flex; 
+    padding-left: 4px;
   }
 
-  .avatar:first-child { margin-left: 0; }
-  .avatar:hover { transform: scale(1.15); z-index: 2; }
+  .avatar-wrapper {
+    margin-left: -14px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .avatar-wrapper:first-child {
+    margin-left: 0;
+  }
+
+  .avatar-wrapper:hover {
+    z-index: 10;
+    transform: translateY(-10px) scale(1.1);
+    margin-right: 12px;
+    margin-left: 6px;
+  }
+
+  .avatar-wrapper:hover .avatar-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-18px);
+    pointer-events: auto;
+  }
+
+  .avatar-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: rgba(13, 13, 15, 0.95);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--accent-orange);
+    color: var(--accent-orange);
+    padding: 0.6rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 50;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(255, 158, 100, 0.25);
+  }
+
+  /* Triangle for tooltip */
+  .avatar-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 7px;
+    border-style: solid;
+    border-color: var(--accent-orange) transparent transparent transparent;
+  }
+
+  .avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--terminal-bg);
+    display: block;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  }
 
   .ctb-text {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
     font-family: var(--font-mono);
-    opacity: 0.7;
+    opacity: 0.8;
+    margin-left: 0.5rem;
   }
 
   /* ===== Language Bar ===== */

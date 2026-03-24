@@ -30,6 +30,7 @@
     Triangle,
     Hexagon
   } from 'lucide-svelte';
+  import { type Contributor } from '$lib/data/projects';
   import { fade } from 'svelte/transition';
 
   interface Tag {
@@ -47,7 +48,7 @@
       repo: string;
       description: string;
       stars?: number;
-      contributors?: string[];
+      contributors?: Contributor[];
     };
     languages?: { name: string; color: string; percentage: number }[];
     isPrivate?: boolean;
@@ -142,11 +143,14 @@
       {#if preview.contributors}
         <div class="contributors">
           <div class="avatar-stack">
-            {#each preview.contributors as avatar}
-              <img src={avatar} alt="Contributor" class="mini-avatar" />
+            {#each preview.contributors as contributor}
+              <div class="avatar-wrapper">
+                <img src={contributor.avatar} alt={contributor.name} class="mini-avatar" />
+                <div class="avatar-tooltip">{contributor.name}</div>
+              </div>
             {/each}
           </div>
-          <span class="ctb-count">{preview.contributors.length} Contributors</span>
+          <span class="ctb-count">{preview.contributors.length} {preview.contributors.length === 1 ? 'Contributor' : 'Contributors'}</span>
         </div>
       {/if}
 
@@ -374,20 +378,82 @@
   .avatar-stack {
     display: flex;
     align-items: center;
+    padding-left: 5px;
+  }
+
+  .avatar-wrapper {
+    margin-left: -12px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .avatar-wrapper:hover {
+    z-index: 10;
+    transform: translateY(-8px) scale(1.15);
+    margin-right: 8px;
+    margin-left: 4px;
+  }
+
+  .avatar-wrapper:first-child {
+    margin-left: 0;
+  }
+
+  .avatar-wrapper:hover .avatar-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(-15px);
+    pointer-events: auto;
+  }
+
+  .avatar-tooltip {
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    background: rgba(13, 13, 15, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--accent-orange);
+    color: var(--accent-orange);
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 50;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 158, 100, 0.2);
+  }
+
+  /* Triangle for tooltip */
+  .avatar-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--accent-orange) transparent transparent transparent;
   }
 
   .mini-avatar {
-    width: 20px;
-    height: 20px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border: 2px solid var(--terminal-bg);
-    margin-right: -6px;
+    display: block;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
   .ctb-count {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     color: var(--text-muted);
-    opacity: 0.7;
+    opacity: 0.8;
+    margin-left: 0.5rem;
   }
 
   /* GitHub-style Language Bar */

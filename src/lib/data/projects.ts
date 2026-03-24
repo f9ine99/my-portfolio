@@ -19,6 +19,11 @@ export interface Language {
     percentage: number;
 }
 
+export interface Contributor {
+    name: string;
+    avatar: string;
+}
+
 export interface Project {
     slug: string;
     title: string;
@@ -33,7 +38,7 @@ export interface Project {
         repo: string;
         description: string;
         stars?: number;
-        contributors?: string[];
+        contributors?: Contributor[];
     };
     languages?: Language[];
     isPrivate?: boolean;
@@ -79,7 +84,12 @@ export const projects: Project[] = [
             repo: "impact",
             description: "A unified hub for investors, startups, and advisors built with NestJS and Next.js",
             stars: 0,
-            contributors: ["/firaol.jpg", "https://github.com/RasAbrish.png", "https://github.com/amegi123.png", "https://github.com/github.png"]
+            contributors: [
+                { name: "Firaol", avatar: "/firaol.jpg" },
+                { name: "Abrham", avatar: "https://github.com/RasAbrish.png" },
+                { name: "Amanuel", avatar: "https://github.com/amegi123.png" },
+                { name: "GitHub Contributor", avatar: "https://github.com/github.png" }
+            ]
         },
         isPrivate: true,
         githubUrl: "https://github.com/f9ine99/impact"
@@ -114,7 +124,7 @@ export const projects: Project[] = [
             repo: "Furi-Cadaster",
             description: "Office management and land identification kart system",
             stars: 0,
-            contributors: ["/firaol.jpg"]
+            contributors: [{ name: "Firaol", avatar: "/firaol.jpg" }]
         },
         isPrivate: true,
         languages: [
@@ -154,7 +164,7 @@ export const projects: Project[] = [
             repo: "termus-melesu",
             description: "Digital notebook for retailers to track glass bottle circulation",
             stars: 1,
-            contributors: ["/firaol.jpg"]
+            contributors: [{ name: "Firaol", avatar: "/firaol.jpg" }]
         },
         languages: [
             { name: "TypeScript", color: "#3178c6", percentage: 68.5 },
@@ -194,7 +204,10 @@ export const projects: Project[] = [
             repo: "mufti-dawud-charity",
             description: "A transparent and accountable donation system for charity",
             stars: 1,
-            contributors: ["/firaol.jpg", "https://github.com/khadijahm12k-creator.png"]
+            contributors: [
+                { name: "Firaol", avatar: "/firaol.jpg" },
+                { name: "Khadija", avatar: "https://github.com/khadijahm12k-creator.png" }
+            ]
         },
         languages: [
             { name: "TypeScript", color: "#3178c6", percentage: 45.3 },
@@ -232,7 +245,7 @@ export const projects: Project[] = [
             repo: "my-portfolio",
             description: "Premium, terminal-inspired portfolio website",
             stars: 0,
-            contributors: ["/firaol.jpg"]
+            contributors: [{ name: "Firaol", avatar: "/firaol.jpg" }]
         },
         languages: [
             { name: "Svelte", color: "#ff3e00", percentage: 52.4 },
@@ -270,7 +283,10 @@ export const projects: Project[] = [
             repo: "Detectify",
             description: "Website defacement monitoring system (INSA Colab)",
             stars: 0,
-            contributors: ["/firaol.jpg", "https://github.com/github.png"]
+            contributors: [
+                { name: "Firaol", avatar: "/firaol.jpg" },
+                { name: "GitHub Contributor", avatar: "https://github.com/github.png" }
+            ]
         },
         languages: [
             { name: "Python", color: "#3572A5", percentage: 82.6 },
@@ -278,41 +294,6 @@ export const projects: Project[] = [
             { name: "Dockerfile", color: "#384d54", percentage: 6.0 }
         ],
         githubUrl: "https://github.com/f9ine99/Detectify"
-    },
-    {
-        slug: "xor-encryptor",
-        title: "XOR Text Encryptor",
-        date: "December 28, 2025",
-        description: "XOR-based text encryption and decryption implemented in x86 Assembly for EMU8086 programs, focusing on low-level security concepts.",
-        longDescription: "This project is an exploration into low-level programming and fundamental cryptography. Implemented in x86 Assembly for the EMU8086 micro-environment, it provides a functional XOR-based encryption and decryption tool. The project focuses on efficient register usage, direct memory manipulation, and the core logic of bitwise operations in security applications.",
-        features: [
-            "Symmetric XOR-based text encryption and decryption",
-            "Direct user input handling via DOS interrupts",
-            "Original text restoration with bitwise logic",
-            "Designed and optimized for EMU8086 environment"
-        ],
-        technicalHighlights: [
-            "Pure x86 Assembly implementation",
-            "Low-level string manipulation and buffer management",
-            "Efficient register-based character processing",
-            "Utilizes DOS 21h and BIOS 16h interrupts"
-        ],
-        tags: [
-            { name: "Assembly", color: "#6E4C13" },
-            { name: "x86", color: "#bb9af7" },
-            { name: "Security", color: "#f7768e" },
-            { name: "Low-level", color: "#ff9e64" }
-        ],
-        preview: {
-            repo: "xor-text-encryptor-asm",
-            description: "XOR-based text encryption/decryption in x86 Assembly",
-            stars: 0,
-            contributors: ["/firaol.jpg"]
-        },
-        languages: [
-            { name: "Assembly", color: "#6E4C13", percentage: 100 }
-        ],
-        githubUrl: "https://github.com/f9ine99/xor-text-encryptor-asm"
     }
 ];
 

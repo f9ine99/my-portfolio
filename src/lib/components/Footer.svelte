@@ -67,18 +67,18 @@
       
       <div class="footer-socials">
         <a href="https://github.com/f9ine99" target="_blank" rel="noopener noreferrer" title="GitHub">
-          <Github size={16} />
+          <Github size={20} />
         </a>
         <a href="https://linkedin.com/in/k9ine95" target="_blank" rel="noopener noreferrer" title="LinkedIn">
-          <Linkedin size={16} />
+          <Linkedin size={20} />
         </a>
         <a href="https://x.com/k9ineP" target="_blank" rel="noopener noreferrer" title="X">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
             <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153ZM17.61 20.644h2.039L6.486 3.24H4.298L17.61 20.644Z" />
           </svg>
         </a>
         <a href="https://instagram.com/f9ine99" target="_blank" rel="noopener noreferrer" title="Instagram">
-          <Instagram size={16} />
+          <Instagram size={20} />
         </a>
       </div>
     </div>
@@ -96,9 +96,10 @@
 
   .footer-content {
     background: var(--card-bg);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 0 2rem;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border-subtle);
+    border-radius: 12px;
+    padding: 0 2.5rem;
     min-height: 3.8rem;
     width: 95%;
     max-width: 1200px;
@@ -118,7 +119,8 @@
   }
 
   .separator {
-    opacity: 0.3;
+    opacity: 0.4;
+    color: var(--text-muted);
   }
 
   .status-dot {
@@ -145,7 +147,7 @@
     gap: 1.25rem;
   }
 
-  .time, .commit {
+  .status-text, .copyright, .time, .commit {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -159,20 +161,21 @@
 
   .footer-socials a {
     color: var(--text-muted);
-    transition: all 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.02);
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: var(--subtle-bg);
   }
 
   .footer-socials a:hover {
     color: var(--accent-orange);
-    background: rgba(255, 158, 100, 0.1);
-    transform: translateY(-2px);
+    background: var(--nav-active-bg);
+    transform: translateY(-2.5px);
+    box-shadow: 0 4px 12px var(--shadow-medium);
   }
 
   @media (max-width: 900px) {

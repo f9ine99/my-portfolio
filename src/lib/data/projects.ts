@@ -140,7 +140,7 @@ export const projects: Project[] = [
         date: "January 04, 2026",
         description: "A digital notebook for small shops to track glass bottle circulation and credit. Features PWA support, offline sync, and AI-powered business analytics via Groq.",
         longDescription: "Termus Melesu (ጠርሙስ መልሱ) is a sophisticated digital solution tailored for small Ethiopian retailers. It addresses the unique challenge of tracking glass bottle circulation, which represents a significant asset for these businesses. The platform offers a Progressive Web App (PWA) experience, ensuring it works seamlessly on mobile devices with offline capabilities for areas with intermittent connectivity. Beyond simple tracking, it provides actionable insights through AI-powered analytics, helping shop owners optimize their inventory and financial health.",
-        story: "The Termus Melesu project was inspired by my mother’s retail shop. Previously, bottles were given to customers based on trust, without a proper tracking system. As a result, many borrowed bottles were not returned, and some records were forgotten, which caused financial loss and operational difficulties for the business. And it's open source too!",
+        story: "The Termus Melesu project was inspired by my mother’s retail shop. Previously, bottles were given to customers based on trust, without a proper tracking system. As a result, many borrowed bottles were not returned, and some records were forgotten, which caused financial loss and operational difficulties for the business.",
         features: [
             "Installable PWA with offline-ready capabilities",
             "AI-Powered Business Summaries via Groq AI",

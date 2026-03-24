@@ -29,7 +29,8 @@
     "Monitor the logs, detect the intrusion, and respond with precision.",
     "A well-documented API is a love letter to your future self.",
     "openssl s_client -connect google.com:443 # inspecting SSL certificates",
-    "Every line of code is a potential liability; write it with intent."
+    "Every line of code is a potential liability; write it with intent.",
+    "svelte-check found 0 errors and 0 warnings"
   ];
 
   let targetText = $state(sentences[0]);

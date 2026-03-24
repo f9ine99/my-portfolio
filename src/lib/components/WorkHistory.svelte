@@ -1,28 +1,29 @@
 <script>
   const history = [
-    { name: 'HamerAI', image: '/hamerAI.jpg', current: true },
-    { name: 'INSA', image: '/insa-icon.png', current: false },
-    { name: 'Alx Ethiopia', image: '/alx-pic.webp', current: false, invert: true }
+    { name: 'HamerAI', image: '/hamerAI.jpg', current: true, link: 'https://ethiohamerai.com' },
+    { name: 'INSA', image: '/insa-icon.png', current: false, link: 'https://www.insa.gov.et/' },
+    { name: 'Alx Ethiopia', image: '/alx-pic.webp', current: false, invert: true, link: 'https://www.alxafrica.com/' }
   ];
 
 </script>
 
 <div class="work-history" id="work">
   {#each history as item, i}
-    <div class="item">
-      {#if item.image}
-        <span class="logo-container">
-          <img src={item.image} alt={item.name} class="logo" class:dark-invert={item.invert} />
+    <a href={item.link} target="_blank" rel="noopener noreferrer" class="item-link">
+      <div class="item">
+        {#if item.image}
+          <span class="logo-container">
+            <img src={item.image} alt={item.name} class="logo" class:dark-invert={item.invert} />
+          </span>
+        {/if}
+        <span class="name {item.current ? 'current' : 'past'}">
+          {item.name}
         </span>
-
-      {/if}
-      <span class="name {item.current ? 'current' : 'past'}">
-        {item.name}
-      </span>
-      {#if !item.current}
-        <span class="status">(Past)</span>
-      {/if}
-    </div>
+        {#if !item.current}
+          <span class="status">(Past)</span>
+        {/if}
+      </div>
+    </a>
     {#if i < history.length - 1}
       <div class="slash">/</div>
     {/if}
@@ -37,6 +38,20 @@
     margin: 1rem auto 2.5rem auto;
     flex-wrap: wrap;
     max-width: 1000px;
+  }
+
+  .item-link {
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease;
+  }
+
+  .item-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .item-link:hover .name {
+    color: var(--accent-orange);
   }
 
   .item {

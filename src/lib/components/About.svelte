@@ -21,7 +21,7 @@
     <div class="content-column">
       <div class="bio-content">
         <p class="bio-text">
-          Hey! I’m <span class="link accent">{name}</span> — a {role} at <a href="https://hamerai.com" target="_blank" rel="noopener noreferrer" class="link">{company}</a> with a strong passion for exploring complex systems, solving meaningful problems, and understanding the deeper principles behind how things work.
+          Hey! I’m <span class="link accent">{name}</span> — a {role} at <a href="https://ethiohamerai.com" target="_blank" rel="noopener noreferrer" class="link">{company}</a> with a strong passion for exploring complex systems, solving meaningful problems, and understanding the deeper principles behind how things work.
         </p>
         
         <p class="bio-text">

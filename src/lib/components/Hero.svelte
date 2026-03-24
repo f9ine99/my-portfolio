@@ -41,8 +41,9 @@
       class="avatar-container" 
       onmouseenter={handleEnter}
       onmouseleave={handleLeave}
-      ontouchstart={(e) => { e.preventDefault(); handleEnter(); }}
+      ontouchstart={handleEnter}
       ontouchend={handleLeave}
+      ontouchcancel={handleLeave}
       role="button"
       tabindex="0"
     >
@@ -102,7 +103,7 @@
     flex-direction: column;
     gap: 2rem;
     margin-bottom: 4rem;
-    padding-top: 10rem;
+    padding-top: 11rem;
   }
 
   .profile-row {
@@ -118,6 +119,20 @@
     position: relative;
     cursor: pointer;
     flex-shrink: 0;
+    border-radius: 50%;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+    transition: transform 0.15s ease;
+  }
+
+  .avatar-container:focus {
+    outline: none;
+  }
+
+  .avatar-container:focus-visible .image-wrapper {
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 0 4px rgba(245, 169, 127, 0.25);
   }
 
   .circle-svg {
@@ -157,6 +172,7 @@
     border: 2px solid var(--selection-bg);
     background: var(--bg-color);
     z-index: 5;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
   }
 
   .avatar {
@@ -168,6 +184,15 @@
 
   .avatar-container:hover .avatar {
     transform: scale(1.05);
+  }
+
+  .avatar-container:active {
+    transform: scale(0.98);
+  }
+
+  .avatar-container:active .image-wrapper {
+    border-color: var(--accent-orange);
+    box-shadow: 0 0 0 4px rgba(245, 169, 127, 0.18);
   }
 
   .sunglasses {
@@ -298,11 +323,21 @@
     }
 
     .hero {
-      padding-top: 7rem;
+      padding-top: 8rem;
     }
     
     .bio {
       font-size: 1rem;
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .avatar-container:hover .avatar {
+      transform: none;
+    }
+
+    .avatar-container:active {
+      transform: scale(0.96);
     }
   }
 </style>

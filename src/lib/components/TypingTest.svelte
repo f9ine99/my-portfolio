@@ -22,7 +22,7 @@
     "ssh -i id_rsa user@remote-host # secure shell access",
     "kubectl get pods --all-namespaces # checking cluster health",
     "Real developers ship code that works, great developers ship code that's secure.",
-    "curl -X POST https://api.hamerai.com/v1/analyze -d '{\"data\": \"sensitive\"}'",
+    "curl -X POST https://api.example.com/v1/analyze -d '{\"data\": \"sensitive\"}'",
     "The only secure system is one that is powered off and buried in concrete.",
     "Refactoring legacy code is like urban archaeology, but with more bugs.",
     "npm install --save-dev @types/security-headers # adding type safety",
@@ -30,7 +30,10 @@
     "A well-documented API is a love letter to your future self.",
     "openssl s_client -connect google.com:443 # inspecting SSL certificates",
     "Every line of code is a potential liability; write it with intent.",
-    "svelte-check found 0 errors and 0 warnings"
+    "svelte-check found 0 errors and 0 warnings",
+    "ollama run llama3 # running local large language models",
+    "sudo apt update && sudo apt upgrade # keeping the system fresh",
+    "npm run lint && npm run check # ensuring code quality and type safety"
   ];
 
   let targetText = $state(sentences[0]);

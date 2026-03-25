@@ -80,9 +80,43 @@ export function applyTheme(themeName: string) {
             document.documentElement.style.setProperty(key, value);
         });
     }
+    savePreferences();
 }
 
 export function setAccentColor(color: string) {
     themeState.currentAccentColor = color;
     document.documentElement.style.setProperty('--accent-orange', color);
+    savePreferences();
+}
+
+export function setBgEffect(value: boolean) {
+    themeState.bgEffect = value;
+    savePreferences();
+}
+
+function savePreferences() {
+    try {
+        localStorage.setItem('theme-prefs', JSON.stringify({
+            theme: themeState.currentTheme,
+            accent: themeState.currentAccentColor,
+            bgEffect: themeState.bgEffect
+        }));
+    } catch { /* ignore */ }
+}
+
+export function loadSavedTheme() {
+    try {
+        const saved = localStorage.getItem('theme-prefs');
+        if (!saved) return;
+        const prefs = JSON.parse(saved);
+        if (prefs.theme && themePalettes[prefs.theme]) {
+            applyTheme(prefs.theme);
+        }
+        if (prefs.accent) {
+            setAccentColor(prefs.accent);
+        }
+        if (typeof prefs.bgEffect === 'boolean') {
+            themeState.bgEffect = prefs.bgEffect;
+        }
+    } catch { /* ignore */ }
 }

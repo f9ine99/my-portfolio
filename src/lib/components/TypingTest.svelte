@@ -4,36 +4,36 @@
   import { fade } from 'svelte/transition';
 
   const sentences = [
-    "Secure the perimeter, patch the vulnerabilities, and deploy to production.",
-    "git commit -m 'Fixed critical buffer overflow in auth module'",
-    "chmod +x exploit.sh && ./exploit.sh --target internal-api",
-    "Writing clean, scalable code is the first step to a secure system.",
-    "sudo apt-get update && sudo apt-get upgrade -y # stay patched",
-    "SELECT * FROM users WHERE access_level = 'admin' -- SQLi attempt",
-    "nmap -sV -p- 192.168.1.1 # discovery in progress",
-    "The best way to predict the future is to implement it.",
-    "Zero trust is not a product, it's a mindset for modern security.",
-    "Decrypting the payload, bypassing the firewall, and gaining root access.",
-    "docker-compose up -d --build # building the infrastructure",
-    "A bug is not a bug, it's an undocumented feature in wait.",
-    "Python, JavaScript, SvelteKit, and Rust are my tools of choice.",
-    "Always assume your system is already breached and hunt for threats.",
-    "ls -la /root # checking for sensitive files",
-    "ssh -i id_rsa user@remote-host # secure shell access",
-    "kubectl get pods --all-namespaces # checking cluster health",
-    "Real developers ship code that works, great developers ship code that's secure.",
-    "curl -X POST https://api.example.com/v1/analyze -d '{\"data\": \"sensitive\"}'",
-    "The only secure system is one that is powered off and buried in concrete.",
-    "Refactoring legacy code is like urban archaeology, but with more bugs.",
-    "npm install --save-dev @types/security-headers # adding type safety",
-    "Monitor the logs, detect the intrusion, and respond with precision.",
-    "A well-documented API is a love letter to your future self.",
-    "openssl s_client -connect google.com:443 # inspecting SSL certificates",
-    "Every line of code is a potential liability; write it with intent.",
-    "svelte-check found 0 errors and 0 warnings",
-    "ollama run llama3 # running local large language models",
-    "sudo apt update && sudo apt upgrade # keeping the system fresh",
-    "npm run lint && npm run check # ensuring code quality and type safety"
+    "ship it and fix it later",
+    "code all day, debug all night",
+    "it works on my machine",
+    "one more commit before bed",
+    "clean code is happy code",
+    "coffee first, then code",
+    "built with love and caffeine",
+    "keep it simple and ship it",
+    "make it work, make it right, make it fast",
+    "hello world is just the beginning",
+    "done is better than perfect",
+    "push to main and pray",
+    "bugs are just surprise features",
+    "think twice, code once",
+    "building cool things on the internet",
+    "less is more, always",
+    "learn, build, break, repeat",
+    "stay curious, keep building",
+    "deploy to vercel and chill",
+    "docker makes everything portable",
+    "kubernetes keeps it all running",
+    "ollama brings ai to your laptop",
+    "open source changed the world",
+    "linux is home for developers",
+    "rag makes ai actually useful",
+    "svelte makes the web feel fast",
+    "rust is the future of systems",
+    "postgres is the goat of databases",
+    "tailwind makes styling fun again",
+    "the terminal is my happy place"
   ];
 
   let targetText = $state(sentences[0]);
@@ -204,13 +204,16 @@
 
   <div class="test-area">
     {#if isFinished}
-      <div class="victory-screen" in:fade>
-        <h3>Challenge Complete! 🚀</h3>
-        <div class="final-stats">
-          <div class="f-stat"><span>WPM</span><strong>{wpm}</strong></div>
-          <div class="f-stat"><span>Accuracy</span><strong>{accuracy}%</strong></div>
+      <div class="victory-screen" in:fade={{ duration: 250 }}>
+        <div class="done-stats">
+          <span class="done-stat"><Zap size={14} /> <strong>{wpm}</strong> WPM</span>
+          <span class="done-divider">·</span>
+          <span class="done-stat"><Target size={14} /> <strong>{accuracy}%</strong> ACC</span>
         </div>
-        <button class="retry-btn" onclick={() => reset(true)}>Try Another Challenge</button>
+        <button class="retry-btn" onclick={() => reset(true)}>
+          <RefreshCw size={13} />
+          again
+        </button>
       </div>
     {:else}
       <div class="target-text">
@@ -385,53 +388,55 @@
   }
 
   .victory-screen {
-    text-align: center;
-    padding: 2rem;
-  }
-
-  .victory-screen h3 {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    color: var(--accent-orange);
-  }
-
-  .final-stats {
     display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 3rem;
-    margin-bottom: 2rem;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    font-family: var(--font-mono);
   }
 
-  .f-stat {
+  .done-stats {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .f-stat span {
-    font-size: 0.8rem;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1rem;
     color: var(--text-muted);
-    text-transform: uppercase;
   }
 
-  .f-stat strong {
-    font-size: 2rem;
-    color: #fff;
+  .done-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .done-stat strong {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+  }
+
+  .done-divider {
+    opacity: 0.3;
   }
 
   .retry-btn {
-    background: var(--accent-orange);
-    color: #000;
-    border: none;
-    padding: 0.8rem 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-muted);
+    padding: 0.4rem 0.8rem;
     border-radius: 6px;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: color 0.2s, border-color 0.2s;
   }
 
   .retry-btn:hover {
-    transform: scale(1.05);
+    color: var(--accent-orange);
+    border-color: var(--accent-orange);
   }
 
   @media (max-width: 768px) {
@@ -462,16 +467,13 @@
       top: 0.2rem;
     }
 
-    .victory-screen h3 {
-      font-size: 1.4rem;
+    .victory-screen {
+      flex-direction: column;
+      gap: 1rem;
     }
 
-    .final-stats {
-      gap: 1.5rem;
-    }
-
-    .f-stat strong {
-      font-size: 1.5rem;
+    .done-stats {
+      font-size: 0.85rem;
     }
   }
 </style>

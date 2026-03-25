@@ -54,7 +54,15 @@
         />
       </svg>
       <div class="image-wrapper">
-        <img src="/firaol.jpg" alt={name} class="avatar" />
+        <img
+          src="/firaol.jpg"
+          alt={name}
+          class="avatar"
+          width="100"
+          height="100"
+          decoding="async"
+          fetchpriority="high"
+        />
         {#if showSunglasses}
           <div class="sunglasses">
             <svg viewBox="0 0 100 40" xmlns="http://www.w3.org/2000/svg">

@@ -3,6 +3,46 @@ import { env } from '$env/dynamic/private';
 
 const GITHUB_USERNAME = 'f9ine99';
 const GITHUB_TOKEN = env.GITHUB_TOKEN;
+const CACHE_TTL_MS = 5 * 60 * 1000;
+const RESPONSE_CACHE_CONTROL = 'public, max-age=0, s-maxage=300, stale-while-revalidate=600';
+
+interface GitHubRepo {
+    name: string;
+    fork: boolean;
+}
+
+interface GitHubCommit {
+    sha: string;
+    commit: {
+        message: string;
+        author: {
+            date: string;
+        };
+    };
+}
+
+interface CommitEntry {
+    repo: string;
+    msg: string;
+    add: number;
+    del: number;
+    date: string;
+}
+
+interface LanguageEntry {
+    name: string;
+    percent: number;
+    color: string;
+}
+
+interface HomePayload {
+    commits: CommitEntry[];
+    languages: LanguageEntry[];
+    error?: 'rate_limit' | 'api_error';
+}
+
+let cachedPayload: HomePayload | null = null;
+let cacheExpiresAt = 0;
 
 function timeAgo(dateStr: string): string {
     try {
@@ -24,7 +64,21 @@ function timeAgo(dateStr: string): string {
     }
 }
 
-export const load: PageServerLoad = async ({ fetch }) => {
+function setCache(payload: HomePayload): HomePayload {
+    cachedPayload = payload;
+    cacheExpiresAt = Date.now() + CACHE_TTL_MS;
+    return payload;
+}
+
+export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
+    setHeaders({
+        'cache-control': RESPONSE_CACHE_CONTROL
+    });
+
+    if (cachedPayload && Date.now() < cacheExpiresAt) {
+        return cachedPayload;
+    }
+
     const headers: Record<string, string> = {
         'User-Agent': 'SvelteKit-Portfolio',
         'Accept': 'application/vnd.github.v3+json'
@@ -43,21 +97,20 @@ export const load: PageServerLoad = async ({ fetch }) => {
 
         if (reposRes.status === 403) {
             console.warn('GitHub API rate limit exceeded');
-            return { commits: [], languages: [], error: 'rate_limit' };
+            return cachedPayload ?? { commits: [], languages: [], error: 'rate_limit' };
         }
 
         if (!reposRes.ok) {
             console.warn(`GitHub repos API returned ${reposRes.status}`);
-            return { commits: [], languages: [], error: 'api_error' };
+            return cachedPayload ?? { commits: [], languages: [], error: 'api_error' };
         }
 
-        const repos = await reposRes.json();
-        if (!Array.isArray(repos) || repos.length === 0) return { commits: [], languages: [] };
+        const repos = await reposRes.json() as GitHubRepo[];
+        if (!Array.isArray(repos) || repos.length === 0) return setCache({ commits: [], languages: [] });
 
-        // Step 2: Fetch the latest commit from each of the top 3 repos
-        const topRepos = repos.filter((r: any) => !r.fork).slice(0, 3);
+        const topRepos = repos.filter((repo) => !repo.fork).slice(0, 3);
 
-        const commitPromises = topRepos.map(async (repo: any) => {
+        const commitPromises = topRepos.map(async (repo): Promise<CommitEntry | null> => {
             try {
                 const commitsRes = await fetch(
                     `https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/commits?per_page=1`,
@@ -66,35 +119,18 @@ export const load: PageServerLoad = async ({ fetch }) => {
 
                 if (!commitsRes.ok) return null;
 
-                const commits = await commitsRes.json();
+                const commits = await commitsRes.json() as GitHubCommit[];
                 if (!Array.isArray(commits) || commits.length === 0) return null;
 
                 const c = commits[0];
                 const msg = c.commit.message.split('\n')[0];
                 const date = c.commit.author.date;
 
-                // Step 3: Fetch individual commit for real stats
-                let additions = 0;
-                let deletions = 0;
-                try {
-                    const detailRes = await fetch(
-                        `https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/commits/${c.sha}`,
-                        { headers }
-                    );
-                    if (detailRes.ok) {
-                        const detail = await detailRes.json();
-                        additions = detail.stats?.additions ?? 0;
-                        deletions = detail.stats?.deletions ?? 0;
-                    }
-                } catch {
-                    // Silently fail — stats will show 0
-                }
-
                 return {
                     repo: repo.name,
                     msg,
-                    add: additions,
-                    del: deletions,
+                    add: 0,
+                    del: 0,
                     date: timeAgo(date)
                 };
             } catch {
@@ -103,7 +139,7 @@ export const load: PageServerLoad = async ({ fetch }) => {
         });
 
         const results = (await Promise.all(commitPromises)).filter(
-            (commit): commit is { repo: string; msg: string; add: number; del: number; date: string } => commit !== null
+            (commit): commit is CommitEntry => commit !== null
         );
 
         // Language stats logic
@@ -125,22 +161,22 @@ export const load: PageServerLoad = async ({ fetch }) => {
             'PHP': '#4F5D95'
         };
 
-        let languages: { name: string; percent: number; color: string }[] = [];
+        let languages: LanguageEntry[] = [];
         try {
-            const allRepos = repos.filter((r: any) => !r.fork).slice(0, 8);
+            const allRepos = repos.filter((repo) => !repo.fork).slice(0, 4);
             const langTotals: Record<string, number> = {};
 
             await Promise.all(
-                allRepos.map(async (repo: any) => {
+                allRepos.map(async (repo) => {
                     try {
                         const langRes = await fetch(
                             `https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/languages`,
                             { headers }
                         );
                         if (!langRes.ok) return;
-                        const data = await langRes.json();
+                        const data = await langRes.json() as Record<string, number>;
                         for (const [lang, bytes] of Object.entries(data)) {
-                            langTotals[lang] = (langTotals[lang] || 0) + (bytes as number);
+                            langTotals[lang] = (langTotals[lang] || 0) + bytes;
                         }
                     } catch { /* skip */ }
                 })
@@ -159,9 +195,9 @@ export const load: PageServerLoad = async ({ fetch }) => {
             }
         } catch { /* language stats are optional */ }
 
-        return { commits: results, languages };
+        return setCache({ commits: results, languages });
     } catch (error) {
         console.error('GitHub fetch failed:', error);
-        return { commits: [], languages: [], error: 'api_error' };
+        return cachedPayload ?? { commits: [], languages: [], error: 'api_error' };
     }
 };

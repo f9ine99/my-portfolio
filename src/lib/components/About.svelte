@@ -14,7 +14,15 @@
   <div class="about-container">
     <div class="avatar-column">
       <div class="avatar-frame">
-        <img src="/images/avatar-anime.png" alt={name} class="avatar" />
+        <img
+          src="/images/avatar-anime.png"
+          alt={name}
+          class="avatar"
+          loading="lazy"
+          decoding="async"
+          width="340"
+          height="340"
+        />
       </div>
     </div>
     

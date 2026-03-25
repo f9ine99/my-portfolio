@@ -13,7 +13,16 @@
       <div class="item">
         {#if item.image}
           <span class="logo-container">
-            <img src={item.image} alt={item.name} class="logo" class:dark-invert={item.invert} />
+            <img
+              src={item.image}
+              alt={item.name}
+              class="logo"
+              class:dark-invert={item.invert}
+              loading="lazy"
+              decoding="async"
+              width="40"
+              height="40"
+            />
           </span>
         {/if}
         <span class="name {item.current ? 'current' : 'past'}">

@@ -42,42 +42,40 @@
     {#if isLoadingCommits}
       <Loader2 size={14} class="animate-spin header-tag" />
     {:else}
-      <span class="header-tag">[{error ? 'error' : 'live'}]</span>
+      <span class="header-tag">[{error ? 'error' : 'info'}]</span>
     {/if}
   </div>
 
-  <div class="commits-container">
-    <div class="commits-list">
-      {#if error === 'rate_limit'}
-        <div class="commit-item error-state">
+  <div class="commits-list">
+    {#if error === 'rate_limit'}
+      <div class="commit-item error-state">
+        <span class="commit-msg">
+          <span class="error-text">Rate limit exceeded.</span> Provide a GITHUB_TOKEN in .env to fix this.
+        </span>
+      </div>
+    {:else if error}
+      <div class="commit-item error-state">
+        <span class="commit-msg">Failed to fetch recent activity from GitHub.</span>
+      </div>
+    {:else}
+      {#each finalCommits as commit}
+        <div class="commit-item" title={commit.date}>
           <span class="commit-msg">
-            <span class="error-text">Rate limit exceeded.</span> Provide a GITHUB_TOKEN in .env to fix this.
+            <span class="repo-name">{commit.repo}:</span> {commit.msg}
           </span>
-        </div>
-      {:else if error}
-        <div class="commit-item error-state">
-          <span class="commit-msg">Failed to fetch recent activity from GitHub.</span>
+          {#if commit.repo !== 'error'}
+            <span class="commit-stats">
+              <span class="add">+{commit.add}</span> / <span class="del">-{commit.del}</span>
+              <span class="commit-date">{commit.date}</span>
+            </span>
+          {/if}
         </div>
       {:else}
-        {#each finalCommits as commit}
-          <div class="commit-item">
-            <span class="commit-msg">
-              <span class="repo-name">{commit.repo}:</span> {commit.msg}
-            </span>
-            {#if commit.repo !== 'error'}
-              <span class="commit-stats">
-                <span class="add">+{commit.add}</span> / <span class="del">-{commit.del}</span>
-                <span class="commit-date">{commit.date}</span>
-              </span>
-            {/if}
-          </div>
-        {:else}
-          <div class="commit-item empty-state">
-            <span class="commit-msg">No recent public push events found.</span>
-          </div>
-        {/each}
-      {/if}
-    </div>
+        <div class="commit-item empty-state">
+          <span class="commit-msg">No recent public push events found.</span>
+        </div>
+      {/each}
+    {/if}
   </div>
 
   <div class="commits-footer">
@@ -126,7 +124,7 @@
   }
 
   h3 {
-    font-size: 1rem;
+    font-size: 1.05rem;
     margin: 0;
     color: var(--text-primary);
     font-weight: 500;
@@ -136,17 +134,9 @@
     margin-left: auto;
     font-family: var(--font-mono);
     font-size: 0.75rem;
-    color: var(--text-muted);
-    opacity: 0.7;
-  }
-
-  .commits-container {
-    background: var(--bg-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 1.25rem;
-    position: relative;
-    overflow: hidden;
+    color: var(--accent-orange);
+    opacity: 0.85;
+    letter-spacing: 0.02em;
   }
 
   .commits-list {
@@ -158,19 +148,34 @@
   .commit-item {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    gap: 0.8rem;
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     line-height: 1.4;
     color: var(--text-primary);
   }
 
+  .commit-msg {
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .repo-name {
-    color: var(--text-muted);
+    color: var(--text-primary);
+    opacity: 0.95;
   }
 
   .commit-stats {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
     white-space: nowrap;
     margin-left: 1rem;
+    font-size: 0.95em;
   }
 
   .add {
@@ -183,9 +188,9 @@
 
   .commit-date {
     color: var(--text-muted);
-    margin-left: 0.5rem;
-    font-size: 0.7rem;
-    opacity: 0.7;
+    margin-left: 0.45rem;
+    font-size: 0.72rem;
+    opacity: 0.75;
   }
 
   .error-state,
@@ -201,7 +206,7 @@
 
   .commits-footer {
     display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 1rem;
     margin-top: auto;
   }
@@ -210,19 +215,21 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-muted);
+    font-size: 0.9rem;
+    color: var(--accent-orange);
     text-decoration: none;
     width: fit-content;
     transition: color 0.2s;
   }
 
   .github-link:hover {
-    color: var(--accent-blue);
+    color: var(--text-primary);
   }
 
   .lang-bar-wrapper {
     position: relative;
+    flex: 1;
+    min-width: 0;
   }
 
   .lang-tooltip {
@@ -310,6 +317,15 @@
   }
 
   @media (max-width: 600px) {
+    .commits-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .lang-bar-wrapper {
+      width: 100%;
+    }
+
     .commit-item {
       flex-direction: column;
       gap: 0.25rem;
@@ -323,6 +339,7 @@
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
+      white-space: normal;
       font-size: 0.75rem;
     }
 
@@ -330,6 +347,11 @@
       margin-left: 0;
       font-size: 0.7rem;
       opacity: 0.8;
+    }
+
+    .commit-date {
+      margin-left: 0.35rem;
+      font-size: 0.68rem;
     }
   }
 </style>

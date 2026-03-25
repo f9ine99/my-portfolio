@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { Github, Linkedin, Instagram, Monitor } from 'lucide-svelte';
+  import { Github, Linkedin, Instagram, Clock3 } from 'lucide-svelte';
 
   let time = $state('');
   // @ts-ignore
@@ -46,7 +46,7 @@
     <div class="right-section">
       <div class="stats">
         <span class="time">
-          <Monitor size={12} />
+          <Clock3 size={12} />
           {time}
         </span>
         <a 

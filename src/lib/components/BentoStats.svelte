@@ -1,28 +1,7 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { 
-    Palette, 
-    MapPin, 
-    Info, 
-    Clock,
-    GitBranch,
-    ExternalLink,
-    Loader2
-  } from 'lucide-svelte';
-  import { fade } from 'svelte/transition';
-  import Map from '$lib/components/Map.svelte';
-
-
-  import { 
-    themeState, 
-    themePalettes, 
-    themes, 
-    colors, 
-    applyTheme, 
-    setAccentColor 
-  } from '$lib/theme.svelte';
-
-  let time = $state('');
+  import BentoThemeCard from '$lib/components/bento-stats/BentoThemeCard.svelte';
+  import BentoLocationCard from '$lib/components/bento-stats/BentoLocationCard.svelte';
+  import BentoCommitsCard from '$lib/components/bento-stats/BentoCommitsCard.svelte';
 
   interface Commit {
     repo: string;
@@ -39,162 +18,13 @@
   }
 
   let { commits = [], languages = [], error = '' } = $props<{ commits?: Commit[]; languages?: Language[]; error?: string }>();
-  
-  const finalCommits = $derived(commits);
-  let isInitialLoad = $state(true);
-  let isLoadingCommits = $derived(isInitialLoad && commits.length === 0 && !error);
-  let hoveredLang = $state<Language | null>(null);
-
-  function updateTime() {
-    const now = new Date();
-    time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false });
-  }
-
-
-  onMount(() => {
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    
-    // Simple way to handle the "initial load" state since it's SSR data
-    isInitialLoad = false;
-    
-    return () => clearInterval(interval);
-  });
 </script>
 
 <section class="bento-stats" id="stats">
   <div class="bento-grid">
-    <!-- Theme Card -->
-    <div class="bento-card theme-card" in:fade={{ duration: 400, delay: 100 }}>
-      <div class="card-header">
-        <Palette size={18} class="header-icon" />
-        <h3>Theme</h3>
-      </div>
-      <div class="theme-options">
-        {#each themes as theme}
-          <button 
-            class="theme-btn {themeState.currentTheme === theme ? 'active' : ''}" 
-            onclick={() => applyTheme(theme)}
-          >
-            {theme}
-          </button>
-        {/each}
-      </div>
-      <div class="color-grid">
-        {#each colors as color}
-          <button 
-            class="color-circle {themeState.currentAccentColor === color ? 'active' : ''}" 
-            style="background: {color}; --glow-color: {color}"
-            onclick={() => setAccentColor(color)}
-            aria-label="Set accent color to {color}"
-          ></button>
-        {/each}
-      </div>
-      <div class="effect-toggle">
-        <label class="toggle">
-          <input type="checkbox" bind:checked={themeState.bgEffect}>
-          <span class="checkmark"></span>
-          <span class="label-text">Background effect: {themeState.bgEffect ? 'on' : 'off'}</span>
-        </label>
-      </div>
-    </div>
-
-
-
-    <!-- Location Card -->
-    <div class="bento-card location-card" in:fade={{ duration: 400, delay: 300 }}>
-      <div class="card-header">
-        <MapPin size={18} class="header-icon" />
-        <h3>Currently Based In 📍</h3>
-      </div>
-      <div class="map-container">
-        <Map />
-      </div>
-
-      <div class="location-footer">
-        <span class="city">Bole Medhanialem, Addis Ababa</span>
-        <div class="local-time">
-          <Clock size={14} />
-          <span>{time}</span>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Recent Commits Card -->
-    <div class="bento-card commits-card" in:fade={{ duration: 400, delay: 500 }}>
-      <div class="card-header">
-        <GitBranch size={18} class="header-icon" />
-        <h3>Recent Commits</h3>
-        {#if isLoadingCommits}
-          <Loader2 size={14} class="animate-spin header-tag" />
-        {:else}
-          <span class="header-tag">[{error ? 'error' : 'live'}]</span>
-        {/if}
-      </div>
-      <div class="commits-container">
-        <div class="commits-list">
-          {#if error === 'rate_limit'}
-            <div class="commit-item error-state">
-              <span class="commit-msg">
-                <span class="error-text">Rate limit exceeded.</span> Provide a GITHUB_TOKEN in .env to fix this.
-              </span>
-            </div>
-          {:else if error}
-            <div class="commit-item error-state">
-              <span class="commit-msg">Failed to fetch recent activity from GitHub.</span>
-            </div>
-          {:else}
-            {#each finalCommits as commit}
-              <div class="commit-item">
-                <span class="commit-msg">
-                  <span class="repo-name">{commit.repo}:</span> {commit.msg}
-                </span>
-                {#if commit.repo !== 'error'}
-                  <span class="commit-stats">
-                    <span class="add">+{commit.add}</span> / <span class="del">-{commit.del}</span>
-                    <span class="commit-date">{commit.date}</span>
-                  </span>
-                {/if}
-              </div>
-            {:else}
-              <div class="commit-item empty-state">
-                <span class="commit-msg">No recent public push events found.</span>
-              </div>
-            {/each}
-          {/if}
-        </div>
-      </div>
-      <div class="commits-footer">
-        <a href="https://github.com/f9ine99" target="_blank" rel="noopener noreferrer" class="github-link">
-          View on GitHub <ExternalLink size={14} />
-        </a>
-        <div class="lang-bar-wrapper">
-          {#if hoveredLang}
-            <div class="lang-tooltip">
-              <span class="lang-dot" style="background: {hoveredLang.color}"></span>
-              {hoveredLang.name} <span class="lang-pct">{hoveredLang.percent}%</span>
-            </div>
-          {/if}
-          <div class="activity-bar" class:loading={isLoadingCommits}>
-            {#if languages && languages.length > 0}
-              {#each languages as lang}
-                <div
-                  class="bar-segment"
-                  style="width: {lang.percent}%; background: {lang.color};"
-                  role="presentation"
-                  onmouseenter={() => hoveredLang = lang}
-                  onmouseleave={() => hoveredLang = null}
-                  ontouchstart={() => hoveredLang = lang}
-                ></div>
-              {/each}
-            {:else}
-              <div class="bar-segment" style="width: 100%; background: var(--selection-bg);"></div>
-            {/if}
-          </div>
-        </div>
-      </div>
-    </div>
+    <BentoThemeCard />
+    <BentoLocationCard />
+    <BentoCommitsCard {commits} {languages} {error} />
   </div>
 </section>
 
@@ -215,7 +45,7 @@
     width: 100%;
   }
 
-  .bento-card {
+  :global(.bento-card) {
     background: var(--card-bg);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 20px;
@@ -226,210 +56,32 @@
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .bento-card:hover {
+  :global(.bento-card:hover) {
     border-color: var(--accent-orange);
     transform: translateY(-2px);
     background: var(--card-hover);
   }
 
 
-  .theme-card {
+  :global(.theme-card) {
     grid-column: span 2;
   }
 
-  .location-card {
+  :global(.location-card) {
     grid-column: span 2;
   }
 
-  .commits-card {
+  :global(.commits-card) {
     grid-column: span 4;
   }
 
-
-
-  .card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    width: 100%;
-  }
-
-  :global(.header-icon) { color: var(--accent-orange); }
-  .header-tag { margin-left: auto; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); opacity: 0.7; }
-
-  h3 { font-size: 1rem; margin: 0; color: var(--text-primary); font-weight: 500; }
-
-  .theme-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.4rem; }
-
-  .theme-btn {
-    background: var(--card-bg-elevated);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 0.4rem;
-    color: var(--text-muted);
-    font-size: 0.7rem;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .theme-btn.active {
-    background: var(--selection-bg);
-    border-color: var(--accent-orange);
-    color: var(--text-primary);
-  }
-
-  .color-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 0.4rem; }
-
-  .color-circle {
-    width: 100%;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    opacity: 0.7;
-    border: 2px solid transparent;
-    outline: 2px solid transparent;
-    outline-offset: 3px;
-    cursor: pointer;
-    transition: transform 0.25s ease, opacity 0.25s ease, outline-color 0.25s ease, box-shadow 0.25s ease;
-  }
-
-  .color-circle:hover { opacity: 1; }
-  
-  .color-circle.active {
-    opacity: 1;
-    outline: 2px solid var(--glow-color, currentColor);
-    outline-offset: 3px;
-    box-shadow: 0 0 4px 1px var(--glow-color, currentColor), 0 0 8px 2px var(--glow-color, currentColor);
-    animation: color-glow-pulse 2s ease-in-out infinite;
-  }
-
-  @keyframes color-glow-pulse {
-    0%, 100% { box-shadow: 0 0 4px 1px var(--glow-color, currentColor), 0 0 8px 2px var(--glow-color, currentColor); }
-    50% { box-shadow: 0 0 6px 2px var(--glow-color, currentColor), 0 0 12px 4px var(--glow-color, currentColor); }
-  }
-
-  .toggle { display: flex; align-items: center; gap: 0.75rem; cursor: pointer; font-size: 0.85rem; color: var(--text-primary); }
-  .toggle input { display: none; }
-  .checkmark { width: 18px; height: 18px; background: var(--card-bg-elevated); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 4px; position: relative; }
-  .toggle input:checked + .checkmark { background: var(--accent-orange); border-color: var(--accent-orange); }
-  .toggle input:checked + .checkmark::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #000; font-size: 10px; }
-  
-  .map-container { 
-    height: 200px; 
-    border-radius: 12px; 
-    overflow: hidden; 
-    position: relative; 
-    background: var(--bg-color); 
-    border: 1px solid rgba(255, 255, 255, 0.05); 
-  }
-
-  .location-footer { display: flex; justify-content: space-between; align-items: center; font-size: 0.75rem; margin-top: -0.5rem; color: var(--text-muted); }
-  .local-time { display: flex; align-items: center; gap: 0.5rem; color: var(--text-primary); }
-
-  .commits-container {
-    background: var(--bg-color);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 1.25rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* New Cards Styling */
-  .commits-list { display: flex; flex-direction: column; gap: 0.85rem; }
-  
-  .commit-item { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.4; color: var(--text-primary); }
-  .repo-name { color: var(--text-muted); }
-  .commit-stats { white-space: nowrap; margin-left: 1rem; }
-  .add { color: var(--accent-green); }
-  .del { color: var(--accent-red); }
-  .commit-date { color: var(--text-muted); margin-left: 0.5rem; font-size: 0.7rem; opacity: 0.7; }
-
-  .error-state, .empty-state {
-    padding: 0.5rem 0;
-    opacity: 0.8;
-  }
-
-  .error-text {
-    color: var(--accent-red);
-    font-weight: 600;
-  }
-
-  .commits-footer { display: flex; flex-direction: column; gap: 1rem; margin-top: auto; }
-  .github-link { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); text-decoration: none; width: fit-content; transition: color 0.2s; }
-  .github-link:hover { color: var(--accent-blue); }
-
-  .activity-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; width: 100%; background: var(--card-bg-elevated); }
-  .bar-segment { height: 100%; transition: width 0.3s, opacity 0.2s; cursor: pointer; }
-  .bar-segment:hover { opacity: 0.8; }
-
-  .lang-bar-wrapper { position: relative; }
-  .lang-tooltip {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: var(--card-bg-elevated);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    padding: 0.25rem 0.6rem;
-    font-size: 0.7rem;
-    font-family: var(--font-mono);
-    color: var(--text-primary);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    z-index: 10;
-    pointer-events: none;
-  }
-  .lang-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .lang-pct { color: var(--text-muted); }
-  
-  .activity-bar.loading .bar-segment {
-    opacity: 0.3;
-    animation: pulse 1.5s infinite;
-  }
-
-  @keyframes pulse {
-    0% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-    100% { opacity: 0.3; }
-  }
-
-  :global(.animate-spin) { animation: spin 1s linear infinite; }
-  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
   @media (max-width: 1200px) {
     .bento-grid { grid-template-columns: repeat(2, 1fr); }
-    .commits-card { grid-column: span 2; }
+    :global(.commits-card) { grid-column: span 2; }
   }
 
   @media (max-width: 600px) {
     .bento-grid { grid-template-columns: 1fr; }
-    .commits-card { grid-column: span 1; }
-    .theme-options { grid-template-columns: repeat(2, 1fr); }
-
-    .commit-item {
-      flex-direction: column;
-      gap: 0.25rem;
-      align-items: flex-start;
-    }
-
-    .commit-msg {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      line-clamp: 2;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      font-size: 0.75rem;
-    }
-
-    .commit-stats {
-      margin-left: 0;
-      font-size: 0.7rem;
-      opacity: 0.8;
-    }
+    :global(.commits-card) { grid-column: span 1; }
   }
 </style>

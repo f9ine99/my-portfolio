@@ -1,7 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { RefreshCw, Zap, Target } from 'lucide-svelte';
-  import { fade } from 'svelte/transition';
+  import TypingStatsHeader from '$lib/components/typing-test/TypingStatsHeader.svelte';
+  import TypingBongoCat from '$lib/components/typing-test/TypingBongoCat.svelte';
+  import TypingVictoryScreen from '$lib/components/typing-test/TypingVictoryScreen.svelte';
 
   const sentences = [
     "ship it and fix it later",
@@ -45,6 +46,7 @@
   let isFocused = $state(false);
   let activePaw = $state('none');
   let charElements = $state<HTMLElement[]>([]);
+  let inputElement = $state<HTMLInputElement | null>(null);
 
 
   let lastTapTime = 0;
@@ -61,8 +63,7 @@
     
     if (shouldFocus) {
       setTimeout(() => {
-        const input = document.querySelector('.typing-input') as HTMLInputElement;
-        if (input) input.focus();
+        inputElement?.focus();
       }, 0);
     }
   }
@@ -152,69 +153,14 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <!-- svelte-ignore a11y_no_static_element_interactions -->
-<div class="typing-test" id="typing" onclick={() => { const el = document.querySelector('.typing-input') as HTMLInputElement; if (el) el.focus(); }}>
+<div class="typing-test" id="typing" onclick={() => inputElement?.focus()}>
+  <TypingStatsHeader {wpm} {accuracy} onReset={() => reset(true)} />
 
-  <div class="stats-header">
-    <div class="stat">
-      <Zap size={14} class="icon-wpm" />
-      <span>{wpm} WPM</span>
-    </div>
-    <div class="stat">
-      <Target size={14} class="icon-acc" />
-      <span>{accuracy}% ACC</span>
-    </div>
-    <button class="reset-btn" onclick={() => reset(true)} title="Reset Test (Tab)">
-      <RefreshCw size={14} />
-      <span class="reset-hint">tab to restart</span>
-    </button>
-  </div>
-
-  <div class="cat-container">
-    <div class="bongo-cat">
-      <svg viewBox="0 0 100 65" xmlns="http://www.w3.org/2000/svg">
-        <rect x="25" y="52" width="50" height="10" rx="2" fill="#24283b" stroke="#414868" stroke-width="1"/>
-        <path d="M30 55h5M40 55h5M50 55h15M70 55h5" stroke="#565f89" stroke-width="2" stroke-linecap="round"/>
-        <path d="M10 55 Q 10 20, 50 20 T 90 55" fill="white" stroke="#1a1b26" stroke-width="2.5"/>
-        <path d="M22 25 L 12 8 L 32 18" fill="white" stroke="#1a1b26" stroke-width="2.5" stroke-linejoin="round"/>
-        <path d="M78 25 L 88 8 L 68 18" fill="white" stroke="#1a1b26" stroke-width="2.5" stroke-linejoin="round"/>
-        
-        <!-- Expressive eyes -->
-        <g style="transform: {eyeTransform}; transition: transform 0.1s ease-out;">
-          {#if isFinished && accuracy > 95}
-            <path d="M35 32l6 6M41 32l-6 6M59 32l6 6M65 32l-6 6" stroke="#1a1b26" stroke-width="2" />
-          {:else if mistakes > 3}
-            <path d="M34 38 Q 38 34, 42 38" fill="none" stroke="#1a1b26" stroke-width="2" />
-            <path d="M58 38 Q 62 34, 66 38" fill="none" stroke="#1a1b26" stroke-width="2" />
-          {:else}
-            <circle cx="38" cy="35" r="2.5" fill="#1a1b26"/>
-            <circle cx="62" cy="35" r="2.5" fill="#1a1b26"/>
-          {/if}
-        </g>
-        
-        <path d="M46 42 Q 50 45, 54 42" fill="none" stroke="#1a1b26" stroke-width="2" stroke-linecap="round"/>
-        <g class="paw-left {activePaw === 'left' ? 'tapping' : ''}">
-          <path d="M18 48 Q 12 48, 12 58 T 24 58" fill="white" stroke="#1a1b26" stroke-width="2.5"/>
-        </g>
-        <g class="paw-right {activePaw === 'right' ? 'tapping' : ''}">
-          <path d="M82 48 Q 88 48, 88 58 T 76 58" fill="white" stroke="#1a1b26" stroke-width="2.5"/>
-        </g>
-      </svg>
-    </div>
-  </div>
+  <TypingBongoCat {isFinished} {accuracy} {mistakes} {activePaw} {eyeTransform} />
 
   <div class="test-area">
     {#if isFinished}
-      <div class="victory-screen" in:fade={{ duration: 250 }}>
-        <div class="done-stats">
-          <span class="done-stat"><Zap size={14} /> <strong>{wpm}</strong> WPM</span>
-          <span class="done-divider">·</span>
-          <span class="done-stat"><Target size={14} /> <strong>{accuracy}%</strong> ACC</span>
-        </div>
-        <button class="retry-btn" onclick={() => reset(true)}>
-          <RefreshCw size={13} />
-          again
-        </button>
-      </div>
+      <TypingVictoryScreen {wpm} {accuracy} onRetry={() => reset(true)} />
     {:else}
       <div class="target-text">
         {#if !isFinished}
@@ -236,6 +182,7 @@
       <input 
         type="text" 
         bind:value={userInput} 
+        bind:this={inputElement}
         oninput={handleInput}
         class="typing-input"
         autocomplete="off"
@@ -259,73 +206,6 @@
     padding: 2.5rem;
     margin: 3rem auto;
     position: relative;
-  }
-
-  .stats-header {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
-    align-items: center;
-    font-family: var(--font-mono);
-  }
-
-  .stat {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-  }
-
-  .icon-wpm { color: var(--accent-orange); }
-  .icon-acc { color: var(--accent-blue); }
-
-  .reset-btn {
-    background: none;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 4px;
-    transition: all 0.2s;
-    margin-left: auto;
-  }
-
-  .reset-btn:hover {
-    color: var(--accent-orange);
-    background: rgba(255, 158, 100, 0.1);
-  }
-
-  .reset-hint {
-    font-size: 0.7rem;
-    opacity: 0.6;
-    margin-left: 0.5rem;
-    text-transform: lowercase;
-  }
-
-  .cat-container {
-    position: absolute;
-    top: -45px;
-    right: 30px;
-    width: 100px;
-  }
-
-  .bongo-cat {
-    width: 100%;
-    transition: transform 0.1s;
-  }
-
-  .paw-left, .paw-right {
-    transition: transform 0.05s ease-out;
-    transform-origin: 50% 50%;
-  }
-
-  .paw-left.tapping {
-    transform: translateY(6px) translateX(4px) rotate(-5deg);
-  }
-
-  .paw-right.tapping {
-    transform: translateY(6px) translateX(-4px) rotate(5deg);
   }
 
   .test-area {
@@ -387,74 +267,11 @@
     border-radius: 2px;
   }
 
-  .victory-screen {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    padding: 2rem 0;
-    font-family: var(--font-mono);
-  }
-
-  .done-stats {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 1rem;
-    color: var(--text-muted);
-  }
-
-  .done-stat {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.3rem;
-  }
-
-  .done-stat strong {
-    color: var(--text-primary);
-    font-size: 1.1rem;
-  }
-
-  .done-divider {
-    opacity: 0.3;
-  }
-
-  .retry-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    background: none;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    color: var(--text-muted);
-    padding: 0.4rem 0.8rem;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-family: var(--font-mono);
-    cursor: pointer;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .retry-btn:hover {
-    color: var(--accent-orange);
-    border-color: var(--accent-orange);
-  }
 
   @media (max-width: 768px) {
     .typing-test {
       padding: 1.5rem;
       margin: 1.5rem auto;
-    }
-
-    .stats-header {
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .cat-container {
-      width: 70px;
-      top: -30px;
-      right: 15px;
     }
 
     .target-text {
@@ -465,15 +282,6 @@
     .caret {
       height: 1.1rem;
       top: 0.2rem;
-    }
-
-    .victory-screen {
-      flex-direction: column;
-      gap: 1rem;
-    }
-
-    .done-stats {
-      font-size: 0.85rem;
     }
   }
 </style>

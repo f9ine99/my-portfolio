@@ -21,6 +21,13 @@ interface GitHubCommit {
     };
 }
 
+interface GitHubCommitDetail {
+    stats?: {
+        additions?: number;
+        deletions?: number;
+    };
+}
+
 interface CommitEntry {
     repo: string;
     msg: string;
@@ -126,11 +133,30 @@ export const load: PageServerLoad = async ({ fetch, setHeaders }) => {
                 const msg = c.commit.message.split('\n')[0];
                 const date = c.commit.author.date;
 
+                let add = 0;
+                let del = 0;
+
+                try {
+                    const commitDetailRes = await fetch(
+                        `https://api.github.com/repos/${GITHUB_USERNAME}/${repo.name}/commits/${c.sha}`,
+                        { headers }
+                    );
+
+                    if (commitDetailRes.ok) {
+                        const commitDetail = await commitDetailRes.json() as GitHubCommitDetail;
+                        add = Math.max(0, commitDetail.stats?.additions ?? 0);
+                        del = Math.max(0, commitDetail.stats?.deletions ?? 0);
+                    }
+                } catch {
+                    add = 0;
+                    del = 0;
+                }
+
                 return {
                     repo: repo.name,
                     msg,
-                    add: 0,
-                    del: 0,
+                    add,
+                    del,
                     date: timeAgo(date)
                 };
             } catch {

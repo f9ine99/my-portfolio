@@ -34,7 +34,16 @@
     "rust is the future of systems",
     "postgres is the goat of databases",
     "tailwind makes styling fun again",
-    "the terminal is my happy place"
+    "the terminal is my happy place",
+    "better auth keeps sign in simple",
+    "supabase makes postgres even more fun",
+    "aws powers apps at global scale",
+    "serverless helps teams ship faster",
+    "convex keeps realtime data in sync",
+    "cloudflare keeps latency low at the edge",
+    "llms turn prompts into working products",
+    "great llm apps need strong context",
+    "small models can still solve big problems"
   ];
 
   let targetText = $state(sentences[0]);

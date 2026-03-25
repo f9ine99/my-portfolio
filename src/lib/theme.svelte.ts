@@ -71,7 +71,7 @@ export const colors = [
     '#f9e2af', '#a6e3a1', '#94e2d5', '#89dceb', '#74c7ec', '#89b4fa', '#b4befe'
 ];
 
-export function applyTheme(themeName: string) {
+export function applyTheme(themeName: string, persist = true) {
     themeState.currentTheme = themeName;
     const palette = themePalettes[themeName];
     if (palette) {
@@ -80,18 +80,24 @@ export function applyTheme(themeName: string) {
             document.documentElement.style.setProperty(key, value);
         });
     }
-    savePreferences();
+    if (persist) {
+        savePreferences();
+    }
 }
 
-export function setAccentColor(color: string) {
+export function setAccentColor(color: string, persist = true) {
     themeState.currentAccentColor = color;
     document.documentElement.style.setProperty('--accent-orange', color);
-    savePreferences();
+    if (persist) {
+        savePreferences();
+    }
 }
 
-export function setBgEffect(value: boolean) {
+export function setBgEffect(value: boolean, persist = true) {
     themeState.bgEffect = value;
-    savePreferences();
+    if (persist) {
+        savePreferences();
+    }
 }
 
 function savePreferences() {
@@ -107,16 +113,31 @@ function savePreferences() {
 export function loadSavedTheme() {
     try {
         const saved = localStorage.getItem('theme-prefs');
-        if (!saved) return;
-        const prefs = JSON.parse(saved);
+        if (!saved) {
+            applyTheme(themeState.currentTheme, false);
+            return;
+        }
+
+        const prefs = JSON.parse(saved) as {
+            theme?: string;
+            accent?: string;
+            bgEffect?: boolean;
+        };
+
         if (prefs.theme && themePalettes[prefs.theme]) {
-            applyTheme(prefs.theme);
+            applyTheme(prefs.theme, false);
+        } else {
+            applyTheme(themeState.currentTheme, false);
         }
+
         if (prefs.accent) {
-            setAccentColor(prefs.accent);
+            setAccentColor(prefs.accent, false);
         }
+
         if (typeof prefs.bgEffect === 'boolean') {
-            themeState.bgEffect = prefs.bgEffect;
+            setBgEffect(prefs.bgEffect, false);
         }
-    } catch { /* ignore */ }
+    } catch {
+        applyTheme(themeState.currentTheme, false);
+    }
 }

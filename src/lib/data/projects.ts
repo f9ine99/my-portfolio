@@ -85,7 +85,7 @@ export const projects: Project[] = [
             description: "A unified hub for investors, startups, and advisors built with NestJS and Next.js",
             stars: 0,
             contributors: [
-                { name: "Firaol", avatar: "/firaol.jpg" },
+                { name: "Firaol", avatar: "/images/firaol.jpg" },
                 { name: "Abrham", avatar: "https://github.com/RasAbrish.png" },
                 { name: "Amanuel", avatar: "https://github.com/amegi123.png" },
                 { name: "GitHub Contributor", avatar: "https://github.com/github.png" }
@@ -124,7 +124,7 @@ export const projects: Project[] = [
             repo: "Furi-Cadaster",
             description: "Office management and land identification kart system",
             stars: 0,
-            contributors: [{ name: "Firaol", avatar: "/firaol.jpg" }]
+            contributors: [{ name: "Firaol", avatar: "/images/firaol.jpg" }]
         },
         isPrivate: true,
         languages: [
@@ -164,7 +164,7 @@ export const projects: Project[] = [
             repo: "termus-melesu",
             description: "Digital notebook for retailers to track glass bottle circulation",
             stars: 1,
-            contributors: [{ name: "Firaol", avatar: "/firaol.jpg" }]
+            contributors: [{ name: "Firaol", avatar: "/images/firaol.jpg" }]
         },
         languages: [
             { name: "TypeScript", color: "#3178c6", percentage: 68.5 },
@@ -205,7 +205,7 @@ export const projects: Project[] = [
             description: "A transparent and accountable donation system for charity",
             stars: 1,
             contributors: [
-                { name: "Firaol", avatar: "/firaol.jpg" },
+                { name: "Firaol", avatar: "/images/firaol.jpg" },
                 { name: "Khadija", avatar: "https://github.com/khadijahm12k-creator.png" }
             ]
         },
@@ -245,7 +245,7 @@ export const projects: Project[] = [
             repo: "my-portfolio",
             description: "Premium, terminal-inspired portfolio website",
             stars: 0,
-            contributors: [{ name: "Firaol", avatar: "/firaol.jpg" }]
+            contributors: [{ name: "Firaol", avatar: "/images/firaol.jpg" }]
         },
         languages: [
             { name: "Svelte", color: "#ff3e00", percentage: 52.4 },
@@ -284,7 +284,7 @@ export const projects: Project[] = [
             description: "Website defacement monitoring system (INSA Colab)",
             stars: 0,
             contributors: [
-                { name: "Firaol", avatar: "/firaol.jpg" },
+                { name: "Firaol", avatar: "/images/firaol.jpg" },
                 { name: "GitHub Contributor", avatar: "https://github.com/github.png" }
             ]
         },

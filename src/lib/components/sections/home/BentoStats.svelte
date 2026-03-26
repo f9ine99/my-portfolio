@@ -1,7 +1,7 @@
 <script lang="ts">
-  import BentoThemeCard from '$lib/components/bento-stats/BentoThemeCard.svelte';
-  import BentoLocationCard from '$lib/components/bento-stats/BentoLocationCard.svelte';
-  import BentoCommitsCard from '$lib/components/bento-stats/BentoCommitsCard.svelte';
+  import BentoThemeCard from '$lib/components/sections/home/bento-stats/BentoThemeCard.svelte';
+  import BentoLocationCard from '$lib/components/sections/home/bento-stats/BentoLocationCard.svelte';
+  import BentoCommitsCard from '$lib/components/sections/home/bento-stats/BentoCommitsCard.svelte';
 
   interface Commit {
     repo: string;

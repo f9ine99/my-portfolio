@@ -1,11 +1,11 @@
 <script lang="ts">
   import { page } from '$app/state';
   import { projects } from '$lib/data/projects';
-  import { sanitizeRichText } from '$lib/sanitizeRichText';
-  import ProjectBackLink from '$lib/components/project-detail/ProjectBackLink.svelte';
-  import ProjectHeroCard from '$lib/components/project-detail/ProjectHeroCard.svelte';
-  import ProjectOverview from '$lib/components/project-detail/ProjectOverview.svelte';
-  import ProjectNotFound from '$lib/components/project-detail/ProjectNotFound.svelte';
+  import { sanitizeRichText } from '$lib/utils/sanitizeRichText';
+  import ProjectBackLink from '$lib/components/projects/project-detail/ProjectBackLink.svelte';
+  import ProjectHeroCard from '$lib/components/projects/project-detail/ProjectHeroCard.svelte';
+  import ProjectOverview from '$lib/components/projects/project-detail/ProjectOverview.svelte';
+  import ProjectNotFound from '$lib/components/projects/project-detail/ProjectNotFound.svelte';
 
   const slug = page.params.slug;
   const project = projects.find((p) => p.slug === slug);

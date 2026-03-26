@@ -2,8 +2,8 @@
   import { onMount } from 'svelte';
   import { page } from '$app/state';
   import { projects } from '$lib/data/projects';
-  import NavbarTopBar from '$lib/components/navbar/NavbarTopBar.svelte';
-  import NavbarDrawer from '$lib/components/navbar/NavbarDrawer.svelte';
+  import NavbarTopBar from '$lib/components/layout/navbar/NavbarTopBar.svelte';
+  import NavbarDrawer from '$lib/components/layout/navbar/NavbarDrawer.svelte';
 
   let isScrolled = $state(false);
   let isDrawerOpen = $state(false);

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade, fly } from 'svelte/transition';
   import { ExternalLink, Github, Instagram, Linkedin, X } from 'lucide-svelte';
-  import NavbarThemeControls from '$lib/components/navbar/NavbarThemeControls.svelte';
+  import NavbarThemeControls from '$lib/components/layout/navbar/NavbarThemeControls.svelte';
 
   interface Props {
     currentPathname: string;

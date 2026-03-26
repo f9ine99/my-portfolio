@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Star } from 'lucide-svelte';
-  import ProjectCard from './ProjectCard.svelte';
+  import ProjectCard from '$lib/components/projects/ProjectCard.svelte';
 
   import { projects } from '$lib/data/projects';
   const featuredProjects = projects.filter(p => 

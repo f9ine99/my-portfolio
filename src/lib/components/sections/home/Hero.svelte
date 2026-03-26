@@ -55,7 +55,7 @@
       </svg>
       <div class="image-wrapper">
         <img
-          src="/firaol.jpg"
+          src="/images/firaol.jpg"
           alt={name}
           class="avatar"
           width="100"

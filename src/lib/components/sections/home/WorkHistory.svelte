@@ -1,8 +1,8 @@
 <script>
   const history = [
-    { name: 'HamerAI', image: '/hamerAI.jpg', current: true, link: 'https://ethiohamerai.com' },
-    { name: 'INSA', image: '/insa-icon.png', current: false, link: 'https://www.insa.gov.et/' },
-    { name: 'Alx Ethiopia', image: '/alx-pic.webp', current: false, invert: true, link: 'https://www.alxafrica.com/' }
+    { name: 'HamerAI', image: '/images/hamerAI.jpg', current: true, link: 'https://ethiohamerai.com' },
+    { name: 'INSA', image: '/images/insa-icon.png', current: false, link: 'https://www.insa.gov.et/' },
+    { name: 'Alx Ethiopia', image: '/images/alx-pic.webp', current: false, invert: true, link: 'https://www.alxafrica.com/' }
   ];
 
 </script>

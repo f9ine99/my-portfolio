@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Palette } from 'lucide-svelte';
-  import { themeState, applyTheme, setAccentColor, setBgEffect, themes, colors } from '$lib/theme.svelte';
+  import { themeState, applyTheme, setAccentColor, setBgEffect, themes, colors } from '$lib/stores/theme.svelte';
 </script>
 
 <div class="drawer-section">

@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Project } from '$lib/data/projects';
-  import { sanitizeRichText } from '$lib/sanitizeRichText';
+  import { sanitizeRichText } from '$lib/utils/sanitizeRichText';
   import { fade } from 'svelte/transition';
-  import ProjectCardPreview from '$lib/components/project-card/ProjectCardPreview.svelte';
-  import ProjectCardInfo from '$lib/components/project-card/ProjectCardInfo.svelte';
-  import ProjectDemoLink from '$lib/components/project-card/ProjectDemoLink.svelte';
+  import ProjectCardPreview from '$lib/components/projects/project-card/ProjectCardPreview.svelte';
+  import ProjectCardInfo from '$lib/components/projects/project-card/ProjectCardInfo.svelte';
+  import ProjectDemoLink from '$lib/components/projects/project-card/ProjectDemoLink.svelte';
 
   interface Props {
     title: string;

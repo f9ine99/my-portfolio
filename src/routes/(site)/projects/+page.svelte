@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Folder } from 'lucide-svelte';
-  import ProjectCard from '$lib/components/ProjectCard.svelte';
+  import ProjectCard from '$lib/components/projects/ProjectCard.svelte';
   import { fade } from 'svelte/transition';
   import { projects } from '$lib/data/projects';
 </script>

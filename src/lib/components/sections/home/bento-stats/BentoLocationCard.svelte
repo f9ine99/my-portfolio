@@ -2,7 +2,7 @@
   import { onMount } from 'svelte';
   import { Clock, MapPin } from 'lucide-svelte';
   import { fade } from 'svelte/transition';
-  import Map from '$lib/components/Map.svelte';
+  import Map from '$lib/components/sections/home/Map.svelte';
 
   let time = $state('');
 

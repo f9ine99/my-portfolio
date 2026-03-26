@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Palette } from 'lucide-svelte';
   import { fade } from 'svelte/transition';
-  import { themeState, themes, colors, applyTheme, setAccentColor, setBgEffect } from '$lib/theme.svelte';
+  import { themeState, themes, colors, applyTheme, setAccentColor, setBgEffect } from '$lib/stores/theme.svelte';
 </script>
 
 <div class="bento-card theme-card" in:fade={{ duration: 400, delay: 100 }}>

@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import TypingStatsHeader from '$lib/components/typing-test/TypingStatsHeader.svelte';
-  import TypingBongoCat from '$lib/components/typing-test/TypingBongoCat.svelte';
-  import TypingVictoryScreen from '$lib/components/typing-test/TypingVictoryScreen.svelte';
+  import TypingStatsHeader from '$lib/components/sections/home/typing-test/TypingStatsHeader.svelte';
+  import TypingBongoCat from '$lib/components/sections/home/typing-test/TypingBongoCat.svelte';
+  import TypingVictoryScreen from '$lib/components/sections/home/typing-test/TypingVictoryScreen.svelte';
 
   const sentences = [
     "ship it and fix it later",

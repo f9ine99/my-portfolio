@@ -1,42 +1,15 @@
-# sv
+# K9ine95
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+![Portfolio preview](static/images/readme.png)
 
-## Creating a project
+![Svelte](https://camo.githubusercontent.com/5414fa73b8f967745b7051208b0301a3579b7160aa2386f76bb18418ceb32c7b/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f5376656c74652d76352d4646334530303f7374796c653d666c61742d737175617265266c6f676f3d7376656c7465)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=vite&logoColor=white)
+![npm](https://img.shields.io/badge/npm-CB3837?style=flat-square&logo=npm&logoColor=white)
 
-If you're seeing this, you've probably already done this step. Congrats!
+K9ine95 is my personal digital playground and the third iteration of my portfolio, designed to showcase my projects, experiments, and journey in the world of software development.
 
-```sh
-# create a new project
-npx sv create my-app
-```
+## Inspirations
+This portfolio project draws inspiration from the design principles and layout style used by Jason Cameron
 
-To recreate this project with the same configuration:
-
-```sh
-# recreate this project
-npx sv@0.12.8 create --template minimal --types ts --no-install ./
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+Thank you for visiting — and please leave a ⭐ if you likey!

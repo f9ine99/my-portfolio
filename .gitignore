@@ -25,3 +25,5 @@ vite.config.ts.timestamp-*
 
 # untrack workspace file
 my-portfolio.code-workspace
+
+.codex
